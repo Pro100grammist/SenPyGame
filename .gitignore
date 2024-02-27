@@ -1,0 +1,11 @@
+.idea/
+__pycache__/
+data/
+
+*.log
+*.pot
+*.pyc
+
+backup.py
+editedmap.json
+updates_and_patches.txt
