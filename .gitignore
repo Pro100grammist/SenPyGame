@@ -6,6 +6,7 @@ data/
 *.pot
 *.pyc
 
+map_editor.py
 backup.py
 editedmap.json
 updates_and_patches.txt

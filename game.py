@@ -15,11 +15,10 @@ from ui import UI
 from support import volume_adjusting
 from settings import *
 
-from projectile import (SkullSmoke, AnimatedFireball, HollySpell, SpeedSpell,
-                                BloodlustSpell, InvulnerabilitySpell, BloodEffect)
-from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison,
-                           PowerPoison, HollyScroll, SpeedScroll, BloodlustScroll,
-                           InvulnerabilityScroll)
+from projectile import (SkullSmoke, AnimatedFireball, HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
+                        BloodEffect)
+from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison, HollyScroll, SpeedScroll,
+                   BloodlustScroll, InvulnerabilityScroll)
 
 
 pygame.init()
@@ -28,8 +27,12 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGTH))
 
 
 class Game:
-    def __init__(self):
+    """
+    A class that represents the main module of the game.
+    Documentation: game_docs.md
+    """
 
+    def __init__(self):
         self.screen = screen
         self.display = pygame.Surface((DISPLAY_WIDTH, DISPLAY_HEIGTH), pygame.SRCALPHA)
         self.display_2 = pygame.Surface((DISPLAY_WIDTH, DISPLAY_HEIGTH))
@@ -48,8 +51,6 @@ class Game:
         self.tilemap = Tilemap(self, tile_size=16)
         self.ui = UI(self)
 
-        self.shaking_screen_effect = 0
-
         self.projectiles = []
         self.animated_projectiles = []
         self.particles = []
@@ -59,9 +60,9 @@ class Game:
         self.effects = []
         self.damage_rates = []
         self.loot = []
-        self.leaf_spawners = []
         self.enemies = []
 
+        self.shaking_screen_effect = 0
         self.scroll = [0, 0]
         self.dead = None
         self.transition = None
@@ -73,7 +74,11 @@ class Game:
         self.load_level(self.level)
 
     def clear_lists(self):
-        """cleaning the list of objects on the map before loading a new level"""
+        """
+        Method for cleaning the list of objects on the map before loading a new level
+
+        :return:
+        """
         lists_to_clear = [
             self.enemies, self.loot,
             self.projectiles, self.animated_projectiles,
@@ -84,7 +89,12 @@ class Game:
             lst.clear()
 
     def load_level(self, map_id):
-        """downloading the level map and all objects"""
+        """
+        Method for loading the level map and all objects.
+
+        :param map_id: Identifier of the level.
+        :return:
+        """
         self.clear_lists()
         self.tilemap.load('data/maps/' + str(map_id) + '.json')
         pygame.mixer.music.load(f'data/music/level{str(self.level)}.wav')
@@ -94,11 +104,11 @@ class Game:
         # calibrate the volume of sound effects
         volume_adjusting(self.sfx, self.volume_settings)
 
-        # enemy spawn list
+        # placement of enemies on the level map in spawn locations
         enemy_constructors = {
             1: lambda pos: OrcArcher(self, pos),
             2: lambda pos: BigZombie(self, pos),
-            3: lambda pos: BigDaemon(self, pos)
+            3: lambda pos: BigDaemon(self, pos),
         }
 
         for spawner in self.tilemap.extract([('spawners', i) for i in range(4)]):
@@ -143,14 +153,25 @@ class Game:
         self.transition = -30
         self.death_timer = 60
 
-    def handle_projectile_collision(self, projectile):
+    def projectile_impact(self, projectile):
+        """
+        Processing of a projectile hitting a physical obstacle
+
+        :param projectile:
+        :return:
+        """
         self.sfx['arrow_crash'].play()
         for i in range(4):
             self.sparks.append(
                 Spark(projectile[0], random.random() - 0.5 + (math.pi if projectile[1] > 0 else 0),
                       2 + random.random(), 'white'))
 
-    def handle_player_collision(self, projectile):
+    def harming_the_player(self):
+        """
+        Method handling of a projectile hit to the player.
+
+        :return:
+        """
         if not self.player.invulnerability:
             self.player.current_health -= 15
             if self.player.current_health > 0:
@@ -162,7 +183,11 @@ class Game:
                 self.effects.append(BloodEffect(self, (center_x, center_y)))
 
     def run(self):
-        """start the main game cycle"""
+        """
+        Start the main game cycle.
+
+        :return:
+        """
 
         # download music and background sound effects
         pygame.mixer.music.load(f'data/music/level{str(self.level)}.wav')
@@ -171,6 +196,11 @@ class Game:
         pygame.mixer.Sound(f'data/ambiance/{str(self.level)}.wav').play(-1)
 
         def transition_to_next_level():
+            """
+            This function prepare all parameters before next level and call load_level method.
+
+            :return:
+            """
             self.level = min(self.level + 1, len(os.listdir('data/maps')) - 1)
             self.player.current_health = self.player.max_health
             self.player.stamina = self.player.max_stamina
@@ -179,6 +209,11 @@ class Game:
             self.load_level(self.level)
 
         def level_restart():
+            """
+            This function prepare all parameters before restart current level and call load_level method.
+
+            :return:
+            """
             self.player.current_health = self.player.max_health
             self.player.stamina = self.player.max_stamina
             self.player.life -= 1
@@ -187,10 +222,13 @@ class Game:
 
         while not self.game_over:
 
-            """It processes all events that occur at a level in the game."""
+            """
+            It processes all events that occur at a level in the game.
+            """
 
             self.display.fill((0, 0, 0, 0))
-            self.display_2.blit(pygame.transform.scale(self.assets['background'][self.level], self.display_2.get_size()), (0, 0))
+            self.display_2.blit(pygame.transform.scale(self.assets['background'][self.level],
+                                                       self.display_2.get_size()), (0, 0))
             self.shaking_screen_effect = max(0, self.shaking_screen_effect - 1)
 
             # checking the level completion
@@ -211,8 +249,8 @@ class Game:
 
             # screen offset rendering
             offset_y = -75
-            self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
-            self.scroll[1] += ((self.player.rect().centery + offset_y) - self.display.get_height() / 2 - self.scroll[1]) / 30
+            self.scroll[0] += (self.player.rect().centerx - DISPLAY_WIDTH / 2 - self.scroll[0]) / 30
+            self.scroll[1] += ((self.player.rect().centery + offset_y) - DISPLAY_HEIGTH / 2 - self.scroll[1]) / 30
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
             # updating and rendering clouds
@@ -257,15 +295,15 @@ class Game:
                 projectile[0][0] += 2 * projectile[1]
                 projectile[2] += 1
 
-                # projectile collision with an obstacle
+                # projectile collision with an obstacle and player
                 if self.tilemap.solid_check(projectile[0]):
                     self.projectiles.remove(projectile)
-                    self.handle_projectile_collision(projectile)
+                    self.projectile_impact(projectile)
                 elif projectile[2] > 180:
                     self.projectiles.remove(projectile)
                 elif abs(self.player.dashing) < 50 and self.player.rect().collidepoint(projectile[0]):
                     self.projectiles.remove(projectile)
-                    self.handle_player_collision(projectile)
+                    self.harming_the_player()
 
             # processing animated projectiles
             for projectile in self.animated_projectiles.copy():
@@ -395,7 +433,8 @@ class Game:
             if self.transition:
                 color = color_schema['white']
                 trans_mapping = pygame.Surface(self.display.get_size())
-                pygame.draw.circle(trans_mapping, color, (DISPLAY_WIDTH // 2, DISPLAY_HEIGTH // 2), (30 - abs(self.transition)) * 8)
+                pygame.draw.circle(trans_mapping, color, (DISPLAY_WIDTH // 2, DISPLAY_HEIGTH // 2),
+                                   (30 - abs(self.transition)) * 8)
                 trans_mapping.set_colorkey(color)
                 self.display.blit(trans_mapping, (0, 0))
 
@@ -494,7 +533,8 @@ class Menu:
             self.screen.blit(loading_text, loading_text_rect)
 
             pygame.draw.rect(self.screen, (255, 255, 255), progress_bar_rect, 2)
-            pygame.draw.rect(self.screen, (255, 255, 255), (progress_bar_rect.left, progress_bar_rect.top, progress * progress_bar_width // 100, progress_bar_height))
+            pygame.draw.rect(self.screen, (255, 255, 255), (progress_bar_rect.left, progress_bar_rect.top,
+                                                            progress * progress_bar_width // 100, progress_bar_height))
 
             pygame.display.flip()
             progress += 1
