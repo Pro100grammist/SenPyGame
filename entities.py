@@ -46,7 +46,7 @@ class PhysicsEntity:
 
         self.pos[0] += frame_movement[0]
         entity_rect = self.rect()
-        for rect in tilemap.physics_rects_around(self.pos):
+        for rect in tilemap.tiles_around_the_player(self.pos):
             if entity_rect.colliderect(rect):
                 if frame_movement[0] > 0:
                     entity_rect.right = rect.left
@@ -58,7 +58,7 @@ class PhysicsEntity:
 
         self.pos[1] += frame_movement[1]
         entity_rect = self.rect()
-        for rect in tilemap.physics_rects_around(self.pos):
+        for rect in tilemap.tiles_around_the_player(self.pos):
             if entity_rect.colliderect(rect):
                 if frame_movement[1] > 0:
                     entity_rect.bottom = rect.top
@@ -97,7 +97,7 @@ class Enemy(PhysicsEntity):
 
     def update(self, tilemap, movement=(0, 0)):
         if self.walking:
-            if tilemap.solid_check((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
+            if tilemap.checking_physical_tiles((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
                 if self.collisions['right'] or self.collisions['left']:
                     self.flip = not self.flip
                 else:

@@ -7,7 +7,7 @@ import pygame
 
 from data import load_assets, load_sfx, color_schema
 from entities import Player, OrcArcher, BigZombie, BigDaemon
-from tilemap import Tilemap
+from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
 from player_controller import PlayerController
@@ -48,7 +48,7 @@ class Game:
         self.player = Player(self)
         self.player_controller = PlayerController(self.player, self.sfx, self.movement)
 
-        self.tilemap = Tilemap(self, tile_size=16)
+        self.tilemap = Map(self, tile_size=16)
         self.ui = UI(self)
 
         self.projectiles = []
@@ -76,8 +76,6 @@ class Game:
     def clear_lists(self):
         """
         Method for cleaning the list of objects on the map before loading a new level
-
-        :return:
         """
         lists_to_clear = [
             self.enemies, self.loot,
@@ -88,12 +86,12 @@ class Game:
         for lst in lists_to_clear:
             lst.clear()
 
+        self.raindrops.empty()
+
     def load_level(self, map_id):
         """
         Method for loading the level map and all objects.
-
         :param map_id: Identifier of the level.
-        :return:
         """
         self.clear_lists()
         self.tilemap.load('data/maps/' + str(map_id) + '.json')
@@ -141,10 +139,10 @@ class Game:
         self.artifacts_remaining = len([item for item in self.loot if isinstance(item, Gem)])
 
         # rain effect
-        self.raindrops.empty()
         if self.level in rain_on_levels:
             wind_strength = random.randint(1, 4)
-            for _ in range(300):
+            rain_strength = random.choice((100, 300, 500, 600))
+            for _ in range(rain_strength):
                 x, y = random.randint(0, SCREEN_WIDTH), random.randint(0, SCREEN_HEIGTH)
                 self.raindrops.add(Raindrop(x, y, wind_strength))  # type: ignore
 
@@ -156,9 +154,7 @@ class Game:
     def projectile_impact(self, projectile):
         """
         Processing of a projectile hitting a physical obstacle
-
         :param projectile:
-        :return:
         """
         self.sfx['arrow_crash'].play()
         for i in range(4):
@@ -169,8 +165,6 @@ class Game:
     def harming_the_player(self):
         """
         Method handling of a projectile hit to the player.
-
-        :return:
         """
         if not self.player.invulnerability:
             self.player.current_health -= 15
@@ -185,8 +179,6 @@ class Game:
     def run(self):
         """
         Start the main game cycle.
-
-        :return:
         """
 
         # download music and background sound effects
@@ -198,8 +190,6 @@ class Game:
         def transition_to_next_level():
             """
             This function prepare all parameters before next level and call load_level method.
-
-            :return:
             """
             self.level = min(self.level + 1, len(os.listdir('data/maps')) - 1)
             self.player.current_health = self.player.max_health
@@ -211,8 +201,6 @@ class Game:
         def level_restart():
             """
             This function prepare all parameters before restart current level and call load_level method.
-
-            :return:
             """
             self.player.current_health = self.player.max_health
             self.player.stamina = self.player.max_stamina
@@ -220,12 +208,8 @@ class Game:
             self.player.death_hit = False
             self.load_level(self.level)
 
+        # It processes all events that occur at a level in the game.
         while not self.game_over:
-
-            """
-            It processes all events that occur at a level in the game.
-            """
-
             self.display.fill((0, 0, 0, 0))
             self.display_2.blit(pygame.transform.scale(self.assets['background'][self.level],
                                                        self.display_2.get_size()), (0, 0))
@@ -296,7 +280,7 @@ class Game:
                 projectile[2] += 1
 
                 # projectile collision with an obstacle and player
-                if self.tilemap.solid_check(projectile[0]):
+                if self.tilemap.checking_physical_tiles(projectile[0]):
                     self.projectiles.remove(projectile)
                     self.projectile_impact(projectile)
                 elif projectile[2] > 180:
@@ -330,10 +314,13 @@ class Game:
 
                     self.animated_projectiles.remove(projectile)
 
-                projectile.update()
+                kill = projectile.update()
                 projectile.render(self.display, offset=render_scroll)
-                if projectile.update() or projectile.animation.done:
-                    self.animated_projectiles.remove(projectile)
+                if kill or projectile.animation.done:
+                    try:
+                        self.animated_projectiles.remove(projectile)
+                    except ValueError:
+                        pass
 
             # spark handling
             for spark in self.sparks.copy():
@@ -344,7 +331,7 @@ class Game:
 
             # long-range player's weapon handling
             for slug in self.munition.copy():
-                if self.tilemap.solid_check(slug.pos):
+                if self.tilemap.checking_physical_tiles(slug.pos):
                     self.sfx['suriken_rebound'].play()
                     for i in range(4):
                         self.sparks.append(
@@ -452,7 +439,13 @@ class Game:
 
 
 class Menu:
+    """
+    A class representing the main menu of the game.
+    """
     def __init__(self):
+        """
+        Initializes the Menu object.
+        """
         self.screen = screen
         self.display = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGTH), pygame.SRCALPHA)
         self.background = pygame.image.load('data/images/background/main_menu.png')
@@ -543,6 +536,7 @@ class Menu:
         main()  # start the game
 
     def run(self):
+        """Runs the main loop of the menu."""
         while True:
             self.screen.blit(self.background, (0, 0))
             rotated_overlay = pygame.transform.rotate(self.background_overlay, self.overlay_rotation_angle)
@@ -598,6 +592,12 @@ class Menu:
 
 
 def main():
+    """
+    This is the login function (starting the game process).
+    It creates a Game object and calls its run method.
+    If the end of game flag is true, then the game will be transferred to the End of Game screen
+    with the option to exit to the main menu or restart the game from the beginning.
+    """
     game = Game()
     while not game.game_over:
         game.run()

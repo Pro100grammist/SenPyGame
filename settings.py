@@ -19,4 +19,4 @@ volume_settings = {
 }
 
 
-rain_on_levels = [1, 3]
+rain_on_levels = [0, 3]

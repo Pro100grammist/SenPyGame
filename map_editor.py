@@ -3,7 +3,7 @@ import sys
 import pygame
 
 from support import load_images
-from tilemap import Tilemap
+from map import Map
 
 RENDER_SCALE = 4.0
 
@@ -33,7 +33,7 @@ class Editor:
         
         self.movement = [False, False, False, False]
 
-        self.tilemap = Tilemap(self, tile_size=16)
+        self.tilemap = Map(self, tile_size=16)
         
         try:
             self.tilemap.load('map.json')
@@ -129,7 +129,7 @@ class Editor:
                     if event.key == pygame.K_g:
                         self.ongrid = not self.ongrid
                     if event.key == pygame.K_t:
-                        self.tilemap.autotile()
+                        self.tilemap.auto_tile_placement()
                     if event.key == pygame.K_o:
                         self.tilemap.save('edited_map.json')
                     if event.key == pygame.K_LSHIFT:
