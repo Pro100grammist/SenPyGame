@@ -23,7 +23,7 @@ class Projectile:
             if rect.colliderect(enemy.rect()):
                 self.game.enemies.remove(enemy)
 
-        if self.game.tilemap.checking_physical_tiles(self.pos):
+        if self.game.map.checking_physical_tiles(self.pos):
             return True
         return False
 

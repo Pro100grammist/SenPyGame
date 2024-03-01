@@ -250,14 +250,22 @@ class Player(PhysicsEntity):
         self.current_size = size
 
         self.life = 2
+        self.experience_points = 0
 
-        self.max_health = 100
-        self.current_health = self.max_health
-        self.max_stamina = 100
-        self.stamina = self.max_stamina
-        self.max_mana = 100
-        self.mana = self.max_mana
+        self.vitality = 0
+        self.wisdom = 0
+        self.agile = 0
+        self.strength = 0
         self.double_power = 1
+
+        self.max_health = 100 + self.vitality
+        self.current_health = self.max_health
+
+        self.max_mana = 100 + self.wisdom
+        self.mana = self.max_mana
+
+        self.max_stamina = 100 + self.agile
+        self.stamina = self.max_stamina
 
         self.money = 0
         self.heal_potions = 3
@@ -267,13 +275,10 @@ class Player(PhysicsEntity):
         self.power_potion_timer = 600
         self.corruption = False
         self.corruption_timer = 601
-
         self.super_speed = 1
         self.super_speed_timer = 720
-
         self.critical_hit_chance = False
         self.critical_hit_timer = 1200
-
         self.invulnerability = False
         self.invulnerability_timer = 1000
 
@@ -426,6 +431,8 @@ class Player(PhysicsEntity):
             self.mana += 50
             self.magic_potions -= 1
             self.game.sfx['use_potion'].play()
+            if self.mana > self.max_mana:
+                self.mana = self.max_mana
         elif self.selected_item == 3 and self.stamina_potions:
             self.stamina += 50
             self.game.sfx['use_potion'].play()

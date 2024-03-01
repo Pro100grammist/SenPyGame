@@ -50,7 +50,28 @@ class Map:
             if tile_loc in self.tilemap:
                 return y_index * self.tile_size - 32
         return y
+
+    def save(self, path):
+        """
+        Save the map to a JSON file.
+        :param path: The path to save the file.
+        """
+        with open(path, 'w') as f:
+            json.dump({'tilemap': self.tilemap, 'tile_size': self.tile_size,
+                       'offgrid': self.offgrid_tiles}, f, indent=4)
+
+    def load(self, path):
+        """
+        Loads a map from a JSON file.
+        :param path: The path to the JSON file containing the map data.
+        """
+        with open(path, 'r') as f:
+            map_data = json.load(f)
         
+        self.tilemap = map_data['tilemap']
+        self.tile_size = map_data['tile_size']
+        self.offgrid_tiles = map_data['offgrid']
+
     def extract(self, id_pairs, keep=False):
         """
         Extracts objects from the map.
@@ -72,32 +93,10 @@ class Map:
                 matches.append(tile.copy())
                 matches[-1]['pos'] = matches[-1]['pos'].copy()
                 matches[-1]['pos'] = [coord * self.tile_size for coord in matches[-1]['pos']]
-                # matches[-1]['pos'][0] *= self.tile_size
-                # matches[-1]['pos'][1] *= self.tile_size
                 if not keep:
                     del self.tilemap[loc]
 
         return matches
-
-    def save(self, path):
-        """
-        Save the map to a JSON file.
-        :param path: The path to save the file.
-        """
-        with open(path, 'w') as f:
-            json.dump({'tilemap': self.tilemap, 'tile_size': self.tile_size, 'offgrid': self.offgrid_tiles}, f, indent=4)
-
-    def load(self, path):
-        """
-        Loads a map from a JSON file.
-        :param path: The path to the JSON file containing the map data.
-        """
-        with open(path, 'r') as f:
-            map_data = json.load(f)
-        
-        self.tilemap = map_data['tilemap']
-        self.tile_size = map_data['tile_size']
-        self.offgrid_tiles = map_data['offgrid']
         
     def checking_physical_tiles(self, pos):
         """
@@ -127,32 +126,6 @@ class Map:
                                     self.tile_size))
         return tile_rects
 
-    # def tiles_around(self, pos):
-    #     """
-    #     Get tiles around a given position.
-    #     :param pos: The position.
-    #     :return: A list of tiles.
-    #     """
-    #     tiles = []
-    #     tile_loc = (int(pos[0] // self.tile_size), int(pos[1] // self.tile_size))
-    #     for offset in NEIGHBOR_OFFSETS:
-    #         check_loc = str(tile_loc[0] + offset[0]) + ';' + str(tile_loc[1] + offset[1])
-    #         if check_loc in self.tilemap:
-    #             tiles.append(self.tilemap[check_loc])
-    #     return tiles
-    #
-    # def tiles_around_the_player(self, pos):
-    #     """
-    #     Get physics rectangles around a position.
-    #     :param pos: The position.
-    #     :return: A list of rectangles.
-    #     """
-    #     tile_rects = []
-    #     for tile in self.tiles_around(pos):
-    #         if tile['type'] in PHYSICS_TILES:
-    #             tile_rects.append(pygame.Rect(tile['pos'][0] * self.tile_size, tile['pos'][1] * self.tile_size, self.tile_size, self.tile_size))
-    #     return tile_rects
-
     def auto_tile_placement(self):
         """
         Automatically set tile variants based on neighbors.
@@ -168,6 +141,38 @@ class Map:
             neighbors = frozenset(sorted(neighbors))
             if (tile['type'] in AUTO_TYPES) and (neighbors in AUTOMAP):
                 tile['variant'] = AUTOMAP[neighbors]
+
+    def draw_tile(self, tile, surf, offset):
+        """
+        Draw a tile on the surface.
+        :param tile: The tile to draw.
+        :param surf: The surface to draw onto.
+        :param offset: The offset to apply.
+        """
+        if tile['type'] == 'animated_tiles':
+            try:
+                animated_tileset = self.game.assets['animated_tiles'][tile['variant']]
+                animation_frame = tile.get('animation_frame', 0)
+                animation_frame %= len(animated_tileset)
+                surf.blit(animated_tileset[animation_frame], (tile['pos'][0] * self.tile_size - offset[0],
+                                                              tile['pos'][1] * self.tile_size - offset[1]))
+            except TypeError:
+                pass
+        else:
+            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0],
+                                                                        tile['pos'][1] * self.tile_size - offset[1]))
+
+    def update_animated_tiles(self):
+        """
+        Update animated tiles.
+        """
+        for loc in self.tilemap:
+            tile = self.tilemap[loc]
+            if tile['type'] == 'animated_tiles':
+                animated_tileset = self.game.assets['animated_tiles'][tile['variant']]
+                animation_frame = tile.get('animation_frame', 0)
+                animation_frame = (animation_frame + 1) % (len(animated_tileset) * tile.get('animation_speed', 1))
+                tile['animation_frame'] = animation_frame
 
     def render(self, surf, offset=(0, 0)):
         """
@@ -185,33 +190,3 @@ class Map:
                 if loc in self.tilemap:
                     tile = self.tilemap[loc]
                     self.draw_tile(tile, surf, offset)
-
-    def draw_tile(self, tile, surf, offset):
-        """
-        Draw a tile on the surface.
-        :param tile: The tile to draw.
-        :param surf: The surface to draw onto.
-        :param offset: The offset to apply.
-        """
-        if tile['type'] == 'animated_tiles':
-            try:
-                animated_tileset = self.game.assets['animated_tiles'][tile['variant']]
-                animation_frame = tile.get('animation_frame', 0)
-                animation_frame %= len(animated_tileset)
-                surf.blit(animated_tileset[animation_frame], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
-            except TypeError:
-                pass
-        else:
-            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
-
-    def update_animated_tiles(self):
-        """
-        Update animated tiles.
-        """
-        for loc in self.tilemap:
-            tile = self.tilemap[loc]
-            if tile['type'] == 'animated_tiles':
-                animated_tileset = self.game.assets['animated_tiles'][tile['variant']]
-                animation_frame = tile.get('animation_frame', 0)
-                animation_frame = (animation_frame + 1) % (len(animated_tileset) * tile.get('animation_speed', 1))
-                tile['animation_frame'] = animation_frame

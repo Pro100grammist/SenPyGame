@@ -48,7 +48,7 @@ class Game:
         self.player = Player(self)
         self.player_controller = PlayerController(self.player, self.sfx, self.movement)
 
-        self.tilemap = Map(self, tile_size=16)
+        self.map = Map(self, tile_size=16)
         self.ui = UI(self)
 
         self.projectiles = []
@@ -94,7 +94,7 @@ class Game:
         :param map_id: Identifier of the level.
         """
         self.clear_lists()
-        self.tilemap.load('data/maps/' + str(map_id) + '.json')
+        self.map.load('data/maps/' + str(map_id) + '.json')
         pygame.mixer.music.load(f'data/music/level{str(self.level)}.wav')
         pygame.mixer.music.set_volume(0.25)
         pygame.mixer.music.play(-1)
@@ -109,7 +109,7 @@ class Game:
             3: lambda pos: BigDaemon(self, pos),
         }
 
-        for spawner in self.tilemap.extract([('spawners', i) for i in range(4)]):
+        for spawner in self.map.extract([('spawners', i) for i in range(4)]):
             variant = spawner['variant']
             if variant == 0:
                 self.player.pos = spawner['pos']
@@ -131,7 +131,7 @@ class Game:
             9: InvulnerabilityScroll,
         }
 
-        for item in self.tilemap.extract([('loot_spawn', i) for i in range(10)]):
+        for item in self.map.extract([('loot_spawn', i) for i in range(10)]):
             loot_class = loot_id.get(item['variant'])
             if loot_class:
                 self.loot.append(loot_class(self, item['pos'], (8, 15)))
@@ -242,12 +242,12 @@ class Game:
             self.clouds.render(self.display_2, offset=render_scroll)
 
             # render map
-            self.tilemap.render(self.display, offset=render_scroll)
-            self.tilemap.update_animated_tiles()
+            self.map.render(self.display, offset=render_scroll)
+            self.map.update_animated_tiles()
 
             # updating state and rendering enemies
             for enemy in self.enemies.copy():
-                if not enemy.update(self.tilemap, (0, 0)):
+                if not enemy.update(self.map, (0, 0)):
                     enemy.render(self.display, offset=render_scroll)
                 else:
                     self.sfx[enemy.e_type].play()
@@ -262,7 +262,7 @@ class Game:
                 break
 
             if not self.dead:
-                self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
+                self.player.update(self.map, (self.movement[1] - self.movement[0], 0))
                 self.player.render(self.display, offset=render_scroll)
                 if self.player.death_hit:
                     self.death_timer -= 1
@@ -280,7 +280,7 @@ class Game:
                 projectile[2] += 1
 
                 # projectile collision with an obstacle and player
-                if self.tilemap.checking_physical_tiles(projectile[0]):
+                if self.map.checking_physical_tiles(projectile[0]):
                     self.projectiles.remove(projectile)
                     self.projectile_impact(projectile)
                 elif projectile[2] > 180:
@@ -331,7 +331,7 @@ class Game:
 
             # long-range player's weapon handling
             for slug in self.munition.copy():
-                if self.tilemap.checking_physical_tiles(slug.pos):
+                if self.map.checking_physical_tiles(slug.pos):
                     self.sfx['suriken_rebound'].play()
                     for i in range(4):
                         self.sparks.append(
