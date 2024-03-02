@@ -8,5 +8,5 @@ data/
 
 map_editor.py
 backup.py
-editedmap.json
+edited_map.json
 updates_and_patches.txt

@@ -6,7 +6,7 @@ import pygame
 from data import experience_points
 from particle import Particle, Spark, create_particles
 from projectile import (Suriken, AnimatedFireball, SkullSmoke, HollySpell, SpeedSpell,
-                                BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
+                        BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
 
 
 class PhysicsEntity:
@@ -265,6 +265,7 @@ class Player(PhysicsEntity):
         self.mana = self.max_mana
 
         self.max_stamina = 100 + self.agile
+        self.min_stamina = 20
         self.stamina = self.max_stamina
 
         self.money = 0
@@ -292,6 +293,8 @@ class Player(PhysicsEntity):
             'invulnerability_spell': 1,
         }
 
+        self.skills_menu_is_active = False
+
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.current_size[0], self.current_size[1])
 
@@ -305,6 +308,7 @@ class Player(PhysicsEntity):
 
     def level_up(self):
         self.level += 1
+        self.experience_points += 1
         self.next_level_experience = int(self.next_level_experience * 1.5)
         self.experience = 0
         self.game.sfx['level_up'].play()
@@ -335,8 +339,8 @@ class Player(PhysicsEntity):
             return True
 
     def dash(self):
-        if not self.dashing and self.stamina >= 25:
-            self.stamina -= 25
+        if not self.dashing and self.stamina >= self.min_stamina:
+            self.stamina -= 20 - self.agile
             self.game.sfx['dash'].play()
             if self.flip:
                 self.dashing = -65
@@ -345,7 +349,7 @@ class Player(PhysicsEntity):
 
     def attack(self):
         if not self.game.dead and not self.wall_slide:
-            if self.stamina < 20:
+            if self.stamina < self.min_stamina:
                 self.game.sfx['tired'].play()
             else:
                 self.attack_pressed = True
@@ -360,7 +364,7 @@ class Player(PhysicsEntity):
                     if self.hitbox.colliderect(enemy.hitbox) and self.attack_pressed:
                         self.game.sfx['hit'].play()
 
-                        # Standard damage
+                        # standard damage
                         damage = random.randint(10, 25)
 
                         # chance of critical hit
@@ -368,7 +372,7 @@ class Player(PhysicsEntity):
                             damage = 50
 
                         # enemy damage
-                        enemy.health -= damage * self.double_power
+                        enemy.health -= (damage + self.strength) * self.double_power
 
                         self.game.sfx[enemy.e_type].play()
                         shade = enemy.e_type
@@ -388,8 +392,8 @@ class Player(PhysicsEntity):
                             self.game.enemies.remove(enemy)
 
     def ranged_attack(self):
-        if not self.game.dead and not self.wall_slide and self.suriken_count > 0 and self.stamina >= 5:
-            self.stamina -= 5
+        if not self.game.dead and not self.wall_slide and self.suriken_count > 0 and self.stamina >= self.min_stamina:
+            self.stamina -= 20 - self.agile
             direction = 1 if not self.flip else -1
             self.game.munition.append(Suriken(self.game, self.rect().center, direction, shooter=self))
             self.suriken_count -= 1
@@ -436,8 +440,8 @@ class Player(PhysicsEntity):
         elif self.selected_item == 3 and self.stamina_potions:
             self.stamina += 50
             self.game.sfx['use_potion'].play()
-            if self.stamina > 100:
-                self.stamina = 100
+            if self.stamina > self.max_stamina:
+                self.stamina = self.max_stamina
             self.stamina_potions -= 1
         elif self.selected_item == 4 and self.power_potions and self.double_power == 1:
             self.double_power += 1
@@ -562,7 +566,7 @@ class Player(PhysicsEntity):
                 self.critical_hit_chance = False
                 self.critical_hit_timer = 1200
 
-        if self.stamina < 100:
+        if self.stamina < self.max_stamina:
             if not self.wall_slide and not self.dashing and not self.corruption:
                 self.stamina += 0.1
 

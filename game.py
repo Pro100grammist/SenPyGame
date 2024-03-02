@@ -11,7 +11,7 @@ from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
 from player_controller import PlayerController
-from ui import UI
+from ui import UI, SkillsTree
 from support import volume_adjusting
 from settings import *
 
@@ -50,6 +50,7 @@ class Game:
 
         self.map = Map(self, tile_size=16)
         self.ui = UI(self)
+        self.skills_tree = SkillsTree(self)
 
         self.projectiles = []
         self.animated_projectiles = []
@@ -376,9 +377,6 @@ class Game:
                 if kill or spell.animation.done:
                     self.spells.remove(spell)
 
-            # rendering user interface
-            self.ui.render()
-
             # updating and rendering items on map
             for item in self.loot:
                 item.update()
@@ -409,6 +407,13 @@ class Game:
             for raindrop in self.raindrops:
                 raindrop.update()
             self.raindrops.draw(self.display)
+
+            # rendering user interface
+            self.ui.render()
+
+            # rendering skills_tree menu
+            if self.player.skills_menu_is_active:
+                self.skills_tree.render()
 
             #  handling of controller events
             for event in pygame.event.get():

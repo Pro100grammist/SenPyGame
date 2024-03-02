@@ -31,6 +31,11 @@ class PlayerController:
                 self.sfx['select'].play()
             if event.key == pygame.K_f:
                 self.player.use_item()
+            if event.key == pygame.K_b:
+                if not self.player.skills_menu_is_active:
+                    self.player.skills_menu_is_active = True
+                else:
+                    self.player.skills_menu_is_active = False
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 self.movement[0] = False

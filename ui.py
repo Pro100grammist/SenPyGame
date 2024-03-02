@@ -5,6 +5,9 @@ import pygame
 from support import BASE_IMG_PATH
 
 
+import pygame
+
+
 class UI:
     def __init__(self, game):
 
@@ -244,3 +247,67 @@ class UI:
                 timer_text = self.font.render(f"{left_time // 60}", True, color)
                 timer_text.set_alpha(transparency)
                 self.game.display.blit(timer_text, (x + icon.get_width() // 2, y + 12))
+
+
+class Skill:
+    def __init__(self, name, image_path, coordinates, description, required_experience):
+        self.name = name
+        self.image_path = image_path
+        self.coordinates = coordinates
+        self.description = description
+        self.required_experience = required_experience
+        self.opened = False
+
+
+class SkillsTree:
+    def __init__(self, game):
+        self.game = game
+        self.skill_tree_base = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png')
+        self.skills = self.create_skills()
+
+    @staticmethod
+    def create_skills():
+        """
+        This method create 16 character skills that player can open during the game using experience points.
+
+        :return: list of Skill objects that include next skills ("Vitality Boost", "Endurance Mastery",
+        "Resilience Training", "Health Regeneration", "Power Strike", "Berserker Rage", "Weapon Mastery",
+        "Brute Force", "Agile Reflexes", "Acrobatic Moves", "Stealth Tactics", "Precision Strikes",
+        "Arcane Knowledge", "Elemental Affinity", "Sorcery Mastery", "Time Manipulation"
+        """
+        skills = []
+
+        # Skill 1: Vitality Boost
+        vitality_boost = Skill(
+            name="Vitality Boost",
+            image_path=BASE_IMG_PATH + 'ui/skills/vitality_boost.png',
+            coordinates=(50, 50),
+            description="Increases health points",
+            required_experience=1
+        )
+        skills.append(vitality_boost)
+
+        # Skill 2: Endurance Mastery
+        endurance_mastery = Skill(
+            name="Endurance Mastery",
+            image_path=BASE_IMG_PATH + 'ui/skills/endurance_mastery.png',
+            coordinates=(50, 150),
+            description="Improves endurance",
+            required_experience=2
+        )
+        skills.append(endurance_mastery)
+
+        return skills
+
+    def render(self):
+        x = 172
+        y = 0
+        self.game.display.blit(self.skill_tree_base, (x, y))
+        for skill in self.skills:
+            if skill.opened:
+                self.game.display.blit(pygame.image.load(skill.image_path), skill.coordinates)
+
+    def open_skill(self, skill):
+        if not skill.opened and self.game.player.experience_points >= skill.required_experience:
+            skill.opened = True
+            self.game.player.experience_points -= skill.required_experience
