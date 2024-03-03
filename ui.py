@@ -262,7 +262,8 @@ class Skill:
 class SkillsTree:
     def __init__(self, game):
         self.game = game
-        self.skill_tree_base = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png')
+        origin_img = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png')
+        self.skill_tree_base = pygame.transform.scale(origin_img, (origin_img.get_width() // 2, origin_img.get_height() // 2))
         self.skills = self.create_skills()
 
     @staticmethod
@@ -270,32 +271,174 @@ class SkillsTree:
         """
         This method create 16 character skills that player can open during the game using experience points.
 
-        :return: list of Skill objects that include next skills ("Vitality Boost", "Endurance Mastery",
-        "Resilience Training", "Health Regeneration", "Power Strike", "Berserker Rage", "Weapon Mastery",
-        "Brute Force", "Agile Reflexes", "Acrobatic Moves", "Stealth Tactics", "Precision Strikes",
-        "Arcane Knowledge", "Elemental Affinity", "Sorcery Mastery", "Time Manipulation"
+        :return: list of Skill objects that include next 4 types of skills
+        "Healing Mastery", "Vitality Infusion", "Poison Resistance", "Essence Absorption",
+        "Endurance Mastery", "Hawk's Eye", "Swift Reflexes", "Rapid Recovery",
+        "Ruthless Strike", "Weapon Mastery", "Steel Skin", "Berserker Rage",
+        "Sorcery Mastery", "Enchanter's Blessing", "Inscription Mastery", "Time Manipulation",
         """
         skills = []
 
-        # Skill 1: Vitality Boost
-        vitality_boost = Skill(
-            name="Vitality Boost",
-            image_path=BASE_IMG_PATH + 'ui/skills/vitality_boost.png',
+        # Skill 1: Healing Mastery
+        healing_mastery = Skill(
+            name="Healing Mastery",
+            image_path=BASE_IMG_PATH + 'ui/skills/healing_mastery.png',
             coordinates=(50, 50),
-            description="Increases health points",
+            description="Doubles the effect of using a healing potion",
             required_experience=1
         )
-        skills.append(vitality_boost)
+        skills.append(healing_mastery)
 
-        # Skill 2: Endurance Mastery
+        # Skill 2: Vitality Infusion
+        vitality_infusion = Skill(
+            name="Endurance Mastery",
+            image_path=BASE_IMG_PATH + 'ui/skills/vitality_infusion.png',
+            coordinates=(50, 150),
+            description="Gives a chance to restore hp when it's less than 30%, at the expense of the taken damage.",
+            required_experience=2
+        )
+        skills.append(vitality_infusion)
+
+        # Skill 3: Poison Resistance
+        poison_resistance = Skill(
+            name="Poison Resistance",
+            image_path=BASE_IMG_PATH + 'ui/skills/poison_resistance.png',
+            coordinates=(50, 250),
+            description="Grants immunity to poison effects",
+            required_experience=3
+        )
+        skills.append(poison_resistance)
+
+        # Skill 4: Essence Absorption
+        essence_absorption = Skill(
+            name="Essence Absorption",
+            image_path=BASE_IMG_PATH + 'ui/skills/essence_absorption.png',
+            coordinates=(50, 350),
+            description="Absorbs enemy energy and converts it into player's health.",
+            required_experience=4
+        )
+        skills.append(essence_absorption)
+
+        # Skill 5: Endurance Mastery
         endurance_mastery = Skill(
             name="Endurance Mastery",
             image_path=BASE_IMG_PATH + 'ui/skills/endurance_mastery.png',
-            coordinates=(50, 150),
-            description="Improves endurance",
-            required_experience=2
+            coordinates=(150, 50),
+            description="Increases maximum stamina and reduces stamina consumption.",
+            required_experience=1
         )
         skills.append(endurance_mastery)
+
+        # Skill 6: Hawk's Eye
+        hawks_eye = Skill(
+            name="Hawk's Eye",
+            image_path=BASE_IMG_PATH + 'ui/skills/hawks_eye.png',
+            coordinates=(150, 150),
+            description="Enhances critical hit chance with ranged weapons.",
+            required_experience=2
+        )
+        skills.append(hawks_eye)
+
+        # Skill 7: Swift Reflexes
+        swift_reflexes = Skill(
+            name="Swift Reflexes",
+            image_path=BASE_IMG_PATH + 'ui/skills/swift_reflexes.png',
+            coordinates=(150, 250),
+            description="Improves dodge ability, giving you a chance to avoid being hit by an enemy.",
+            required_experience=3
+        )
+        skills.append(swift_reflexes)
+
+        # Skill 8: Rapid Recovery
+        rapid_recovery = Skill(
+            name="Rapid Recovery",
+            image_path=BASE_IMG_PATH + 'ui/skills/rapid_recovery.png',
+            coordinates=(150, 350),
+            description="Increases the speed of stamina regeneration after combat.",
+            required_experience=8
+        )
+        skills.append(rapid_recovery)
+
+        # Skill 9: Ruthless Strike
+        ruthless_strike = Skill(
+            name="Ruthless Strike",
+            image_path=BASE_IMG_PATH + 'ui/skills/ruthless_strike.png',
+            coordinates=(250, 50),
+            description="Increases the chance to deal a powerful & merciless strike, ignoring enemy's armor.",
+            required_experience=1
+        )
+        skills.append(ruthless_strike)
+
+        # Skill 10: Weapon Mastery
+        weapon_mastery = Skill(
+            name="Weapon Mastery",
+            image_path=BASE_IMG_PATH + 'ui/skills/weapon_mastery.png',
+            coordinates=(250, 150),
+            description="Improves melee weapon skills, increasing damage and attack speed.",
+            required_experience=2
+        )
+        skills.append(weapon_mastery)
+
+        # Skill 11: Steel Skin
+        steel_skin = Skill(
+            name="Steel Skin",
+            image_path=BASE_IMG_PATH + 'ui/skills/steel_skin.png',
+            coordinates=(250, 250),
+            description="Hardens the skin, reducing damage taken.",
+            required_experience=3
+        )
+        skills.append(steel_skin)
+
+        # Skill 12: Berserker Rage
+        berserker_rage = Skill(
+            name="Berserker Rage",
+            image_path=BASE_IMG_PATH + 'ui/skills/berserker_rage.png',
+            coordinates=(250, 350),
+            description="When the level of health drops below 25%, the hero enters a state of frenzied rage, "
+                        "increasing the damage inflicted on enemies.",
+            required_experience=4
+        )
+        skills.append(berserker_rage)
+
+        # Skill 13: Sorcery Mastery
+        sorcery_mastery = Skill(
+            name="Sorcery Mastery",
+            image_path=BASE_IMG_PATH + 'ui/skills/sorcery_mastery.png',
+            coordinates=(350, 50),
+            description="Enhances magical abilities and reduces spell casting costs.",
+            required_experience=1
+        )
+        skills.append(sorcery_mastery)
+
+        # Skill 14: Enchanter's Blessing
+        enchanters_blessing = Skill(
+            name="Enchanter's Blessing",
+            image_path=BASE_IMG_PATH + 'ui/skills/enchanters_blessing.png',
+            coordinates=(350, 150),
+            description="Blessing increases the power and effectiveness of spells.",
+            required_experience=2
+        )
+        skills.append(enchanters_blessing)
+
+        # Skill 15: Inscription Mastery
+        inscription_mastery = Skill(
+            name="Inscription Mastery",
+            image_path=BASE_IMG_PATH + 'ui/skills/inscription_mastery.png',
+            coordinates=(350, 250),
+            description="Gives you a chance to save a scroll with a spell while using it.",
+            required_experience=3
+        )
+        skills.append(inscription_mastery)
+
+        # Skill 16: Time Manipulation
+        time_manipulation = Skill(
+            name="Time Manipulation",
+            image_path=BASE_IMG_PATH + 'ui/skills/time_manipulation.png',
+            coordinates=(350, 350),
+            description="It gives a chance to restore the lost life in case of the hero's death.",
+            required_experience=4
+        )
+        skills.append(time_manipulation)
 
         return skills
 
@@ -311,3 +454,4 @@ class SkillsTree:
         if not skill.opened and self.game.player.experience_points >= skill.required_experience:
             skill.opened = True
             self.game.player.experience_points -= skill.required_experience
+            self.game.player.skills[skill] = True

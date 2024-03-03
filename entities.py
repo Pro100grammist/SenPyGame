@@ -295,6 +295,32 @@ class Player(PhysicsEntity):
 
         self.skills_menu_is_active = False
 
+        self.skills = {
+            # health and vitality
+            "Healing Mastery": False,
+            "Vitality Infusion": False,
+            "Poison Resistance": False,
+            "Essence Absorption": False,
+
+            # endurance and ranged combat
+            "Endurance Mastery": False,
+            "Hawk's Eye": False,
+            "Swift Reflexes": False,
+            "Rapid Recovery": False,
+
+            # strength and close combat
+            "Ruthless Strike": False,
+            "Weapon Mastery": False,
+            "Steel Skin": False,
+            "Berserker Rage": False,
+
+            # magic and witchcraft
+            "Sorcery Mastery": False,
+            "Enchanter's Blessing": False,
+            "Inscription Mastery": False,
+            "Time Manipulation": False,
+        }
+
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.current_size[0], self.current_size[1])
 
