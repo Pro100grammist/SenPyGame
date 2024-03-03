@@ -264,7 +264,18 @@ class SkillsTree:
         self.game = game
         origin_img = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png')
         self.skill_tree_base = pygame.transform.scale(origin_img, (origin_img.get_width() // 2, origin_img.get_height() // 2))
+        self.skills_frame = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_frame.png')
         self.skills = self.create_skills()
+        self.selected_row = 0
+        self.selected_col = 0
+        self.grid = [
+            ['s', 's', 's', 'e'],
+            ['s', 's', 'e', 's'],
+            ['e', 's', 's', 's'],
+            ['s', 's', 's', 'e'],
+            ['s', 'e', 's', 'e'],
+            ['e', 's', 'e', 'e'],
+        ]
 
     @staticmethod
     def create_skills():
@@ -442,6 +453,58 @@ class SkillsTree:
 
         return skills
 
+    def move_cursor(self, direction):
+        if direction == "up":
+            self.selected_row -= 1
+        elif direction == "down":
+            self.selected_row += 1
+        elif direction == "left":
+            self.selected_col -= 1
+        elif direction == "right":
+            self.selected_col += 1
+
+        if self.selected_row < 0:
+            self.selected_row = len(self.grid) - 1
+        elif self.selected_row >= len(self.grid):
+            self.selected_row = 0
+        if self.selected_col < 0:
+            self.selected_col = len(self.grid[0]) - 1
+        elif self.selected_col >= len(self.grid[0]):
+            self.selected_col = 0
+
+        while self.grid[self.selected_row][self.selected_col] == 'e':
+            self.move_cursor(direction)
+
+    def open_skill(self):
+        skill_id = {(0, 0): "Healing Mastery",
+                    (0, 1): "Sorcery Mastery",
+                    (0, 2): "Steel Skin",
+                    (1, 0): "Vitality Infusion",
+                    (1, 1): "Enchanter's Blessing",
+                    (1, 3): "Endurance Mastery",
+                    (2, 1): "Inscription Mastery",
+                    (2, 2): "Weapon Mastery",
+                    (2, 3): "Hawk's Eye",
+                    (3, 0): "Poison Resistance",
+                    (3, 1): "Rapid Recovery",
+                    (3, 2): "Ruthless Strike",
+                    (4, 0): "Essence Absorption",
+                    (4, 2): "Berserker Rage",
+                    (5, 1): "Time Manipulation"
+                    }
+
+        changed_skill = skill_id[(self.selected_row, self.selected_col)]
+        skill = None
+        for s in self.skills:
+            if s.name == changed_skill:
+                skill = s
+                break
+
+        if not skill.opened and self.game.player.experience_points >= skill.required_experience:
+            skill.opened = True
+            self.game.player.experience_points -= skill.required_experience
+            self.game.player.skills[skill] = True
+
     def render(self):
         x = 172
         y = 0
@@ -450,8 +513,22 @@ class SkillsTree:
             if skill.opened:
                 self.game.display.blit(pygame.image.load(skill.image_path), skill.coordinates)
 
-    def open_skill(self, skill):
-        if not skill.opened and self.game.player.experience_points >= skill.required_experience:
-            skill.opened = True
-            self.game.player.experience_points -= skill.required_experience
-            self.game.player.skills[skill] = True
+        frame_pos = {(0, 0): (x + 39, y + 68),
+                     (0, 1): (x + 98, y + 68),
+                     (0, 2): (x + 155, y + 68),
+                     (1, 0): (x + 20, y + 60),
+                     (1, 1): (x + 50, y + 60),
+                     (1, 3): (x + 120, y + 60),
+                     (2, 1): (x + 50, y + 80),
+                     (2, 2): (x + 80, y + 80),
+                     (2, 3): (x + 120, y + 80),
+                     (3, 0): (x + 20, y + 100),
+                     (3, 1): (x + 50, y + 100),
+                     (3, 2): (x + 80, y + 100),
+                     (4, 0): (x + 20, y + 120),
+                     (4, 2): (x + 80, y + 120),
+                     (5, 1): (x + 50, y + 140),
+                     }
+
+        current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
+        self.game.display.blit(self.skills_frame, current_frame_pos)

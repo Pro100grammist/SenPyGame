@@ -44,13 +44,13 @@ class Game:
         self.clouds = Clouds(self.assets['clouds'])
         self.raindrops = pygame.sprite.Group()
 
-        self.movement = [False, False]
-        self.player = Player(self)
-        self.player_controller = PlayerController(self.player, self.sfx, self.movement)
-
         self.map = Map(self, tile_size=16)
         self.ui = UI(self)
         self.skills_tree = SkillsTree(self)
+
+        self.movement = [False, False]
+        self.player = Player(self)
+        self.player_controller = PlayerController(self.player, self.sfx, self.movement, self.skills_tree)
 
         self.projectiles = []
         self.animated_projectiles = []
