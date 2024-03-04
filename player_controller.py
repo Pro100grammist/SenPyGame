@@ -11,6 +11,7 @@ class PlayerController:
     def handle_events(self, event):
         if self.player.skills_menu_is_active:
             if event.type == pygame.KEYDOWN:
+                self.sfx['select'].play()
                 if event.key == pygame.K_UP:
                     self.skills_tree.move_cursor('up')
                 elif event.key == pygame.K_DOWN:

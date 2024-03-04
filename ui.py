@@ -513,21 +513,21 @@ class SkillsTree:
             if skill.opened:
                 self.game.display.blit(pygame.image.load(skill.image_path), skill.coordinates)
 
-        frame_pos = {(0, 0): (x + 39, y + 68),
-                     (0, 1): (x + 98, y + 68),
-                     (0, 2): (x + 155, y + 68),
-                     (1, 0): (x + 20, y + 60),
-                     (1, 1): (x + 50, y + 60),
-                     (1, 3): (x + 120, y + 60),
-                     (2, 1): (x + 50, y + 80),
-                     (2, 2): (x + 80, y + 80),
-                     (2, 3): (x + 120, y + 80),
-                     (3, 0): (x + 20, y + 100),
-                     (3, 1): (x + 50, y + 100),
-                     (3, 2): (x + 80, y + 100),
-                     (4, 0): (x + 20, y + 120),
-                     (4, 2): (x + 80, y + 120),
-                     (5, 1): (x + 50, y + 140),
+        frame_pos = {(0, 0): (x + 39, y + 68),  # "Healing Mastery"
+                     (0, 1): (x + 98, y + 68),  # "Sorcery Mastery"
+                     (0, 2): (x + 155, y + 68),  # "Steel Skin"
+                     (1, 0): (x + 39, y + 117),  # "Vitality Infusion"
+                     (1, 1): (x + 98, y + 117),  # "Enchanter's Blessing"
+                     (1, 3): (x + 214, y + 117),  # "Endurance Mastery"
+                     (2, 1): (x + 98, y + 168),  # "Inscription Mastery"
+                     (2, 2): (x + 155, y + 168),  # "Weapon Mastery"
+                     (2, 3): (x + 214, y + 168),  # "Hawk's Eye"
+                     (3, 0): (x + 39, y + 220),  # "Poison Resistance"
+                     (3, 1): (x + 98, y + 220),  # "Rapid Recovery"
+                     (3, 2): (x + 155, y + 220),  # "Ruthless Strike"
+                     (4, 0): (x + 39, y + 276),  # "Essence Absorption"
+                     (4, 2): (x + 155, y + 276),  # "Berserker Rage"
+                     (5, 1): (x + 99, y + 326),  # "Time Manipulation"
                      }
 
         current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
