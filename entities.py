@@ -250,7 +250,7 @@ class Player(PhysicsEntity):
         self.current_size = size
 
         self.life = 2
-        self.experience_points = 0
+        self.experience_points = 60
 
         self.vitality = 0
         self.wisdom = 0
@@ -300,7 +300,7 @@ class Player(PhysicsEntity):
             "Healing Mastery": False,
             "Vitality Infusion": False,
             "Poison Resistance": False,
-            "Essence Absorption": False,
+            "Absorption": False,
 
             # endurance and ranged combat
             "Endurance Mastery": False,

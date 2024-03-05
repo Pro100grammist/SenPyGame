@@ -95,7 +95,8 @@ def load_sfx():
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'green_smoke', 'corruption',
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
-                   'heal', 'healed', 'cough', 'tired']
+                   'heal', 'healed', 'cough', 'tired',
+                   'move_cursor', 'open_skill', 'rejected']
 
     return {name: pygame.mixer.Sound(f'data/sfx/{name}.wav') for name in sound_names}
 

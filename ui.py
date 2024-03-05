@@ -250,12 +250,14 @@ class UI:
 
 
 class Skill:
-    def __init__(self, name, image_path, coordinates, description, required_experience):
+    def __init__(self, name, image_path, coordinates, description, required_experience, level, accessibility):
         self.name = name
         self.image_path = image_path
         self.coordinates = coordinates
         self.description = description
         self.required_experience = required_experience
+        self.accessibility = accessibility
+        self.level = level
         self.opened = False
 
 
@@ -283,7 +285,7 @@ class SkillsTree:
         This method create 16 character skills that player can open during the game using experience points.
 
         :return: list of Skill objects that include next 4 types of skills
-        "Healing Mastery", "Vitality Infusion", "Poison Resistance", "Essence Absorption",
+        "Healing Mastery", "Vitality Infusion", "Poison Resistance", "Absorption",
         "Endurance Mastery", "Hawk's Eye", "Swift Reflexes", "Rapid Recovery",
         "Ruthless Strike", "Weapon Mastery", "Steel Skin", "Berserker Rage",
         "Sorcery Mastery", "Enchanter's Blessing", "Inscription Mastery", "Time Manipulation",
@@ -294,19 +296,23 @@ class SkillsTree:
         healing_mastery = Skill(
             name="Healing Mastery",
             image_path=BASE_IMG_PATH + 'ui/skills/healing_mastery.png',
-            coordinates=(50, 50),
+            coordinates=(217, 76),
             description="Doubles the effect of using a healing potion",
-            required_experience=1
+            required_experience=1,
+            level=1,
+            accessibility=None
         )
         skills.append(healing_mastery)
 
         # Skill 2: Vitality Infusion
         vitality_infusion = Skill(
-            name="Endurance Mastery",
+            name="Vitality Infusion",
             image_path=BASE_IMG_PATH + 'ui/skills/vitality_infusion.png',
-            coordinates=(50, 150),
+            coordinates=(217, 124),
             description="Gives a chance to restore hp when it's less than 30%, at the expense of the taken damage.",
-            required_experience=2
+            required_experience=2,
+            level=2,
+            accessibility="Healing Mastery"
         )
         skills.append(vitality_infusion)
 
@@ -314,29 +320,35 @@ class SkillsTree:
         poison_resistance = Skill(
             name="Poison Resistance",
             image_path=BASE_IMG_PATH + 'ui/skills/poison_resistance.png',
-            coordinates=(50, 250),
+            coordinates=(218, 227),
             description="Grants immunity to poison effects",
-            required_experience=3
+            required_experience=4,
+            level=4,
+            accessibility="Vitality Infusion"
         )
         skills.append(poison_resistance)
 
-        # Skill 4: Essence Absorption
-        essence_absorption = Skill(
-            name="Essence Absorption",
-            image_path=BASE_IMG_PATH + 'ui/skills/essence_absorption.png',
-            coordinates=(50, 350),
+        # Skill 4: Absorption
+        absorption = Skill(
+            name="Absorption",
+            image_path=BASE_IMG_PATH + 'ui/skills/absorption.png',
+            coordinates=(218, 283),
             description="Absorbs enemy energy and converts it into player's health.",
-            required_experience=4
+            required_experience=4,
+            level=5,
+            accessibility="Rapid Recovery"
         )
-        skills.append(essence_absorption)
+        skills.append(absorption)
 
         # Skill 5: Endurance Mastery
         endurance_mastery = Skill(
             name="Endurance Mastery",
             image_path=BASE_IMG_PATH + 'ui/skills/endurance_mastery.png',
-            coordinates=(150, 50),
+            coordinates=(392, 124),
             description="Increases maximum stamina and reduces stamina consumption.",
-            required_experience=1
+            required_experience=2,
+            level=2,
+            accessibility="Hawk's Eye"
         )
         skills.append(endurance_mastery)
 
@@ -344,9 +356,11 @@ class SkillsTree:
         hawks_eye = Skill(
             name="Hawk's Eye",
             image_path=BASE_IMG_PATH + 'ui/skills/hawks_eye.png',
-            coordinates=(150, 150),
+            coordinates=(392, 176),
             description="Enhances critical hit chance with ranged weapons.",
-            required_experience=2
+            required_experience=3,
+            level=3,
+            accessibility="Weapon Mastery"
         )
         skills.append(hawks_eye)
 
@@ -354,9 +368,11 @@ class SkillsTree:
         swift_reflexes = Skill(
             name="Swift Reflexes",
             image_path=BASE_IMG_PATH + 'ui/skills/swift_reflexes.png',
-            coordinates=(150, 250),
+            coordinates=(392, 76),
             description="Improves dodge ability, giving you a chance to avoid being hit by an enemy.",
-            required_experience=3
+            required_experience=1,
+            level=1,
+            accessibility=None
         )
         skills.append(swift_reflexes)
 
@@ -364,9 +380,11 @@ class SkillsTree:
         rapid_recovery = Skill(
             name="Rapid Recovery",
             image_path=BASE_IMG_PATH + 'ui/skills/rapid_recovery.png',
-            coordinates=(150, 350),
+            coordinates=(277, 227),
             description="Increases the speed of stamina regeneration after combat.",
-            required_experience=8
+            required_experience=4,
+            level=4,
+            accessibility="Ruthless Strike"
         )
         skills.append(rapid_recovery)
 
@@ -374,9 +392,11 @@ class SkillsTree:
         ruthless_strike = Skill(
             name="Ruthless Strike",
             image_path=BASE_IMG_PATH + 'ui/skills/ruthless_strike.png',
-            coordinates=(250, 50),
+            coordinates=(333, 227),
             description="Increases the chance to deal a powerful & merciless strike, ignoring enemy's armor.",
-            required_experience=1
+            required_experience=4,
+            level=4,
+            accessibility="Weapon Mastery"
         )
         skills.append(ruthless_strike)
 
@@ -384,9 +404,11 @@ class SkillsTree:
         weapon_mastery = Skill(
             name="Weapon Mastery",
             image_path=BASE_IMG_PATH + 'ui/skills/weapon_mastery.png',
-            coordinates=(250, 150),
+            coordinates=(333, 176),
             description="Improves melee weapon skills, increasing damage and attack speed.",
-            required_experience=2
+            required_experience=3,
+            level=3,
+            accessibility=("Steel Skin", "Inscription Mastery")
         )
         skills.append(weapon_mastery)
 
@@ -394,9 +416,11 @@ class SkillsTree:
         steel_skin = Skill(
             name="Steel Skin",
             image_path=BASE_IMG_PATH + 'ui/skills/steel_skin.png',
-            coordinates=(250, 250),
+            coordinates=(333, 76),
             description="Hardens the skin, reducing damage taken.",
-            required_experience=3
+            required_experience=1,
+            level=1,
+            accessibility=None
         )
         skills.append(steel_skin)
 
@@ -404,10 +428,12 @@ class SkillsTree:
         berserker_rage = Skill(
             name="Berserker Rage",
             image_path=BASE_IMG_PATH + 'ui/skills/berserker_rage.png',
-            coordinates=(250, 350),
+            coordinates=(333, 283),
             description="When the level of health drops below 25%, the hero enters a state of frenzied rage, "
                         "increasing the damage inflicted on enemies.",
-            required_experience=4
+            required_experience=5,
+            level=5,
+            accessibility="Ruthless Strike"
         )
         skills.append(berserker_rage)
 
@@ -415,9 +441,11 @@ class SkillsTree:
         sorcery_mastery = Skill(
             name="Sorcery Mastery",
             image_path=BASE_IMG_PATH + 'ui/skills/sorcery_mastery.png',
-            coordinates=(350, 50),
+            coordinates=(277, 76),
             description="Enhances magical abilities and reduces spell casting costs.",
-            required_experience=1
+            required_experience=1,
+            level=1,
+            accessibility=None
         )
         skills.append(sorcery_mastery)
 
@@ -425,9 +453,11 @@ class SkillsTree:
         enchanters_blessing = Skill(
             name="Enchanter's Blessing",
             image_path=BASE_IMG_PATH + 'ui/skills/enchanters_blessing.png',
-            coordinates=(350, 150),
+            coordinates=(277, 124),
             description="Blessing increases the power and effectiveness of spells.",
-            required_experience=2
+            required_experience=2,
+            level=2,
+            accessibility="Sorcery Mastery"
         )
         skills.append(enchanters_blessing)
 
@@ -435,9 +465,11 @@ class SkillsTree:
         inscription_mastery = Skill(
             name="Inscription Mastery",
             image_path=BASE_IMG_PATH + 'ui/skills/inscription_mastery.png',
-            coordinates=(350, 250),
+            coordinates=(277, 176),
             description="Gives you a chance to save a scroll with a spell while using it.",
-            required_experience=3
+            required_experience=3,
+            level=3,
+            accessibility="Enchanter's Blessing"
         )
         skills.append(inscription_mastery)
 
@@ -445,9 +477,11 @@ class SkillsTree:
         time_manipulation = Skill(
             name="Time Manipulation",
             image_path=BASE_IMG_PATH + 'ui/skills/time_manipulation.png',
-            coordinates=(350, 350),
+            coordinates=(278, 333),
             description="It gives a chance to restore the lost life in case of the hero's death.",
-            required_experience=4
+            required_experience=6,
+            level=6,
+            accessibility="Rapid Recovery"
         )
         skills.append(time_manipulation)
 
@@ -474,6 +508,7 @@ class SkillsTree:
 
         while self.grid[self.selected_row][self.selected_col] == 'e':
             self.move_cursor(direction)
+        self.game.sfx['move_cursor'].play()
 
     def open_skill(self):
         skill_id = {(0, 0): "Healing Mastery",
@@ -488,7 +523,7 @@ class SkillsTree:
                     (3, 0): "Poison Resistance",
                     (3, 1): "Rapid Recovery",
                     (3, 2): "Ruthless Strike",
-                    (4, 0): "Essence Absorption",
+                    (4, 0): "Absorption",
                     (4, 2): "Berserker Rage",
                     (5, 1): "Time Manipulation"
                     }
@@ -501,9 +536,25 @@ class SkillsTree:
                 break
 
         if not skill.opened and self.game.player.experience_points >= skill.required_experience:
-            skill.opened = True
-            self.game.player.experience_points -= skill.required_experience
-            self.game.player.skills[skill] = True
+            if skill.name in ("Healing Mastery", "Sorcery Mastery", "Steel Skin"):
+                skill.opened = True
+                self.game.player.experience_points -= skill.required_experience
+                self.game.player.skills[skill.name] = True
+                self.game.sfx['open_skill'].play()
+            elif skill.name == "Weapon Mastery":
+                if self.game.player.skills[skill.accessibility[0]] or self.game.player.skills[skill.accessibility[1]]:
+                    skill.opened = True
+                    self.game.player.experience_points -= skill.required_experience
+                    self.game.player.skills[skill.name] = True
+                    self.game.sfx['open_skill'].play()
+            else:
+                if self.game.player.skills[skill.accessibility]:
+                    skill.opened = True
+                    self.game.player.experience_points -= skill.required_experience
+                    self.game.player.skills[skill.name] = True
+                    self.game.sfx['open_skill'].play()
+        else:
+            self.game.sfx['rejected'].play()
 
     def render(self):
         x = 172
@@ -525,7 +576,7 @@ class SkillsTree:
                      (3, 0): (x + 39, y + 220),  # "Poison Resistance"
                      (3, 1): (x + 98, y + 220),  # "Rapid Recovery"
                      (3, 2): (x + 155, y + 220),  # "Ruthless Strike"
-                     (4, 0): (x + 39, y + 276),  # "Essence Absorption"
+                     (4, 0): (x + 39, y + 276),  # "Absorption"
                      (4, 2): (x + 155, y + 276),  # "Berserker Rage"
                      (5, 1): (x + 99, y + 326),  # "Time Manipulation"
                      }
