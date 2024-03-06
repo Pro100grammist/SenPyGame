@@ -146,7 +146,7 @@ class UI:
         # stamina
         st_x = 54
         st_y = 24
-        intensity = int(255 * (self.game.player.stamina / 100))
+        intensity = int(255 * (self.game.player.stamina / self.game.player.max_stamina))
         stamina_color = (0, intensity, 0)
         stamina_rect = pygame.Rect(st_x, st_y, self.game.player.stamina * 0.8, 3)
         pygame.draw.rect(self.game.display, stamina_color, stamina_rect)

@@ -168,7 +168,14 @@ class Game:
         Method handling of a projectile hit to the player.
         """
         if not self.player.invulnerability:
-            self.player.current_health -= 15
+            if self.player.current_health <= self.player.max_health * 0.3 and self.player.skills["Vitality Infusion"]:
+                if random.random() < 0.1:
+                    self.player.current_health += 30
+                else:
+                    self.player.current_health -= 15
+            else:
+                self.player.current_health -= 15
+
             if self.player.current_health > 0:
                 self.sfx['pain'].play()
                 self.shaking_screen_effect = max(16, self.shaking_screen_effect)
@@ -176,6 +183,11 @@ class Game:
                 center_x = self.ui.heart_image.get_width() / 2
                 center_y = self.ui.heart_image.get_height() / 2
                 self.effects.append(BloodEffect(self, (center_x, center_y)))
+
+    def handling_player_damage(self):
+        voice = str(random.randint(1, 3))
+        self.sfx['damaged' + voice].play()
+        self.player.current_health -= 30
 
     def run(self):
         """
@@ -296,22 +308,28 @@ class Game:
                     if isinstance(projectile, AnimatedFireball):
                         self.sfx['fire_punch'].play()
                         if not self.player.invulnerability:
-                            voice = str(random.randint(1, 3))
-                            self.sfx['damaged' + voice].play()
-                            self.player.current_health -= 30
+                            if self.player.current_health <= self.player.max_health * 0.3 and self.player.skills["Vitality Infusion"]:
+                                if random.random() < 0.1:
+                                    self.player.current_health += 30
+                                else:
+                                    self.handling_player_damage()
+                            else:
+                                self.handling_player_damage()
+
                         for i in range(30):
                             angle = random.random() * math.pi * 2
                             self.sparks.append(
                                 Spark(self.player.rect().center, angle, 2 + random.random(), 'fireball'))
                     elif isinstance(projectile, SkullSmoke):
                         if not self.player.invulnerability:
-                            self.sfx['cough'].play(2)
-                            self.sfx['corruption'].play()
-                            self.player.corruption = True
-                            for i in range(50):
-                                angle = random.random() * math.pi * 4
-                                self.sparks.append(
-                                    Spark(self.player.rect().center, angle, 2 + random.random(), 'toxic'))
+                            if not self.player.skills["Poison Resistance"]:
+                                self.sfx['cough'].play(2)
+                                self.sfx['corruption'].play()
+                                self.player.corruption = True
+                                for i in range(50):
+                                    angle = random.random() * math.pi * 4
+                                    self.sparks.append(
+                                        Spark(self.player.rect().center, angle, 2 + random.random(), 'toxic'))
 
                     self.animated_projectiles.remove(projectile)
 

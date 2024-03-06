@@ -264,7 +264,7 @@ class Player(PhysicsEntity):
         self.max_mana = 100 + self.wisdom
         self.mana = self.max_mana
 
-        self.max_stamina = 100 + self.agile
+        self.max_stamina = 100
         self.min_stamina = 20
         self.stamina = self.max_stamina
 
@@ -337,6 +337,8 @@ class Player(PhysicsEntity):
         self.experience_points += 1
         self.next_level_experience = int(self.next_level_experience * 1.5)
         self.experience = 0
+        self.agile = self.skills["Endurance Mastery"] * self.level
+        self.max_stamina = 100 + self.agile
         self.game.sfx['level_up'].play()
 
     def jump(self):
@@ -366,7 +368,7 @@ class Player(PhysicsEntity):
 
     def dash(self):
         if not self.dashing and self.stamina >= self.min_stamina:
-            self.stamina -= 20 - self.agile
+            self.stamina -= 20 - (self.agile // 4)
             self.game.sfx['dash'].play()
             if self.flip:
                 self.dashing = -65
@@ -391,17 +393,28 @@ class Player(PhysicsEntity):
                         self.game.sfx['hit'].play()
 
                         # standard damage
-                        damage = random.randint(10, 25)
+                        damage = random.randint(10, 25) + self.strength
 
                         # chance of critical hit
                         if random.random() < 0.1 + (0.1 * self.critical_hit_chance):
-                            damage = 50
+                            damage *= 3
+
+                        if self.skills['Ruthless Strike']:
+                            if random.random() < 0.1:
+                                damage *= 2
+
+                        if self.skills["Berserker Rage"]:
+                            if self.current_health <= 25:
+                                damage *= 0.3
 
                         # enemy damage
-                        enemy.health -= (damage + self.strength) * self.double_power
+                        enemy.health -= int(damage * self.double_power)
 
                         self.game.sfx[enemy.e_type].play()
                         shade = enemy.e_type
+
+                        if self.skills["Absorption"]:
+                            self.current_health += damage // 10
 
                         if enemy.e_type == 'big_zombie':
                             self.current_health -= 5
@@ -411,7 +424,7 @@ class Player(PhysicsEntity):
 
                         create_particles(self.game, enemy.rect().center, shade)
 
-                        self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, damage, (255, 255, 255)))
+                        self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
 
                         if enemy.health <= 0:
                             self.increase_experience(experience_points[enemy.e_type])
@@ -419,7 +432,7 @@ class Player(PhysicsEntity):
 
     def ranged_attack(self):
         if not self.game.dead and not self.wall_slide and self.suriken_count > 0 and self.stamina >= self.min_stamina:
-            self.stamina -= 20 - self.agile
+            self.stamina -= 20 - (self.agile // 4)
             direction = 1 if not self.flip else -1
             self.game.munition.append(Suriken(self.game, self.rect().center, direction, shooter=self))
             self.suriken_count -= 1
@@ -451,7 +464,7 @@ class Player(PhysicsEntity):
 
     def use_item(self):
         if self.selected_item == 1 and self.heal_potions:
-            self.current_health += 50
+            self.current_health += 50 + (self.skills["Healing Mastery"] * 50)
             self.heal_potions -= 1
             self.game.sfx['use_potion'].play()
             self.game.sfx['healed'].play()
@@ -594,7 +607,7 @@ class Player(PhysicsEntity):
 
         if self.stamina < self.max_stamina:
             if not self.wall_slide and not self.dashing and not self.corruption:
-                self.stamina += 0.1
+                self.stamina += 0.1 + (self.skills["Rapid Recovery"] * 0.1)
 
     def render(self, surf, offset=(0, 0)):
         current_image = self.animation.current_sprite()
