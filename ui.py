@@ -309,7 +309,7 @@ class SkillsTree:
             name="Vitality Infusion",
             image_path=BASE_IMG_PATH + 'ui/skills/vitality_infusion.png',
             coordinates=(217, 124),
-            description="Gives a chance to restore hp when it's less than 30%, at the expense of the taken damage.",
+            description="Up max hp points and gives a chance to restore hp when it's less than 30%, from taken damage.",
             required_experience=2,
             level=2,
             accessibility="Healing Mastery"
@@ -473,17 +473,17 @@ class SkillsTree:
         )
         skills.append(inscription_mastery)
 
-        # Skill 16: Time Manipulation
-        time_manipulation = Skill(
-            name="Time Manipulation",
+        # Skill 16: Resurrection
+        resurrection = Skill(
+            name="Resurrection",
             image_path=BASE_IMG_PATH + 'ui/skills/time_manipulation.png',
             coordinates=(278, 333),
-            description="It gives a chance to restore the lost life in case of the hero's death.",
+            description="It gives a chance to revive in case of the hero's death.",
             required_experience=6,
             level=6,
             accessibility="Rapid Recovery"
         )
-        skills.append(time_manipulation)
+        skills.append(resurrection)
 
         return skills
 
@@ -525,7 +525,7 @@ class SkillsTree:
                     (3, 2): "Ruthless Strike",
                     (4, 0): "Absorption",
                     (4, 2): "Berserker Rage",
-                    (5, 1): "Time Manipulation"
+                    (5, 1): "Resurrection"
                     }
 
         changed_skill = skill_id[(self.selected_row, self.selected_col)]
@@ -578,7 +578,7 @@ class SkillsTree:
                      (3, 2): (x + 155, y + 220),  # "Ruthless Strike"
                      (4, 0): (x + 39, y + 276),  # "Absorption"
                      (4, 2): (x + 155, y + 276),  # "Berserker Rage"
-                     (5, 1): (x + 99, y + 326),  # "Time Manipulation"
+                     (5, 1): (x + 99, y + 326),  # "Resurrection"
                      }
 
         current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]

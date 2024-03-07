@@ -172,9 +172,9 @@ class Game:
                 if random.random() < 0.1:
                     self.player.current_health += 30
                 else:
-                    self.player.current_health -= 15
+                    self.player.current_health -= 15 - (self.player.skills["Steel Skin"] * 2)
             else:
-                self.player.current_health -= 15
+                self.player.current_health -= 15 - (self.player.skills["Steel Skin"] * 2)
 
             if self.player.current_health > 0:
                 self.sfx['pain'].play()
@@ -187,7 +187,7 @@ class Game:
     def handling_player_damage(self):
         voice = str(random.randint(1, 3))
         self.sfx['damaged' + voice].play()
-        self.player.current_health -= 30
+        self.player.current_health -= 30 - (self.player.skills["Steel Skin"] * 5)
 
     def run(self):
         """
@@ -268,7 +268,14 @@ class Game:
 
             # player status update and rendering
             if self.player.current_health <= 0:
-                self.player.death_hit = True
+                if not self.player.skills["Resurrection"]:
+                    self.player.death_hit = True
+                else:
+                    if random.random() > 0.2:
+                        self.player.death_hit = True
+                    else:
+                        self.player.current_health = self.player.max_health
+                        self.sfx["revive"].play()
 
             if self.player.life <= 0:
                 self.game_over = True

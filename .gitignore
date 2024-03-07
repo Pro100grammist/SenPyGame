@@ -6,6 +6,7 @@ data/
 *.pot
 *.pyc
 
+testing.py
 map_editor.py
 backup.py
 edited_map.json

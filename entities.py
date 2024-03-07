@@ -258,10 +258,10 @@ class Player(PhysicsEntity):
         self.strength = 0
         self.double_power = 1
 
-        self.max_health = 100 + self.vitality
+        self.max_health = 100
         self.current_health = self.max_health
 
-        self.max_mana = 100 + self.wisdom
+        self.max_mana = 100
         self.mana = self.max_mana
 
         self.max_stamina = 100
@@ -318,7 +318,7 @@ class Player(PhysicsEntity):
             "Sorcery Mastery": False,
             "Enchanter's Blessing": False,
             "Inscription Mastery": False,
-            "Time Manipulation": False,
+            "Resurrection": False,
         }
 
     def rect(self):
@@ -337,8 +337,13 @@ class Player(PhysicsEntity):
         self.experience_points += 1
         self.next_level_experience = int(self.next_level_experience * 1.5)
         self.experience = 0
+        self.vitality = self.skills["Vitality Infusion"] * self.level
         self.agile = self.skills["Endurance Mastery"] * self.level
-        self.max_stamina = 100 + self.agile
+        self.strength = self.skills["Weapon Mastery"] * self.level
+        self.wisdom = self.skills["Sorcery Mastery"] * self.level
+        self.max_health = 100 + self.vitality * 2
+        self.max_mana = 100 + self.wisdom * 2
+        self.max_stamina = 100 + self.agile * 2
         self.game.sfx['level_up'].play()
 
     def jump(self):
@@ -393,7 +398,7 @@ class Player(PhysicsEntity):
                         self.game.sfx['hit'].play()
 
                         # standard damage
-                        damage = random.randint(10, 25) + self.strength
+                        damage = int(10 + (random.random() ** 2) * 10) + self.strength
 
                         # chance of critical hit
                         if random.random() < 0.1 + (0.1 * self.critical_hit_chance):
@@ -449,18 +454,22 @@ class Player(PhysicsEntity):
                 else:
                     start_point = (start_point[0] + 2, start_point[1] - 16)
                 if spell == 'holly_spell' and self.mana >= 50:
-                    self.mana -= 50
+                    self.mana -= 50 - self.wisdom // 2
                     self.game.spells.append(HollySpell(self.game, start_point, direction))
                 if spell == 'speed_spell':
-                    self.mana -= 25
+                    self.mana -= 25 - self.wisdom // 4
                     self.game.spells.append(SpeedSpell(self.game, start_point, direction))
                 if spell == 'bloodlust_spell':
-                    self.mana -= 25
+                    self.mana -= 25 - self.wisdom // 4
                     self.game.spells.append(BloodlustSpell(self.game, start_point, direction))
                 if spell == 'invulnerability_spell':
-                    self.mana -= 25
+                    self.mana -= 40 - self.wisdom // 2
                     self.game.spells.append(InvulnerabilitySpell(self.game, start_point, direction))
-                self.scrolls[spell] -= 1
+                if self.skills["Inscription Mastery"]:
+                    if random.random() > 0.1 + (self.wisdom / 50):
+                        self.scrolls[spell] -= 1
+                else:
+                    self.scrolls[spell] -= 1
 
     def use_item(self):
         if self.selected_item == 1 and self.heal_potions:
