@@ -274,8 +274,8 @@ class Game:
                     if random.random() > 0.2:
                         self.player.death_hit = True
                     else:
-                        self.player.current_health = self.player.max_health
                         self.sfx["revive"].play()
+                        self.player.current_health = self.player.max_health
 
             if self.player.life <= 0:
                 self.game_over = True

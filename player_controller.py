@@ -1,5 +1,7 @@
 import pygame
 
+from random import randint
+
 
 class PlayerController:
     def __init__(self, player, sfx, movement, skills_tree):
@@ -43,6 +45,8 @@ class PlayerController:
                     self.player.cast_spell()
                 if event.key == pygame.K_LCTRL:
                     self.player.selected_scroll += 1
+                    sound = str(randint(1, 3))
+                    self.sfx['flipping_scroll' + sound].play()
                 if event.key == pygame.K_LSHIFT:
                     self.player.selected_item += 1
                     self.sfx['select'].play()

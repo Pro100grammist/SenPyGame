@@ -70,8 +70,8 @@ class UI:
             range(0, 20): self.heart_empty
         }
 
-        current_health = self.game.player.current_health
-        self.heart_image = next((img for rng, img in heart_images.items() if current_health in rng), self.heart_empty)
+        health = int((self.game.player.current_health / self.game.player.max_health) * 100)
+        self.heart_image = next((img for rng, img in heart_images.items() if health in rng), self.heart_empty)
         self.game.display.blit(pygame.transform.scale(self.heart_image, (self.heart_image.get_width() * 1.2, self.heart_image.get_height() * 1.2)), (22, 16))
 
         # mana
@@ -267,9 +267,12 @@ class SkillsTree:
         origin_img = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png')
         self.skill_tree_base = pygame.transform.scale(origin_img, (origin_img.get_width() // 2, origin_img.get_height() // 2))
         self.skills_frame = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_frame.png')
+        self.font_tree = pygame.font.Font('data/fonts/DungeonFont.ttf', 16)
+        self.font_skill = pygame.font.Font('data/fonts/Charmonman-Regular.ttf', 16)
         self.skills = self.create_skills()
         self.selected_row = 0
         self.selected_col = 0
+
         self.grid = [
             ['s', 's', 's', 'e'],
             ['s', 's', 'e', 's'],
@@ -278,6 +281,22 @@ class SkillsTree:
             ['s', 'e', 's', 'e'],
             ['e', 's', 'e', 'e'],
         ]
+        self.skill_id = {(0, 0): "Healing Mastery",
+                         (0, 1): "Sorcery Mastery",
+                         (0, 2): "Steel Skin",
+                         (1, 0): "Vitality Infusion",
+                         (1, 1): "Enchanter's Blessing",
+                         (1, 3): "Endurance Mastery",
+                         (2, 1): "Inscription Mastery",
+                         (2, 2): "Weapon Mastery",
+                         (2, 3): "Hawk's Eye",
+                         (3, 0): "Poison Resistance",
+                         (3, 1): "Rapid Recovery",
+                         (3, 2): "Ruthless Strike",
+                         (4, 0): "Absorption",
+                         (4, 2): "Berserker Rage",
+                         (5, 1): "Resurrection"
+                         }
 
     @staticmethod
     def create_skills():
@@ -497,38 +516,17 @@ class SkillsTree:
         elif direction == "right":
             self.selected_col += 1
 
-        if self.selected_row < 0:
-            self.selected_row = len(self.grid) - 1
-        elif self.selected_row >= len(self.grid):
-            self.selected_row = 0
-        if self.selected_col < 0:
-            self.selected_col = len(self.grid[0]) - 1
-        elif self.selected_col >= len(self.grid[0]):
-            self.selected_col = 0
+        self.selected_row %= len(self.grid)
+        self.selected_col %= len(self.grid[0])
 
         while self.grid[self.selected_row][self.selected_col] == 'e':
             self.move_cursor(direction)
+
         self.game.sfx['move_cursor'].play()
 
     def open_skill(self):
-        skill_id = {(0, 0): "Healing Mastery",
-                    (0, 1): "Sorcery Mastery",
-                    (0, 2): "Steel Skin",
-                    (1, 0): "Vitality Infusion",
-                    (1, 1): "Enchanter's Blessing",
-                    (1, 3): "Endurance Mastery",
-                    (2, 1): "Inscription Mastery",
-                    (2, 2): "Weapon Mastery",
-                    (2, 3): "Hawk's Eye",
-                    (3, 0): "Poison Resistance",
-                    (3, 1): "Rapid Recovery",
-                    (3, 2): "Ruthless Strike",
-                    (4, 0): "Absorption",
-                    (4, 2): "Berserker Rage",
-                    (5, 1): "Resurrection"
-                    }
 
-        changed_skill = skill_id[(self.selected_row, self.selected_col)]
+        changed_skill = self.skill_id[(self.selected_row, self.selected_col)]
         skill = None
         for s in self.skills:
             if s.name == changed_skill:
@@ -583,3 +581,39 @@ class SkillsTree:
 
         current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
         self.game.display.blit(self.skills_frame, current_frame_pos)
+
+        current_skill = self.skill_id[(self.selected_row, self.selected_col)]
+        for s in self.skills:
+            if s.name == current_skill:
+                current_skill = s
+                break
+
+        skill_description = current_skill.description
+        req_experience = current_skill.required_experience
+
+        description_lines = []
+        max_line_length = 44  # Maximum string length
+        words = skill_description.split()
+        current_line = ''
+        for word in words:
+            if len(current_line) + len(word) < max_line_length:
+                current_line += ' ' + word
+            else:
+                description_lines.append(current_line.strip())
+                current_line = word
+        if current_line:
+            description_lines.append(current_line.strip())
+
+        y_offset = 0
+        for line in description_lines:
+            description_render = self.font_tree.render(line, True, (255, 255, 255))
+            self.game.display.blit(description_render, (x + 14, y + 376 + y_offset))
+            y_offset += self.font_tree.get_height() - 3
+
+        req_experience = current_skill.required_experience
+        exp_value_text = f"Val: {str(req_experience)} EP."
+        value_text_render = self.font_tree.render(exp_value_text, True, (255, 255, 255))
+        self.game.display.blit(value_text_render, (x + 204, y + 39))
+
+        skill_name_render = self.font_skill.render(current_skill.name, True, (255, 255, 255))
+        self.game.display.blit(skill_name_render, (x + 14, y + 26))
