@@ -419,7 +419,11 @@ class Player(PhysicsEntity):
                         shade = enemy.e_type
 
                         if self.skills["Absorption"]:
-                            self.current_health += damage // 10
+                            restored_vitality = damage // 10
+                            if self.current_health + restored_vitality <= self.max_health:
+                                self.current_health += restored_vitality
+                            else:
+                                self.current_health = self.max_health
 
                         if enemy.e_type == 'big_zombie':
                             self.current_health -= 5

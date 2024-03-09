@@ -27,7 +27,7 @@ class PlayerController:
                     self.player.skills_menu_is_active = False
 
         else:
-            if event.type == pygame.KEYDOWN and self.player.current_health > 0:
+            if event.type == pygame.KEYDOWN and not self.player.death_hit:
                 if event.key == pygame.K_LEFT:
                     self.movement[0] = True
                 if event.key == pygame.K_RIGHT:

@@ -5,9 +5,6 @@ import pygame
 from support import BASE_IMG_PATH
 
 
-import pygame
-
-
 class UI:
     def __init__(self, game):
 
@@ -250,6 +247,9 @@ class UI:
 
 
 class Skill:
+    """
+    A class representing the character's skill.
+    """
     def __init__(self, name, image_path, coordinates, description, required_experience, level, accessibility):
         self.name = name
         self.image_path = image_path
@@ -262,6 +262,9 @@ class Skill:
 
 
 class SkillsTree:
+    """
+    A class representing the character's skills menu (skill tree).
+    """
     def __init__(self, game):
         self.game = game
         origin_img = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png')
@@ -328,7 +331,7 @@ class SkillsTree:
             name="Vitality Infusion",
             image_path=BASE_IMG_PATH + 'ui/skills/vitality_infusion.png',
             coordinates=(217, 124),
-            description="Up max hp points and gives a chance to restore hp when it's less than 30%, from taken damage.",
+            description="Up max hp points with each lvl and gives a chance to regain hp from the damage if hp<30%.",
             required_experience=2,
             level=2,
             accessibility="Healing Mastery"
@@ -383,7 +386,7 @@ class SkillsTree:
         )
         skills.append(hawks_eye)
 
-        # Skill 7: Swift Reflexes
+        # Skill 7: Swift Reflexes (This skill not implemented yet, but I think about how to find solution)
         swift_reflexes = Skill(
             name="Swift Reflexes",
             image_path=BASE_IMG_PATH + 'ui/skills/swift_reflexes.png',
@@ -448,8 +451,7 @@ class SkillsTree:
             name="Berserker Rage",
             image_path=BASE_IMG_PATH + 'ui/skills/berserker_rage.png',
             coordinates=(333, 283),
-            description="When the level of health drops below 25%, the hero enters a state of frenzied rage, "
-                        "increasing the damage inflicted on enemies.",
+            description="When 💔 drops below 25%, the hero frenzied rage, increasing the damage inflicted on enemies.",
             required_experience=5,
             level=5,
             accessibility="Ruthless Strike"
@@ -525,13 +527,8 @@ class SkillsTree:
         self.game.sfx['move_cursor'].play()
 
     def open_skill(self):
-
-        changed_skill = self.skill_id[(self.selected_row, self.selected_col)]
-        skill = None
-        for s in self.skills:
-            if s.name == changed_skill:
-                skill = s
-                break
+        """Open character's skill if this skill available now"""
+        skill = self.get_current_skill()
 
         if not skill.opened and self.game.player.experience_points >= skill.required_experience:
             if skill.name in ("Healing Mastery", "Sorcery Mastery", "Steel Skin"):
@@ -554,66 +551,65 @@ class SkillsTree:
         else:
             self.game.sfx['rejected'].play()
 
-    def render(self):
-        x = 172
-        y = 0
-        self.game.display.blit(self.skill_tree_base, (x, y))
-        for skill in self.skills:
-            if skill.opened:
-                self.game.display.blit(pygame.image.load(skill.image_path), skill.coordinates)
+    def get_current_skill(self):
+        """Get the current skill that the cursor is pointing to."""
+        changed_skill = self.skill_id[(self.selected_row, self.selected_col)]
+        return next((s for s in self.skills if s.name == changed_skill), None)
 
-        frame_pos = {(0, 0): (x + 39, y + 68),  # "Healing Mastery"
-                     (0, 1): (x + 98, y + 68),  # "Sorcery Mastery"
-                     (0, 2): (x + 155, y + 68),  # "Steel Skin"
-                     (1, 0): (x + 39, y + 117),  # "Vitality Infusion"
-                     (1, 1): (x + 98, y + 117),  # "Enchanter's Blessing"
-                     (1, 3): (x + 214, y + 117),  # "Endurance Mastery"
-                     (2, 1): (x + 98, y + 168),  # "Inscription Mastery"
-                     (2, 2): (x + 155, y + 168),  # "Weapon Mastery"
-                     (2, 3): (x + 214, y + 168),  # "Hawk's Eye"
-                     (3, 0): (x + 39, y + 220),  # "Poison Resistance"
-                     (3, 1): (x + 98, y + 220),  # "Rapid Recovery"
-                     (3, 2): (x + 155, y + 220),  # "Ruthless Strike"
-                     (4, 0): (x + 39, y + 276),  # "Absorption"
-                     (4, 2): (x + 155, y + 276),  # "Berserker Rage"
-                     (5, 1): (x + 99, y + 326),  # "Resurrection"
-                     }
-
-        current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
-        self.game.display.blit(self.skills_frame, current_frame_pos)
-
-        current_skill = self.skill_id[(self.selected_row, self.selected_col)]
-        for s in self.skills:
-            if s.name == current_skill:
-                current_skill = s
-                break
-
-        skill_description = current_skill.description
-        req_experience = current_skill.required_experience
-
-        description_lines = []
-        max_line_length = 44  # Maximum string length
-        words = skill_description.split()
+    @staticmethod
+    def wrap_text(text, max_line_length):
+        """
+        Splitting the text into lines with a specified maximum length
+        so that the description does not go beyond the skill board.
+        """
+        words = text.split()
+        lines = []
         current_line = ''
         for word in words:
             if len(current_line) + len(word) < max_line_length:
                 current_line += ' ' + word
             else:
-                description_lines.append(current_line.strip())
+                lines.append(current_line.strip())
                 current_line = word
         if current_line:
-            description_lines.append(current_line.strip())
+            lines.append(current_line.strip())
+        return lines
 
-        y_offset = 0
-        for line in description_lines:
-            description_render = self.font_tree.render(line, True, (255, 255, 255))
-            self.game.display.blit(description_render, (x + 14, y + 376 + y_offset))
-            y_offset += self.font_tree.get_height() - 3
+    def render_skill_description(self, current_skill, x, y):
+        """Displaying the skill description on the screen"""
+        if current_skill is not None:
+            description_lines = self.wrap_text(current_skill.description, 44)
+            y_offset = 0
+            for line in description_lines:
+                description_render = self.font_tree.render(line, True, (255, 255, 255))
+                self.game.display.blit(description_render, (x + 14, y + 376 + y_offset))
+                y_offset += self.font_tree.get_height() - 3
 
-        req_experience = current_skill.required_experience
-        exp_value_text = f"Val: {str(req_experience)} EP."
-        value_text_render = self.font_tree.render(exp_value_text, True, (255, 255, 255))
-        self.game.display.blit(value_text_render, (x + 204, y + 39))
+    def render(self):
+        """Displaying the skill menu"""
+        x = 172
+        y = 0
 
-        skill_name_render = self.font_skill.render(current_skill.name, True, (255, 255, 255))
+        self.game.display.blit(self.skill_tree_base, (x, y))
+
+        for skill in self.skills:
+            if skill.opened:
+                self.game.display.blit(pygame.image.load(skill.image_path), skill.coordinates)
+
+        # Positions of skill icons on the skill tree board.
+        frame_pos = {(0, 0): (x + 39, y + 68), (0, 1): (x + 98, y + 68), (0, 2): (x + 155, y + 68),
+                     (1, 0): (x + 39, y + 117), (1, 1): (x + 98, y + 117), (1, 3): (x + 214, y + 117),
+                     (2, 1): (x + 98, y + 168), (2, 2): (x + 155, y + 168), (2, 3): (x + 214, y + 168),
+                     (3, 0): (x + 39, y + 220), (3, 1): (x + 98, y + 220), (3, 2): (x + 155, y + 220),
+                     (4, 0): (x + 39, y + 276), (4, 2): (x + 155, y + 276), (5, 1): (x + 99, y + 326)}
+
+        # Displaying the cursor
+        current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
+        self.game.display.blit(self.skills_frame, current_frame_pos)
+
+        # Get the current skill and display its description
+        self.render_skill_description(self.get_current_skill(), x, y)
+
+        # Display the name of the current skill
+        skill_name_render = self.font_skill.render(self.get_current_skill().name, True, (255, 255, 255))
         self.game.display.blit(skill_name_render, (x + 14, y + 26))
