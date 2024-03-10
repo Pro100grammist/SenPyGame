@@ -235,6 +235,9 @@ class Player(PhysicsEntity):
         self.experience = 0
         self.next_level_experience = 100
 
+        self.name = 'Valkyrie'
+        self.class_name = 'Warlock'
+
         self.air_time = 0
         self.jumps = 2
         self.wall_slide = False
@@ -254,8 +257,9 @@ class Player(PhysicsEntity):
 
         self.vitality = 0
         self.wisdom = 0
-        self.agile = 0
+        self.agile = 0  # dex
         self.strength = 0
+        self.defence = 0
         self.double_power = 1
 
         self.max_health = 100
@@ -294,6 +298,7 @@ class Player(PhysicsEntity):
         }
 
         self.skills_menu_is_active = False
+        self.character_menu_is_active =False
 
         self.skills = {
             # health and vitality

@@ -284,22 +284,23 @@ class SkillsTree:
             ['s', 'e', 's', 'e'],
             ['e', 's', 'e', 'e'],
         ]
-        self.skill_id = {(0, 0): "Healing Mastery",
-                         (0, 1): "Sorcery Mastery",
-                         (0, 2): "Steel Skin",
-                         (1, 0): "Vitality Infusion",
-                         (1, 1): "Enchanter's Blessing",
-                         (1, 3): "Endurance Mastery",
-                         (2, 1): "Inscription Mastery",
-                         (2, 2): "Weapon Mastery",
-                         (2, 3): "Hawk's Eye",
-                         (3, 0): "Poison Resistance",
-                         (3, 1): "Rapid Recovery",
-                         (3, 2): "Ruthless Strike",
-                         (4, 0): "Absorption",
-                         (4, 2): "Berserker Rage",
-                         (5, 1): "Resurrection"
-                         }
+        self.skill_id = {
+            (0, 0): "Healing Mastery",
+            (0, 1): "Sorcery Mastery",
+            (0, 2): "Steel Skin",
+            (1, 0): "Vitality Infusion",
+            (1, 1): "Enchanter's Blessing",
+            (1, 3): "Endurance Mastery",
+            (2, 1): "Inscription Mastery",
+            (2, 2): "Weapon Mastery",
+            (2, 3): "Hawk's Eye",
+            (3, 0): "Poison Resistance",
+            (3, 1): "Rapid Recovery",
+            (3, 2): "Ruthless Strike",
+            (4, 0): "Absorption",
+            (4, 2): "Berserker Rage",
+            (5, 1): "Resurrection"
+        }
 
     @staticmethod
     def create_skills():
@@ -613,3 +614,103 @@ class SkillsTree:
         # Display the name of the current skill
         skill_name_render = self.font_skill.render(self.get_current_skill().name, True, (255, 255, 255))
         self.game.display.blit(skill_name_render, (x + 14, y + 26))
+
+
+class CharacterMenu:
+    """
+       The class represents the character's equipment and
+       stats (health, mana, stamina, level of vitality, agility, wisdom, defense and damage).
+       """
+
+    def __init__(self, game):
+        self.game = game
+        self.character_menu = pygame.image.load(BASE_IMG_PATH + 'ui/character/character_menu.png')
+        self.cursor = pygame.image.load(BASE_IMG_PATH + 'ui/character/cursor.png')
+        self.flip_cursor = pygame.image.load(BASE_IMG_PATH + 'ui/character/cursor_flip.png')
+        self.font_menu = pygame.font.Font('data/fonts/DungeonFont.ttf', 16)
+        self.equipment = None
+        self.selected_row = 0
+        self.selected_col = 0
+
+        self.grid = [
+            ['c', 'c', 'c'],
+            ['c', 'e', 'c'],
+            ['c', 'e', 'c'],
+            ['c', 'c', 'c'],
+        ]
+        self.item_id = {
+            (0, 0): "body_armor",
+            (0, 1): "head_protection",
+            (0, 2): "amulet",
+            (1, 0): "belt",
+            (1, 2): "ring",
+            (2, 0): "pants",
+            (2, 2): "gloves ",
+            (3, 0): "melee",
+            (3, 1): "boots",
+            (3, 2): "long_rage_weapon"
+        }
+
+    def move_cursor(self, direction):
+        if direction == "up":
+            self.selected_row -= 1
+        elif direction == "down":
+            self.selected_row += 1
+        elif direction == "left":
+            self.selected_col -= 1
+        elif direction == "right":
+            self.selected_col += 1
+
+        self.selected_row %= len(self.grid)
+        self.selected_col %= len(self.grid[0])
+
+        while self.grid[self.selected_row][self.selected_col] == 'e':
+            self.move_cursor(direction)
+
+        self.game.sfx['move_cursor'].play()
+
+    def render(self):
+        # board
+        x = 200
+        y = 150
+        self.game.display.blit(self.character_menu, (x, y))
+
+        # Personage attributes rendering
+        attributes = {
+            "hp": (self.game.player.current_health, self.game.player.max_health, (x + 250, y + 48)),
+            "mp": (self.game.player.mana, self.game.player.max_mana, (x + 250, y + 70)),
+            "st": (int(self.game.player.stamina), self.game.player.max_stamina, (x + 250, y + 92)),
+            "lf": (self.game.player.vitality, None, (x + 300, y + 114)),
+            "dmg": (self.game.player.strength, None, (x + 300, y + 136)),
+            "def": (self.game.player.defence, None, (x + 300, y + 158)),
+            "wis": (self.game.player.wisdom, None, (x + 300, y + 180)),
+            "dex": (self.game.player.agile, None, (x + 300, y + 202))
+        }
+
+        for attr, (value, max_value, pos) in attributes.items():
+            if max_value:
+                value_str = f"{value} / {max_value}"
+            else:
+                value_str = str(value)
+            value_render = self.font_menu.render(value_str, True, (255, 255, 255))
+            self.game.display.blit(value_render, pos)
+
+        # Name and class of character and level
+        text = f"Name [{self.game.player.name}] | Battle class [{self.game.player.class_name}] | Level [{self.game.player.level}]"
+        text_render = self.font_menu.render(text, True, (255, 255, 255))
+        self.game.display.blit(text_render, (x + 8, y + 4))
+
+        # Cursor rendering
+        cursor_pos = {
+            (0, 0): (x + 40, y + 52), (0, 1): (x + 45, y + 34), (0, 2): (x + 100, y + 52),
+            (1, 0): (x + 40, y + 92), (1, 2): (x + 100, y + 92),
+            (2, 0): (x + 40, y + 124), (2, 2): (x + 100, y + 124),
+            (3, 0): (x + 44, y + 170), (3, 1): (x + 45, y + 170), (3, 2): (x + 96, y + 170)
+        }
+
+        current_cursor_pos = cursor_pos[(self.selected_row, self.selected_col)]
+        if current_cursor_pos[0] < 245:
+            self.game.display.blit(self.cursor, current_cursor_pos)
+        elif current_cursor_pos[0] > 241:
+            self.game.display.blit(self.flip_cursor, current_cursor_pos)
+

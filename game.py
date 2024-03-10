@@ -11,7 +11,7 @@ from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
 from player_controller import PlayerController
-from ui import UI, SkillsTree
+from ui import UI, SkillsTree, CharacterMenu
 from support import volume_adjusting
 from settings import *
 
@@ -47,10 +47,13 @@ class Game:
         self.map = Map(self, tile_size=16)
         self.ui = UI(self)
         self.skills_tree = SkillsTree(self)
+        self.character_menu = CharacterMenu(self)
 
         self.movement = [False, False]
         self.player = Player(self)
-        self.player_controller = PlayerController(self.player, self.sfx, self.movement, self.skills_tree)
+        self.player_controller = PlayerController(
+            self.player, self.sfx, self.movement, self.skills_tree, self.character_menu
+        )
 
         self.projectiles = []
         self.animated_projectiles = []
@@ -439,6 +442,8 @@ class Game:
             # rendering skills_tree menu
             if self.player.skills_menu_is_active:
                 self.skills_tree.render()
+            elif self.player.character_menu_is_active:
+                self.character_menu.render()
 
             #  handling of controller events
             for event in pygame.event.get():
