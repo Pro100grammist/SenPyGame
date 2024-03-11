@@ -1,5 +1,7 @@
 import pygame
 
+from support import BASE_IMG_PATH
+
 
 class GameLoot:
     def __init__(self, game, pos, size, i_type):
@@ -108,7 +110,7 @@ class Equipment:
     """
     The class represents game equipment like weapon, armor, jewelry, and other.
     """
-    def __init__(self, name='', e_type='', e_class='', rarity='', defence=0, damage=0, condition=0, pic=None, price=0):
+    def __init__(self, name='', e_type='', e_class=0, rarity='', defence=0, damage=0, condition=0, pic=None, price=0):
         self.name = name
         self.e_type = e_type
         self.e_class = e_class
@@ -118,5 +120,26 @@ class Equipment:
         self.condition = condition
         self.pic = pic
         self.price = price
+
+
+def load_default_equipment():
+
+    equipment = []
+
+    # default body armor
+    body_armor_default = Equipment(
+        name="Iron Chest Armor",
+        e_type="body_armor",
+        e_class=0,
+        rarity="common",
+        defence=1,
+        damage=0,
+        condition=1000,
+        pic=BASE_IMG_PATH + 'ui/equipment/body_armor.png',
+        price=25
+    )
+    equipment.append(body_armor_default)
+
+    return equipment
 
 

@@ -4,6 +4,7 @@ import random
 import pygame
 
 from data import experience_points
+from items import load_default_equipment
 from particle import Particle, Spark, create_particles
 from projectile import (Suriken, AnimatedFireball, SkullSmoke, HollySpell, SpeedSpell,
                         BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
@@ -325,6 +326,8 @@ class Player(PhysicsEntity):
             "Inscription Mastery": False,
             "Resurrection": False,
         }
+
+        self.equipment = load_default_equipment()
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.current_size[0], self.current_size[1])

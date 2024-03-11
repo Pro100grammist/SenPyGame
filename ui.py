@@ -639,16 +639,16 @@ class CharacterMenu:
             ['c', 'c', 'c'],
         ]
         self.item_id = {
-            (0, 0): "body_armor",
-            (0, 1): "head_protection",
-            (0, 2): "amulet",
-            (1, 0): "belt",
-            (1, 2): "ring",
-            (2, 0): "pants",
-            (2, 2): "gloves ",
-            (3, 0): "melee",
-            (3, 1): "boots",
-            (3, 2): "long_rage_weapon"
+            "body_armor": (0, 0),
+            "head_protection": (0, 1),
+            "amulet": (0, 2),
+            "belt": (1, 0),
+            "ring": (1, 2),
+            "pants": (2, 0),
+            "gloves": (2, 2),
+            "melee": (3, 0),
+            "boots": (3, 1),
+            "long_rage_weapon": (3, 2)
         }
 
     def move_cursor(self, direction):
@@ -699,6 +699,17 @@ class CharacterMenu:
         text = f"Name [{self.game.player.name}] | Battle class [{self.game.player.class_name}] | Level [{self.game.player.level}]"
         text_render = self.font_menu.render(text, True, (255, 255, 255))
         self.game.display.blit(text_render, (x + 8, y + 4))
+
+        # equipments
+        eq_pos = {
+            (0, 0): (x + 16, y + 50), (0, 1): (x + 45, y + 34), (0, 2): (x + 100, y + 52),
+            (1, 0): (x + 40, y + 92), (1, 2): (x + 100, y + 92),
+            (2, 0): (x + 40, y + 124), (2, 2): (x + 100, y + 124),
+            (3, 0): (x + 44, y + 170), (3, 1): (x + 45, y + 170), (3, 2): (x + 96, y + 170)
+        }
+
+        for item in self.game.player.equipment:
+            self.game.display.blit(pygame.image.load(item.pic), eq_pos[self.item_id.get(item.e_type)])
 
         # Cursor rendering
         cursor_pos = {
