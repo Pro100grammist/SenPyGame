@@ -702,10 +702,10 @@ class CharacterMenu:
 
         # equipments
         eq_pos = {
-            (0, 0): (x + 16, y + 50), (0, 1): (x + 45, y + 34), (0, 2): (x + 100, y + 52),
-            (1, 0): (x + 40, y + 92), (1, 2): (x + 100, y + 92),
-            (2, 0): (x + 40, y + 124), (2, 2): (x + 100, y + 124),
-            (3, 0): (x + 44, y + 170), (3, 1): (x + 45, y + 170), (3, 2): (x + 96, y + 170)
+            (0, 0): (x + 16, y + 50), (0, 1): (x + 70, y + 34), (0, 2): (x + 126, y + 52),
+            (1, 0): (x + 16, y + 88), (1, 2): (x + 124, y + 88),
+            (2, 0): (x + 16, y + 124), (2, 2): (x + 124, y + 124),
+            (3, 0): (x + 44, y + 170), (3, 1): (x + 70, y + 170), (3, 2): (x + 120, y + 170)
         }
 
         for item in self.game.player.equipment:
@@ -724,4 +724,3 @@ class CharacterMenu:
             self.game.display.blit(self.cursor, current_cursor_pos)
         elif current_cursor_pos[0] > 241:
             self.game.display.blit(self.flip_cursor, current_cursor_pos)
-

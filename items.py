@@ -110,16 +110,22 @@ class Equipment:
     """
     The class represents game equipment like weapon, armor, jewelry, and other.
     """
-    def __init__(self, name='', e_type='', e_class=0, rarity='', defence=0, damage=0, condition=0, pic=None, price=0):
+    def __init__(self, name='', e_type='', e_class=0, rarity='', condition=0, pic=None, price=0, properties=None):
         self.name = name
         self.e_type = e_type
         self.e_class = e_class
         self.rarity = rarity
-        self.defence = defence
-        self.damage = damage
+        self.properties = properties
         self.condition = condition
         self.pic = pic
         self.price = price
+
+        self.increase_defence = self.properties.get('defence', 0)
+        self.increase_damage = self.properties.get('damage', 0)
+        self.increase_health = self.properties.get('health', 0)
+        self.increase_stamina = self.properties.get('stamina', 0)
+        self.increase_mana = self.properties.get('mana', 0)
+        self.increase_experience = self.properties.get('experience', 0)
 
 
 def load_default_equipment():
@@ -128,18 +134,127 @@ def load_default_equipment():
 
     # default body armor
     body_armor_default = Equipment(
-        name="Iron Chest Armor",
+        name="Squire's armor",
         e_type="body_armor",
         e_class=0,
         rarity="common",
-        defence=1,
-        damage=0,
         condition=1000,
         pic=BASE_IMG_PATH + 'ui/equipment/body_armor.png',
-        price=25
+        price=40,
+        properties={
+            'defence': 1,
+        }
     )
     equipment.append(body_armor_default)
 
+    # default helmet
+    head_protection_default = Equipment(
+        name="Squire's helmet",
+        e_type="head_protection",
+        e_class=0,
+        rarity="common",
+        condition=750,
+        pic=BASE_IMG_PATH + 'ui/equipment/helmet.png',
+        price=30,
+        properties={
+            'defence': 1,
+        }
+
+    )
+    equipment.append(head_protection_default)
+
+    # default belt
+    belt_default = Equipment(
+        name="Tanned swordsman belt",
+        e_type="belt",
+        e_class=0,
+        rarity="common",
+        condition=500,
+        pic=BASE_IMG_PATH + 'ui/equipment/belt.png',
+        price=20,
+        properties={
+            'defence': 1,
+        }
+    )
+    equipment.append(belt_default)
+
+    # default gloves
+    gloves_default = Equipment(
+        name="Hunting Gloves",
+        e_type="gloves",
+        e_class=0,
+        rarity="common",
+        condition=500,
+        pic=BASE_IMG_PATH + 'ui/equipment/gloves.png',
+        price=20,
+        properties={
+            'defence': 1,
+        }
+    )
+    equipment.append(gloves_default)
+
+    # default pants
+    pants_default = Equipment(
+        name="Knight's leggings",
+        e_type="pants",
+        e_class=0,
+        rarity="common",
+        condition=500,
+        pic=BASE_IMG_PATH + 'ui/equipment/pants.png',
+        price=20,
+        properties={
+            'defence': 1,
+        }
+    )
+    equipment.append(pants_default)
+
+    # default boots
+    boots_default = Equipment(
+        name="Boots of nobles",
+        e_type="boots",
+        e_class=0,
+        rarity="common",
+        condition=600,
+        pic=BASE_IMG_PATH + 'ui/equipment/boots.png',
+        price=20,
+        properties={
+            'defence': 1,
+        }
+    )
+    equipment.append(boots_default)
+
+    # default amulet
+    amulet_default = Equipment(
+        name="Amulet of the Stone Defender",
+        e_type="amulet",
+        e_class=1,
+        rarity="rare",
+        condition=1000,
+        pic=BASE_IMG_PATH + 'ui/equipment/amulet.png',
+        price=20,
+        properties={
+            'health': 1,
+            'mana': 1,
+        }
+
+    )
+    equipment.append(amulet_default)
+
+    # default ring
+    ring_default = Equipment(
+        name="Ring of the Forgotten Legionnaire",
+        e_type="ring",
+        e_class=1,
+        rarity="rare",
+        condition=1000,
+        pic=BASE_IMG_PATH + 'ui/equipment/ring.png',
+        price=20,
+        properties={
+            'health': 1,
+            'stamina': 1,
+        }
+
+    )
+    equipment.append(ring_default)
+
     return equipment
-
-
