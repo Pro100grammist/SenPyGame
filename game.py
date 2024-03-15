@@ -3,6 +3,7 @@ import sys
 import math
 import random
 
+
 import pygame
 
 from data import load_assets, load_sfx, color_schema
@@ -318,7 +319,8 @@ class Game:
                     if isinstance(projectile, AnimatedFireball):
                         self.sfx['fire_punch'].play()
                         if not self.player.invulnerability:
-                            if self.player.current_health <= self.player.max_health * 0.3 and self.player.skills["Vitality Infusion"]:
+                            if (self.player.current_health <= self.player.max_health * 0.3 and
+                                    self.player.skills["Vitality Infusion"]):
                                 if random.random() < 0.1:
                                     self.player.current_health += 30
                                 else:

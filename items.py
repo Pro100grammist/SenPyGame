@@ -126,6 +126,7 @@ class Equipment:
         self.increase_stamina = self.properties.get('stamina', 0)
         self.increase_mana = self.properties.get('mana', 0)
         self.increase_experience = self.properties.get('experience', 0)
+        self.distance_damage = self.properties.get('distance_damage', 0)
 
 
 def load_default_equipment():
@@ -137,7 +138,7 @@ def load_default_equipment():
         name="Squire's armor",
         e_type="body_armor",
         e_class=0,
-        rarity="common",
+        rarity="Common",
         condition=1000,
         pic=BASE_IMG_PATH + 'ui/equipment/body_armor.png',
         price=40,
@@ -152,7 +153,7 @@ def load_default_equipment():
         name="Squire's helmet",
         e_type="head_protection",
         e_class=0,
-        rarity="common",
+        rarity="Common",
         condition=750,
         pic=BASE_IMG_PATH + 'ui/equipment/helmet.png',
         price=30,
@@ -168,7 +169,7 @@ def load_default_equipment():
         name="Tanned swordsman belt",
         e_type="belt",
         e_class=0,
-        rarity="common",
+        rarity="Common",
         condition=500,
         pic=BASE_IMG_PATH + 'ui/equipment/belt.png',
         price=20,
@@ -183,7 +184,7 @@ def load_default_equipment():
         name="Hunting Gloves",
         e_type="gloves",
         e_class=0,
-        rarity="common",
+        rarity="Common",
         condition=500,
         pic=BASE_IMG_PATH + 'ui/equipment/gloves.png',
         price=20,
@@ -198,7 +199,7 @@ def load_default_equipment():
         name="Knight's leggings",
         e_type="pants",
         e_class=0,
-        rarity="common",
+        rarity="Common",
         condition=500,
         pic=BASE_IMG_PATH + 'ui/equipment/pants.png',
         price=20,
@@ -213,12 +214,13 @@ def load_default_equipment():
         name="Boots of nobles",
         e_type="boots",
         e_class=0,
-        rarity="common",
+        rarity="Rare",
         condition=600,
         pic=BASE_IMG_PATH + 'ui/equipment/boots.png',
         price=20,
         properties={
             'defence': 1,
+            'stamina': 5,
         }
     )
     equipment[boots_default.e_type] = boots_default
@@ -227,11 +229,11 @@ def load_default_equipment():
     amulet_default = Equipment(
         name="Stone Defender Amulet",
         e_type="amulet",
-        e_class=1,
-        rarity="rare",
+        e_class=0,
+        rarity="Unique",
         condition=1000,
         pic=BASE_IMG_PATH + 'ui/equipment/amulet.png',
-        price=50,
+        price=100,
         properties={
             'health': 1,
             'mana': 1,
@@ -244,8 +246,8 @@ def load_default_equipment():
     ring_default = Equipment(
         name="The Ring of Darkness",
         e_type="ring",
-        e_class=6,
-        rarity="mythical",
+        e_class=0,
+        rarity="Mythical",
         condition=1000000,
         pic=BASE_IMG_PATH + 'ui/equipment/ring.png',
         price=1000,
@@ -260,5 +262,38 @@ def load_default_equipment():
 
     )
     equipment[ring_default.e_type] = ring_default
+
+    # default melee
+    melee_weapon_default = Equipment(
+        name="Executioner's Sword",
+        e_type="melee",
+        e_class=0,
+        rarity="Epic",
+        condition=5000,
+        pic=BASE_IMG_PATH + 'ui/equipment/executioner_sword.png',
+        price=300,
+        properties={
+            'damage': 5
+        }
+
+    )
+    equipment[melee_weapon_default.e_type] = melee_weapon_default
+
+    # default long_rage_weapon
+    long_rage_weapon_default = Equipment(
+        name="A Forgotten Master's Bow",
+        e_type="long_rage_weapon",
+        e_class=0,
+        rarity="Legendary",
+        condition=10000,
+        pic=BASE_IMG_PATH + 'ui/equipment/forgotten_masters_bow.png',
+        price=700,
+        properties={
+            'distance_damage': 10,
+            'experience': 1
+        }
+
+    )
+    equipment[long_rage_weapon_default.e_type] = long_rage_weapon_default
 
     return equipment

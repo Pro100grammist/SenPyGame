@@ -681,11 +681,11 @@ class CharacterMenu:
             "hp": (self.game.player.current_health, self.game.player.max_health, (x + 250, y + 48)),
             "mp": (self.game.player.mana, self.game.player.max_mana, (x + 250, y + 70)),
             "st": (int(self.game.player.stamina), self.game.player.max_stamina, (x + 250, y + 92)),
-            "lf": (self.game.player.vitality, None, (x + 300, y + 114)),
-            "dmg": (self.game.player.strength, None, (x + 300, y + 136)),
-            "def": (self.game.player.defence, None, (x + 300, y + 158)),
-            "wis": (self.game.player.wisdom, None, (x + 300, y + 180)),
-            "dex": (self.game.player.agile, None, (x + 300, y + 202))
+            "lf": (self.game.player.vitality, None, (x + 272, y + 114)),
+            "dmg": (self.game.player.strength, None, (x + 272, y + 136)),
+            "def": (self.game.player.defence, None, (x + 272, y + 158)),
+            "wis": (self.game.player.wisdom, None, (x + 272, y + 180)),
+            "dex": (self.game.player.agile, None, (x + 272, y + 202))
         }
 
         for attr, (value, max_value, pos) in attributes.items():
@@ -706,7 +706,7 @@ class CharacterMenu:
             (0, 0): (x + 16, y + 50), (0, 1): (x + 70, y + 34), (0, 2): (x + 126, y + 52),
             (1, 0): (x + 16, y + 88), (1, 2): (x + 124, y + 88),
             (2, 0): (x + 16, y + 124), (2, 2): (x + 124, y + 124),
-            (3, 0): (x + 44, y + 170), (3, 1): (x + 70, y + 170), (3, 2): (x + 120, y + 170)
+            (3, 0): (x + 18, y + 166), (3, 1): (x + 70, y + 170), (3, 2): (x + 120, y + 164)
         }
 
         for key, value in self.game.player.equipment.items():
@@ -737,37 +737,41 @@ class CharacterMenu:
             self.game.display.blit(self.info_window, (x - self.info_window.get_width(), y))
 
             name_render = self.font_menu.render(current_equipment.name, True, (255, 255, 255))
-            eq_class = f"Class    {current_equipment.rarity}"
+            eq_class = f"Class         {current_equipment.rarity}"
             rarity_render = self.font_menu.render(eq_class, True, (255, 255, 255))
 
             render_list = [name_render, rarity_render]
 
             if current_equipment.increase_defence > 0:
-                defence = f"Defence   + {current_equipment.increase_defence}"
+                defence = f"Defence         + {current_equipment.increase_defence}"
                 defence_render = self.font_menu.render(defence, True, (255, 255, 255))
                 render_list.append(defence_render)
             if current_equipment.increase_damage > 0:
-                damage = f"Damage   + {current_equipment.increase_damage}"
+                damage = f"Damage         + {current_equipment.increase_damage}"
                 damage_render = self.font_menu.render(damage, True, (255, 255, 255))
                 render_list.append(damage_render)
+            if current_equipment.distance_damage > 0:
+                d_damage = f"Damage         + {current_equipment.distance_damage}"
+                d_damage_render = self.font_menu.render(d_damage, True, (255, 255, 255))
+                render_list.append(d_damage_render)
             if current_equipment.increase_health > 0:
-                health = f"Health    + {current_equipment.increase_health}"
+                health = f"Health          + {current_equipment.increase_health}"
                 health_render = self.font_menu.render(health, True, (255, 255, 255))
                 render_list.append(health_render)
             if current_equipment.increase_stamina > 0:
-                stamina = f"Stamina   + {current_equipment.increase_stamina}"
+                stamina = f"Stamina         + {current_equipment.increase_stamina}"
                 stamina_render = self.font_menu.render(stamina, True, (255, 255, 255))
                 render_list.append(stamina_render)
             if current_equipment.increase_mana > 0:
-                mana = f"Mana      + {current_equipment.increase_mana}"
+                mana = f"Mana           + {current_equipment.increase_mana}"
                 mana_render = self.font_menu.render(mana, True, (255, 255, 255))
                 render_list.append(mana_render)
             if current_equipment.increase_experience > 0:
-                experience = f"Exp        + {current_equipment.increase_experience} %"
+                experience = f"Experience     + {current_equipment.increase_experience} %"
                 experience_render = self.font_menu.render(experience, True, (255, 255, 255))
                 render_list.append(experience_render)
             if current_equipment.price > 0:
-                price = f"Price  {current_equipment.price} Gold"
+                price = f"Price        {current_equipment.price} Gold"
                 price_render = self.font_menu.render(price, True, (255, 255, 255))
                 render_list.append(price_render)
 

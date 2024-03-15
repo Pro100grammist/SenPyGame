@@ -235,6 +235,7 @@ class Player(PhysicsEntity):
         self.level = 1
         self.experience = 0
         self.next_level_experience = 100
+        self.exp_multiplier = 0
 
         self.name = 'Valkyrie'
         self.class_name = 'Warlock'
@@ -328,6 +329,7 @@ class Player(PhysicsEntity):
         }
 
         self.equipment = load_default_equipment()
+        self.player_upgrade()
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.current_size[0], self.current_size[1])
@@ -336,7 +338,7 @@ class Player(PhysicsEntity):
         self.pos[1] -= pixels
 
     def increase_experience(self, points):
-        self.experience += points
+        self.experience += points + ((points * self.exp_multiplier) // 100)
         if self.experience >= self.next_level_experience:
             self.level_up()
 
@@ -515,6 +517,15 @@ class Player(PhysicsEntity):
             return 255
         else:
             return 0
+
+    def player_upgrade(self):
+        for item in self.equipment.values():
+            self.strength += item.increase_damage
+            self.defence += item.increase_defence
+            self.max_health += item.increase_health
+            self.max_stamina += item.increase_stamina
+            self.max_mana += item.increase_mana
+            self.exp_multiplier += item.increase_experience
 
     def update(self, tilemap, movement=(0, 0)):
         speed = (movement[0] * self.super_speed, movement[1])
