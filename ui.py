@@ -625,10 +625,11 @@ class CharacterMenu:
     def __init__(self, game):
         self.game = game
         self.character_menu = pygame.image.load(BASE_IMG_PATH + 'ui/character/character_menu.png')
+        self.info_window = pygame.image.load(BASE_IMG_PATH + 'ui/character/info_window.png')
         self.cursor = pygame.image.load(BASE_IMG_PATH + 'ui/character/cursor.png')
         self.flip_cursor = pygame.image.load(BASE_IMG_PATH + 'ui/character/cursor_flip.png')
         self.font_menu = pygame.font.Font('data/fonts/DungeonFont.ttf', 16)
-        self.equipment = None
+        self.current_cell = None
         self.selected_row = 0
         self.selected_col = 0
 
@@ -708,8 +709,8 @@ class CharacterMenu:
             (3, 0): (x + 44, y + 170), (3, 1): (x + 70, y + 170), (3, 2): (x + 120, y + 170)
         }
 
-        for item in self.game.player.equipment:
-            self.game.display.blit(pygame.image.load(item.pic), eq_pos[self.item_id.get(item.e_type)])
+        for key, value in self.game.player.equipment.items():
+            self.game.display.blit(pygame.image.load(value.pic), eq_pos[self.item_id.get(key)])
 
         # Cursor rendering
         cursor_pos = {
@@ -724,3 +725,55 @@ class CharacterMenu:
             self.game.display.blit(self.cursor, current_cursor_pos)
         elif current_cursor_pos[0] > 241:
             self.game.display.blit(self.flip_cursor, current_cursor_pos)
+
+        # Current equipment rendering
+        for key, value in self.item_id.items():
+            if value == (self.selected_row, self.selected_col):
+                self.current_cell = key
+                break
+
+        current_equipment = self.game.player.equipment.get(self.current_cell)
+        if current_equipment:
+            self.game.display.blit(self.info_window, (x - self.info_window.get_width(), y))
+
+            name_render = self.font_menu.render(current_equipment.name, True, (255, 255, 255))
+            eq_class = f"Class    {current_equipment.rarity}"
+            rarity_render = self.font_menu.render(eq_class, True, (255, 255, 255))
+
+            render_list = [name_render, rarity_render]
+
+            if current_equipment.increase_defence > 0:
+                defence = f"Defence   + {current_equipment.increase_defence}"
+                defence_render = self.font_menu.render(defence, True, (255, 255, 255))
+                render_list.append(defence_render)
+            if current_equipment.increase_damage > 0:
+                damage = f"Damage   + {current_equipment.increase_damage}"
+                damage_render = self.font_menu.render(damage, True, (255, 255, 255))
+                render_list.append(damage_render)
+            if current_equipment.increase_health > 0:
+                health = f"Health    + {current_equipment.increase_health}"
+                health_render = self.font_menu.render(health, True, (255, 255, 255))
+                render_list.append(health_render)
+            if current_equipment.increase_stamina > 0:
+                stamina = f"Stamina   + {current_equipment.increase_stamina}"
+                stamina_render = self.font_menu.render(stamina, True, (255, 255, 255))
+                render_list.append(stamina_render)
+            if current_equipment.increase_mana > 0:
+                mana = f"Mana      + {current_equipment.increase_mana}"
+                mana_render = self.font_menu.render(mana, True, (255, 255, 255))
+                render_list.append(mana_render)
+            if current_equipment.increase_experience > 0:
+                experience = f"Exp        + {current_equipment.increase_experience} %"
+                experience_render = self.font_menu.render(experience, True, (255, 255, 255))
+                render_list.append(experience_render)
+            if current_equipment.price > 0:
+                price = f"Price  {current_equipment.price} Gold"
+                price_render = self.font_menu.render(price, True, (255, 255, 255))
+                render_list.append(price_render)
+
+            # condition = self.font_menu.render(current_equipment.condition, True, (255, 255, 255))
+
+            y_offset = 2
+            for i in render_list:
+                self.game.display.blit(i, (x - self.info_window.get_width() + 10, y + y_offset))
+                y_offset += 18

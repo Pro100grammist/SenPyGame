@@ -130,7 +130,7 @@ class Equipment:
 
 def load_default_equipment():
 
-    equipment = []
+    equipment = {}
 
     # default body armor
     body_armor_default = Equipment(
@@ -145,7 +145,7 @@ def load_default_equipment():
             'defence': 1,
         }
     )
-    equipment.append(body_armor_default)
+    equipment[body_armor_default.e_type] = body_armor_default
 
     # default helmet
     head_protection_default = Equipment(
@@ -161,7 +161,7 @@ def load_default_equipment():
         }
 
     )
-    equipment.append(head_protection_default)
+    equipment[head_protection_default.e_type] = head_protection_default
 
     # default belt
     belt_default = Equipment(
@@ -176,7 +176,7 @@ def load_default_equipment():
             'defence': 1,
         }
     )
-    equipment.append(belt_default)
+    equipment[belt_default.e_type] = belt_default
 
     # default gloves
     gloves_default = Equipment(
@@ -191,7 +191,7 @@ def load_default_equipment():
             'defence': 1,
         }
     )
-    equipment.append(gloves_default)
+    equipment[gloves_default.e_type] = gloves_default
 
     # default pants
     pants_default = Equipment(
@@ -206,7 +206,7 @@ def load_default_equipment():
             'defence': 1,
         }
     )
-    equipment.append(pants_default)
+    equipment[pants_default.e_type] = pants_default
 
     # default boots
     boots_default = Equipment(
@@ -221,40 +221,44 @@ def load_default_equipment():
             'defence': 1,
         }
     )
-    equipment.append(boots_default)
+    equipment[boots_default.e_type] = boots_default
 
     # default amulet
     amulet_default = Equipment(
-        name="Amulet of the Stone Defender",
+        name="Stone Defender Amulet",
         e_type="amulet",
         e_class=1,
         rarity="rare",
         condition=1000,
         pic=BASE_IMG_PATH + 'ui/equipment/amulet.png',
-        price=20,
+        price=50,
         properties={
             'health': 1,
             'mana': 1,
         }
 
     )
-    equipment.append(amulet_default)
+    equipment[amulet_default.e_type] = amulet_default
 
     # default ring
     ring_default = Equipment(
-        name="Ring of the Forgotten Legionnaire",
+        name="The Ring of Darkness",
         e_type="ring",
-        e_class=1,
-        rarity="rare",
-        condition=1000,
+        e_class=6,
+        rarity="mythical",
+        condition=1000000,
         pic=BASE_IMG_PATH + 'ui/equipment/ring.png',
-        price=20,
+        price=1000,
         properties={
-            'health': 1,
-            'stamina': 1,
+            'defence': 3,
+            'damage': 3,
+            'health': 5,
+            'stamina': 5,
+            'mana': 5,
+            'experience': 5
         }
 
     )
-    equipment.append(ring_default)
+    equipment[ring_default.e_type] = ring_default
 
     return equipment

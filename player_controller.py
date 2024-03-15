@@ -80,5 +80,3 @@ class PlayerController:
                     self.movement[0] = False
                 if event.key == pygame.K_RIGHT:
                     self.movement[1] = False
-
-
