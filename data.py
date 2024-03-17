@@ -5,6 +5,9 @@ from support import BASE_IMG_PATH, Animation
 
 
 def load_assets():
+    """
+    :return: dictionary with Surface objects that represent static image or Animation objects (group of sprites)
+    """
     return {
         # levels background
         'background': load_images('background'),

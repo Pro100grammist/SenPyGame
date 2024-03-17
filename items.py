@@ -1,5 +1,8 @@
 import pygame
 
+from collections import defaultdict
+from typing import Any
+
 from support import BASE_IMG_PATH
 from data import DEFAULT_EQUIPMENT, player_equipments
 
@@ -150,10 +153,10 @@ def load_default_equipment():
 
 
 # cache for equipment items
-equipment_cache = {}
+equipment_cache: defaultdict[str, Any] = defaultdict(dict)
 
 
-def create_equipment(name=None):
+def create_equipment(name=None, rareness=None):
     """
     Creates specific or random instances of the Equipment class in the game when it needed.
     """
@@ -167,7 +170,7 @@ def create_equipment(name=None):
         else:
             raise ValueError("An object of the Equipment class with this name does not exist.")
     else:
-        rarity = random.choices(['Common', 'Rare', 'Unique', 'Epic', 'Legendary', 'Mythical'], weights=[80, 12, 5, 2, 0.9, 0.1], k=1)[0]
+        rarity = rareness if rareness else random.choices(['Common', 'Rare', 'Unique', 'Epic', 'Legendary', 'Mythical'], weights=[80, 12, 5, 2, 0.9, 0.1], k=1)[0]
         random_item = random.choice(player_equipments[rarity])
         if random_item in equipment_cache:
             return equipment_cache[random_item]
