@@ -6,6 +6,16 @@ from support import BASE_IMG_PATH
 
 
 class UI:
+    """
+    Class UI represents user interface on display in game.
+    That include: heart - shows the player's health level,
+                  mana globe - shows the level of player's mana,
+                  life hearts - shows how many player's life left,
+                  green bar - shows the player's stamina level,
+                  inventory blue panel - display player's potions,
+                  scrolls - display active magic scroll,
+                  player panel - shows experience points and level, gems, coins, projectile and active buffs.
+    """
     def __init__(self, game):
 
         self.game = game
@@ -618,9 +628,9 @@ class SkillsTree:
 
 class CharacterMenu:
     """
-       The class represents the character's equipment and
-       stats (health, mana, stamina, level of vitality, agility, wisdom, defense and damage).
-       """
+    The class represents the character's equipment and
+    stats (health, mana, stamina, level of vitality, agility, wisdom, defense and damage).
+    """
 
     def __init__(self, game):
         self.game = game

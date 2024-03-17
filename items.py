@@ -1,10 +1,21 @@
 import pygame
 
 from support import BASE_IMG_PATH
+from data import DEFAULT_EQUIPMENT, player_equipments
 
 
 class GameLoot:
+    """
+    The class represents the gaming items like a potions, scrolls, coins, gems.
+    """
     def __init__(self, game, pos, size, i_type):
+        """
+        Initializes the GameLoot object.
+        :param game: game class instance
+        :param pos: spawn position on map
+        :param size: the size of the object's rectangle for intercepting collisions with it
+        :param i_type: type of GameLoot object item
+        """
         self.game = game
         self.i_type = i_type
         self.animation = self.game.assets['loot/' + self.i_type].copy()
@@ -117,6 +128,7 @@ class Equipment:
         self.rarity = rarity
         self.properties = properties
         self.condition = condition
+        self.current_condition = self.condition
         self.pic = pic
         self.price = price
 
@@ -130,170 +142,36 @@ class Equipment:
 
 
 def load_default_equipment():
+    """
+    Creates instances of the Equipment class and passes the equipment defined by default
+    at the beginning of the game to the "equipment" dictionary of the Player class instance.
+    """
+    return {item["e_type"]: Equipment(**item) for item in DEFAULT_EQUIPMENT.values()}
 
-    equipment = {}
 
-    # default body armor
-    body_armor_default = Equipment(
-        name="Squire's armor",
-        e_type="body_armor",
-        e_class=0,
-        rarity="Common",
-        condition=1000,
-        pic=BASE_IMG_PATH + 'ui/equipment/body_armor.png',
-        price=40,
-        properties={
-            'defence': 1,
-        }
-    )
-    equipment[body_armor_default.e_type] = body_armor_default
+# cache for equipment items
+equipment_cache = {}
 
-    # default helmet
-    head_protection_default = Equipment(
-        name="Squire's helmet",
-        e_type="head_protection",
-        e_class=0,
-        rarity="Common",
-        condition=750,
-        pic=BASE_IMG_PATH + 'ui/equipment/helmet.png',
-        price=30,
-        properties={
-            'defence': 1,
-        }
 
-    )
-    equipment[head_protection_default.e_type] = head_protection_default
-
-    # default belt
-    belt_default = Equipment(
-        name="Tanned swordsman belt",
-        e_type="belt",
-        e_class=0,
-        rarity="Common",
-        condition=500,
-        pic=BASE_IMG_PATH + 'ui/equipment/belt.png',
-        price=20,
-        properties={
-            'defence': 1,
-        }
-    )
-    equipment[belt_default.e_type] = belt_default
-
-    # default gloves
-    gloves_default = Equipment(
-        name="Hunting Gloves",
-        e_type="gloves",
-        e_class=0,
-        rarity="Common",
-        condition=500,
-        pic=BASE_IMG_PATH + 'ui/equipment/gloves.png',
-        price=20,
-        properties={
-            'defence': 1,
-        }
-    )
-    equipment[gloves_default.e_type] = gloves_default
-
-    # default pants
-    pants_default = Equipment(
-        name="Knight's leggings",
-        e_type="pants",
-        e_class=0,
-        rarity="Common",
-        condition=500,
-        pic=BASE_IMG_PATH + 'ui/equipment/pants.png',
-        price=20,
-        properties={
-            'defence': 1,
-        }
-    )
-    equipment[pants_default.e_type] = pants_default
-
-    # default boots
-    boots_default = Equipment(
-        name="Boots of nobles",
-        e_type="boots",
-        e_class=0,
-        rarity="Rare",
-        condition=600,
-        pic=BASE_IMG_PATH + 'ui/equipment/boots.png',
-        price=20,
-        properties={
-            'defence': 1,
-            'stamina': 5,
-        }
-    )
-    equipment[boots_default.e_type] = boots_default
-
-    # default amulet
-    amulet_default = Equipment(
-        name="Stone Defender Amulet",
-        e_type="amulet",
-        e_class=0,
-        rarity="Unique",
-        condition=1000,
-        pic=BASE_IMG_PATH + 'ui/equipment/amulet.png',
-        price=100,
-        properties={
-            'health': 1,
-            'mana': 1,
-        }
-
-    )
-    equipment[amulet_default.e_type] = amulet_default
-
-    # default ring
-    ring_default = Equipment(
-        name="The Ring of Darkness",
-        e_type="ring",
-        e_class=0,
-        rarity="Mythical",
-        condition=1000000,
-        pic=BASE_IMG_PATH + 'ui/equipment/ring.png',
-        price=1000,
-        properties={
-            'defence': 3,
-            'damage': 3,
-            'health': 5,
-            'stamina': 5,
-            'mana': 5,
-            'experience': 5
-        }
-
-    )
-    equipment[ring_default.e_type] = ring_default
-
-    # default melee
-    melee_weapon_default = Equipment(
-        name="Executioner's Sword",
-        e_type="melee",
-        e_class=0,
-        rarity="Epic",
-        condition=5000,
-        pic=BASE_IMG_PATH + 'ui/equipment/executioner_sword.png',
-        price=300,
-        properties={
-            'damage': 5
-        }
-
-    )
-    equipment[melee_weapon_default.e_type] = melee_weapon_default
-
-    # default long_rage_weapon
-    long_rage_weapon_default = Equipment(
-        name="A Forgotten Master's Bow",
-        e_type="long_rage_weapon",
-        e_class=0,
-        rarity="Legendary",
-        condition=10000,
-        pic=BASE_IMG_PATH + 'ui/equipment/forgotten_masters_bow.png',
-        price=700,
-        properties={
-            'distance_damage': 10,
-            'experience': 1
-        }
-
-    )
-    equipment[long_rage_weapon_default.e_type] = long_rage_weapon_default
-
-    return equipment
+def create_equipment(name=None):
+    """
+    Creates specific or random instances of the Equipment class in the game when it needed.
+    """
+    if name:
+        if name in equipment_cache:
+            return equipment_cache[name]
+        elif name in EQUIPMENT:
+            equipment_instance = Equipment(**EQUIPMENT[name])
+            equipment_cache[name] = equipment_instance
+            return equipment_instance
+        else:
+            raise ValueError("An object of the Equipment class with this name does not exist.")
+    else:
+        rarity = random.choices(['Common', 'Rare', 'Unique', 'Epic', 'Legendary', 'Mythical'], weights=[80, 12, 5, 2, 0.9, 0.1], k=1)[0]
+        random_item = random.choice(player_equipments[rarity])
+        if random_item in equipment_cache:
+            return equipment_cache[random_item]
+        else:
+            equipment_instance = Equipment(**EQUIPMENT[random_item])
+            equipment_cache[random_item] = equipment_instance
+            return equipment_instance
