@@ -65,6 +65,10 @@ class PlayerController:
                     self.sfx['select'].play()
                 if event.key == pygame.K_f:
                     self.player.use_item()
+                if event.key == pygame.K_x:
+                    chest = self.player.check_chest_collision()
+                    if chest:
+                        chest.open()
                 if event.key == pygame.K_b:
                     if not self.player.skills_menu_is_active:
                         self.player.skills_menu_is_active = True

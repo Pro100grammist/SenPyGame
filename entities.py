@@ -328,6 +328,10 @@ class Player(PhysicsEntity):
             "Resurrection": False,
         }
 
+        self.keys = {
+            "steel_key": 0, "red_key": 0, "bronze_key": 0, "purple_key": 0, "gold_key": 0
+        }
+
         self.equipment = load_default_equipment()
         self.player_upgrade()
 
@@ -509,6 +513,13 @@ class Player(PhysicsEntity):
             self.double_power += 1
             self.game.sfx['use_potion'].play()
             self.power_potions -= 1
+
+    def check_chest_collision(self):
+        for chest in self.game.chests:
+            if chest.rect.colliderect(self.player.rect()):
+                if not chest.is_opened:
+                    if chest.lock is None or chest.lock in self.player.keys:
+                        return chest
 
     @staticmethod
     def wave_value():

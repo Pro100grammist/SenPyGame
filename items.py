@@ -178,3 +178,55 @@ def create_equipment(name=None, rareness=None):
             equipment_instance = Equipment(**EQUIPMENT[random_item])
             equipment_cache[random_item] = equipment_instance
             return equipment_instance
+
+
+class Chest:
+    def __init__(self, game, pos, size, lock=None):
+        self.game = game
+        self.pos = list(pos)
+        self.size = size
+        self.lock = lock
+        self.is_opened = False
+        self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
+
+    def render(self, surf, offset=(0, 0)):
+        if not self.is_opened:
+            # Render closed chest
+            surf.blit(self.game.assets['closed_chest'], (self.pos[0] - offset[0], self.pos[1] - 2 - offset[1]))
+        else:
+            # Render open chest
+            surf.blit(self.game.assets['open_chest'], (self.pos[0] - offset[0], self.pos[1] - 2 - offset[1]))
+
+    def open(self):
+        if not self.is_opened:
+            if self.lock is None or self.lock in self.game.player.keys:
+                self.is_opened = True
+                self.game.player.keys.pop(self.lock, None)
+                self.animate_opening()
+                self.create_equipment()
+
+    def animate_opening(self):
+        # Implement animation for opening the chest
+        pass
+
+    def create_equipment(self):
+        # Generate and add equipment to player's inventory
+        if self.lock:
+            equipment = create_equipment(name=self.lock)  # Create equipment based on chest lock
+        else:
+            equipment = create_equipment()  # Create random equipment
+        self.game.player.inventory.append(equipment)
+
+
+class Merchant:
+    """
+    Class representing traders and merchants in the game.
+    """
+
+    def __init__(self):
+        pass
+
+
+
+
+

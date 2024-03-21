@@ -65,6 +65,7 @@ class Game:
         self.effects = []
         self.damage_rates = []
         self.loot = []
+        self.chests = []
         self.enemies = []
 
         self.shaking_screen_effect = 0
@@ -83,7 +84,7 @@ class Game:
         Method for cleaning the list of objects on the map before loading a new level
         """
         lists_to_clear = [
-            self.enemies, self.loot,
+            self.enemies, self.loot, self.chests,
             self.projectiles, self.animated_projectiles,
             self.particles, self.sparks, self.munition,
             self.spells, self.effects, self.damage_rates
