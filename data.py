@@ -81,6 +81,17 @@ def load_assets():
         'loot/invulnerability_scroll': Animation(load_images('tiles/loot/invulnerability_scroll')),
         'loot_spawn': load_images('tiles/loot_spawn/'),
 
+
+        # chests
+        'chest/common': Animation(load_images('tiles/chest/common'), img_dur=6, loop=False),
+        'chest/rare': Animation(load_images('tiles/chest/rare'), img_dur=6, loop=False),
+        'chest/unique': Animation(load_images('tiles/chest/unique'), img_dur=6, loop=False),
+        'chest/epic': Animation(load_images('tiles/chest/epic'), img_dur=6, loop=False),
+        'chest/legendary': Animation(load_images('tiles/chest/legendary'), img_dur=6, loop=False),
+        'chest/mythical': Animation(load_images('tiles/chest/mythical'), img_dur=6, loop=False),
+        'chest_spawn': load_images('tiles/chest/chest_spawn/'),
+        
+
         # particle
         'particle/particle': Animation(load_images('particles/particle'), img_dur=6, loop=False),
 
@@ -101,7 +112,7 @@ def load_sfx():
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
                    'heal', 'healed', 'cough', 'tired', 'revive',
-                   'move_cursor', 'open_skill', 'rejected']
+                   'move_cursor', 'open_skill', 'rejected', 'chest_open']
 
     return {name: pygame.mixer.Sound(f'data/sfx/{name}.wav') for name in sound_names}
 

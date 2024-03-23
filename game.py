@@ -12,14 +12,15 @@ from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
 from player_controller import PlayerController
-from ui import UI, SkillsTree, CharacterMenu
+from ui import UI, SkillsTree, CharacterMenu, InventoryMenu
 from support import volume_adjusting
 from settings import *
 
 from projectile import (SkullSmoke, AnimatedFireball, HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         BloodEffect)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison, HollyScroll, SpeedScroll,
-                   BloodlustScroll, InvulnerabilityScroll)
+                   BloodlustScroll, InvulnerabilityScroll, CommonChest, RareChest, UniqueChest, EpicChest,
+                   LegendaryChest, MythicalChest)
 
 
 pygame.init()
@@ -49,11 +50,12 @@ class Game:
         self.ui = UI(self)
         self.skills_tree = SkillsTree(self)
         self.character_menu = CharacterMenu(self)
+        self.inventory_menu = InventoryMenu(self)
 
         self.movement = [False, False]
         self.player = Player(self)
         self.player_controller = PlayerController(
-            self.player, self.sfx, self.movement, self.skills_tree, self.character_menu
+            self.player, self.sfx, self.movement, self.skills_tree, self.character_menu, self.inventory_menu
         )
 
         self.projectiles = []
@@ -140,7 +142,21 @@ class Game:
         for item in self.map.extract([('loot_spawn', i) for i in range(10)]):
             loot_class = loot_id.get(item['variant'])
             if loot_class:
-                self.loot.append(loot_class(self, item['pos'], (8, 15)))
+                self.loot.append(loot_class(self, item['pos'], (16, 16)))
+
+        chest_id = {
+            0: CommonChest,
+            1: RareChest,
+            2: UniqueChest,
+            3: EpicChest,
+            4: LegendaryChest,
+            5: MythicalChest
+        }
+
+        for chest in self.map.extract([('chest_spawn', i) for i in range(7)]):
+            chest_class = chest_id.get(chest['variant'])
+            if chest_class:
+                self.chests.append(chest_class(self, chest['pos'], (24, 24)))
 
         self.artifacts_remaining = len([item for item in self.loot if isinstance(item, Gem)])
 
@@ -262,6 +278,16 @@ class Game:
             # render map
             self.map.render(self.display, offset=render_scroll)
             self.map.update_animated_tiles()
+
+            # updating and rendering items on map
+            for item in self.loot:
+                item.update()
+                item.render(self.display, offset=render_scroll)
+
+            # updating and rendering chests on map
+            for chest in self.chests:
+                chest.update()
+                chest.render(self.display, offset=render_scroll)
 
             # updating state and rendering enemies
             for enemy in self.enemies.copy():
@@ -408,11 +434,6 @@ class Game:
                 if kill or spell.animation.done:
                     self.spells.remove(spell)
 
-            # updating and rendering items on map
-            for item in self.loot:
-                item.update()
-                item.render(self.display, offset=render_scroll)
-
             # updating and rendering VFX
             for effect in self.effects:
                 effect.update()
@@ -442,11 +463,13 @@ class Game:
             # rendering user interface
             self.ui.render()
 
-            # rendering skills_tree menu
+            # rendering skills_tree, character or inventory menu
             if self.player.skills_menu_is_active:
                 self.skills_tree.render()
             elif self.player.character_menu_is_active:
                 self.character_menu.render()
+            elif self.player.inventory_menu_is_active:
+                self.inventory_menu.render()
 
             #  handling of controller events
             for event in pygame.event.get():

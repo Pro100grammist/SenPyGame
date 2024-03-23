@@ -1,10 +1,12 @@
+import random
 import pygame
+
 
 from collections import defaultdict
 from typing import Any
 
 from support import BASE_IMG_PATH
-from data import DEFAULT_EQUIPMENT, player_equipments
+from data import DEFAULT_EQUIPMENT, EQUIPMENT, player_equipments
 
 
 class GameLoot:
@@ -46,6 +48,8 @@ class GameLoot:
             'invulnerability_scroll': 'invulnerability_spell',
         }
 
+        keys = ['steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key']
+
         for loot_item in self.game.loot.copy():
             if loot_item.rect.colliderect(self.game.player.rect()):
                 self.game.sfx[loot_item.i_type].play()
@@ -61,6 +65,10 @@ class GameLoot:
                         self.game.player.scrolls[scroll_name] += 1
                     else:
                         self.game.player.scrolls[scroll_name] = 1
+                elif loot_item.i_type in keys:
+                    key = keys[loot_item.i_type]
+                    self.game.player.keys[key] += 1
+
                 self.game.loot.remove(loot_item)
 
     def render(self, surf, offset=(0, 0)):
@@ -177,45 +185,89 @@ def create_equipment(name=None, rareness=None):
         else:
             equipment_instance = Equipment(**EQUIPMENT[random_item])
             equipment_cache[random_item] = equipment_instance
+            print(equipment_instance.name)
             return equipment_instance
 
 
 class Chest:
-    def __init__(self, game, pos, size, lock=None):
+    def __init__(self, game, pos, size, lock=None, chest_class='common'):
         self.game = game
         self.pos = list(pos)
         self.size = size
         self.lock = lock
         self.is_opened = False
+        self.animation = self.game.assets['chest/' + chest_class].copy()
+        self.chest_close = self.animation.images[0]
+        self.chest_opened = self.animation.images[-1]
         self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
-
-    def render(self, surf, offset=(0, 0)):
-        if not self.is_opened:
-            # Render closed chest
-            surf.blit(self.game.assets['closed_chest'], (self.pos[0] - offset[0], self.pos[1] - 2 - offset[1]))
-        else:
-            # Render open chest
-            surf.blit(self.game.assets['open_chest'], (self.pos[0] - offset[0], self.pos[1] - 2 - offset[1]))
+        self.keys_map = {
+            "steel_key": 'Rare', "red_key": 'Unique', "bronze_key": 'Epic', "purple_key": 'Legendary',
+            "gold_key": 'Mythical'
+        }
 
     def open(self):
         if not self.is_opened:
             if self.lock is None or self.lock in self.game.player.keys:
                 self.is_opened = True
-                self.game.player.keys.pop(self.lock, None)
-                self.animate_opening()
-                self.create_equipment()
+                if self.lock is not None:
+                    self.game.player.keys[self.lock] -= 1
+                self.get_item()
 
-    def animate_opening(self):
-        # Implement animation for opening the chest
-        pass
-
-    def create_equipment(self):
+    def get_item(self):
         # Generate and add equipment to player's inventory
         if self.lock:
-            equipment = create_equipment(name=self.lock)  # Create equipment based on chest lock
+            equipment = create_equipment(rareness=self.keys_map[self.lock])  # Create equipment based on chest class
         else:
             equipment = create_equipment()  # Create random equipment
         self.game.player.inventory.append(equipment)
+
+    def update(self):
+        if self.is_opened and not self.animation.done:
+            self.animation.update()
+
+    def render(self, surf, offset=(0, 0)):
+        if not self.is_opened:
+            # Render closed chest
+            surf.blit(self.chest_close, (self.pos[0] - offset[0], self.pos[1] - offset[1]))
+        else:
+            # Render open chest
+            if self.animation.done:
+                surf.blit(self.chest_opened, (self.pos[0] - offset[0], self.pos[1] - offset[1]))
+            else:
+                surf.blit(self.animation.current_sprite(), (self.pos[0] - offset[0], self.pos[1] - offset[1]))
+
+        pygame.draw.rect(surf, (0, 255, 0), (self.rect.x - offset[0], self.rect.y - offset[1],
+                                             self.rect.width, self.rect.height), 1)
+
+
+class CommonChest(Chest):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size)
+
+
+class RareChest(Chest):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, lock='steel_key', chest_class='rare')
+
+
+class UniqueChest(Chest):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, lock='red_key', chest_class='unique')
+
+
+class EpicChest(Chest):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, lock='bronze_key', chest_class='epic')
+
+
+class LegendaryChest(Chest):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, lock='purple_key', chest_class='legendary')
+
+
+class MythicalChest(Chest):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, lock='gold_key', chest_class='mythical')
 
 
 class Merchant:

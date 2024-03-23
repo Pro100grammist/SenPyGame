@@ -791,3 +791,55 @@ class CharacterMenu:
             for i in render_list:
                 self.game.display.blit(i, (x - self.info_window.get_width() + 10, y + y_offset))
                 y_offset += 18
+
+
+class InventoryMenu:
+    """
+     The class represents the character's inventory backpack.
+    """
+    def __init__(self, game):
+        self.game = game
+        self.inventory_menu = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window.png')
+        self.frame = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_frame.png')
+        self.font = pygame.font.Font('data/fonts/simple.ttf', 16)
+        self.selected_row = 0
+        self.selected_col = 0
+        self.grid = [['s'] * 6 for _ in range(5)]
+        self.current_cell = None
+
+    def move_cursor(self, direction):
+        if direction == "up":
+            self.selected_row -= 1
+        elif direction == "down":
+            self.selected_row += 1
+        elif direction == "left":
+            self.selected_col -= 1
+        elif direction == "right":
+            self.selected_col += 1
+
+        self.selected_row %= len(self.grid)
+        self.selected_col %= len(self.grid[0])
+
+        self.game.sfx['move_cursor'].play()
+
+    def render(self):
+        # board
+        x = 32
+        y = 32
+        self.game.display.blit(self.inventory_menu, (x, y))
+
+        # Displaying items in inventory cells
+        item_pos = {(i, j): (x + 195 + j * 45, y + 68 + i * 44) for i in range(5) for j in range(6)}
+        for i in range(5):
+            for j in range(6):
+                item = self.game.player.inventory[i * 6 + j] if i * 6 + j < len(self.game.player.inventory) else None
+                if item:
+                    item_image = pygame.image.load(item.pic)
+                    item_rect = item_image.get_rect()
+                    item_rect.topleft = item_pos[(i, j)]
+                    self.game.display.blit(item_image, item_rect)
+
+        # Displaying the cursor
+        frame_pos = {(i, j): (x + 191 + j * 45, y + 62 + i * 44) for i in range(5) for j in range(6)}
+        current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
+        self.game.display.blit(self.frame, current_frame_pos)

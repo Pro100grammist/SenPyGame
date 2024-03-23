@@ -294,13 +294,14 @@ class Player(PhysicsEntity):
 
         self.scrolls = {
             'holly_spell': 1,
-            'speed_spell': 0,
+            'speed_spell': 1,
             'bloodlust_spell': 1,
             'invulnerability_spell': 1,
         }
 
         self.skills_menu_is_active = False
-        self.character_menu_is_active =False
+        self.character_menu_is_active = False
+        self.inventory_menu_is_active = False
 
         self.skills = {
             # health and vitality
@@ -329,8 +330,10 @@ class Player(PhysicsEntity):
         }
 
         self.keys = {
-            "steel_key": 0, "red_key": 0, "bronze_key": 0, "purple_key": 0, "gold_key": 0
+            "steel_key": 1, "red_key": 1, "bronze_key": 1, "purple_key": 1, "gold_key": 1
         }
+
+        self.inventory = []
 
         self.equipment = load_default_equipment()
         self.player_upgrade()
@@ -516,9 +519,9 @@ class Player(PhysicsEntity):
 
     def check_chest_collision(self):
         for chest in self.game.chests:
-            if chest.rect.colliderect(self.player.rect()):
+            if chest.rect.colliderect(self.rect()):
                 if not chest.is_opened:
-                    if chest.lock is None or chest.lock in self.player.keys:
+                    if chest.lock is None or chest.lock in self.keys:
                         return chest
 
     @staticmethod
@@ -669,3 +672,6 @@ class Player(PhysicsEntity):
         if self.show_hitboxes:
             pygame.draw.rect(surf, (0, 255, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
                                                  self.hitbox.width, self.hitbox.height), 1)
+
+        pygame.draw.rect(surf, (0, 255, 0), (self.rect().x - offset[0], self.rect().y - offset[1],
+                                             self.rect().width, self.rect().height), 1)

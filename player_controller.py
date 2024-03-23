@@ -4,12 +4,13 @@ from random import randint
 
 
 class PlayerController:
-    def __init__(self, player, sfx, movement, skills_tree, character_menu):
+    def __init__(self, player, sfx, movement, skills_tree, character_menu, inventory):
         self.player = player
         self.sfx = sfx
         self.movement = movement
         self.skills_tree = skills_tree
         self.character_menu = character_menu
+        self.inventory = inventory
 
     def handle_events(self, event):
         if self.player.skills_menu_is_active:
@@ -38,6 +39,18 @@ class PlayerController:
                     self.character_menu.move_cursor('right')
                 if event.key == pygame.K_c:
                     self.player.character_menu_is_active = False
+        elif self.player.inventory_menu_is_active:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    self.inventory.move_cursor('up')
+                elif event.key == pygame.K_DOWN:
+                    self.inventory.move_cursor('down')
+                elif event.key == pygame.K_LEFT:
+                    self.inventory.move_cursor('left')
+                elif event.key == pygame.K_RIGHT:
+                    self.inventory.move_cursor('right')
+                if event.key == pygame.K_i:
+                    self.player.inventory_menu_is_active = False
 
         else:
             if event.type == pygame.KEYDOWN and not self.player.death_hit:
@@ -68,6 +81,7 @@ class PlayerController:
                 if event.key == pygame.K_x:
                     chest = self.player.check_chest_collision()
                     if chest:
+                        self.sfx['chest_open'].play()
                         chest.open()
                 if event.key == pygame.K_b:
                     if not self.player.skills_menu_is_active:
@@ -79,6 +93,11 @@ class PlayerController:
                         self.player.character_menu_is_active = True
                     else:
                         self.player.character_menu_is_active = False
+                if event.key == pygame.K_i:
+                    if not self.player.inventory_menu_is_active:
+                        self.player.inventory_menu_is_active = True
+                    else:
+                        self.player.inventory_menu_is_active = False
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     self.movement[0] = False
