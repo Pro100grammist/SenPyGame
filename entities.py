@@ -330,7 +330,7 @@ class Player(PhysicsEntity):
         }
 
         self.keys = {
-            "steel_key": 1, "red_key": 1, "bronze_key": 1, "purple_key": 1, "gold_key": 1
+            "steel_key": 1, "red_key": 0, "bronze_key": 1, "purple_key": 1, "gold_key": 0
         }
 
         self.inventory = []
@@ -521,8 +521,7 @@ class Player(PhysicsEntity):
         for chest in self.game.chests:
             if chest.rect.colliderect(self.rect()):
                 if not chest.is_opened:
-                    if chest.lock is None or chest.lock in self.keys:
-                        return chest
+                    return chest
 
     @staticmethod
     def wave_value():
@@ -673,5 +672,5 @@ class Player(PhysicsEntity):
             pygame.draw.rect(surf, (0, 255, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
                                                  self.hitbox.width, self.hitbox.height), 1)
 
-        pygame.draw.rect(surf, (0, 255, 0), (self.rect().x - offset[0], self.rect().y - offset[1],
-                                             self.rect().width, self.rect().height), 1)
+        # pygame.draw.rect(surf, (0, 255, 0), (self.rect().x - offset[0], self.rect().y - offset[1],
+        #                                      self.rect().width, self.rect().height), 1)

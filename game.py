@@ -20,7 +20,7 @@ from projectile import (SkullSmoke, AnimatedFireball, HollySpell, SpeedSpell, Bl
                         BloodEffect)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison, HollyScroll, SpeedScroll,
                    BloodlustScroll, InvulnerabilityScroll, CommonChest, RareChest, UniqueChest, EpicChest,
-                   LegendaryChest, MythicalChest)
+                   LegendaryChest, MythicalChest, SteelKey, RedKey, BronzeKey, PurpleKey, GoldKey)
 
 
 pygame.init()
@@ -137,9 +137,14 @@ class Game:
             7: BloodlustScroll,
             8: HollyScroll,
             9: InvulnerabilityScroll,
+            10: SteelKey,
+            11: RedKey,
+            12: BronzeKey,
+            13: PurpleKey,
+            14: GoldKey
         }
 
-        for item in self.map.extract([('loot_spawn', i) for i in range(10)]):
+        for item in self.map.extract([('loot_spawn', i) for i in range(15)]):
             loot_class = loot_id.get(item['variant'])
             if loot_class:
                 self.loot.append(loot_class(self, item['pos'], (16, 16)))

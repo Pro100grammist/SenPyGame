@@ -25,7 +25,7 @@ class PlayerController:
                     self.skills_tree.move_cursor('right')
                 if event.key == pygame.K_SPACE:
                     self.skills_tree.open_skill()
-                if event.key == pygame.K_b:
+                if event.key in (pygame.K_b, pygame.K_ESCAPE):
                     self.player.skills_menu_is_active = False
         elif self.player.character_menu_is_active:
             if event.type == pygame.KEYDOWN:
@@ -37,7 +37,7 @@ class PlayerController:
                     self.character_menu.move_cursor('left')
                 elif event.key == pygame.K_RIGHT:
                     self.character_menu.move_cursor('right')
-                if event.key == pygame.K_c:
+                if event.key in (pygame.K_c, pygame.K_ESCAPE):
                     self.player.character_menu_is_active = False
         elif self.player.inventory_menu_is_active:
             if event.type == pygame.KEYDOWN:
@@ -49,7 +49,7 @@ class PlayerController:
                     self.inventory.move_cursor('left')
                 elif event.key == pygame.K_RIGHT:
                     self.inventory.move_cursor('right')
-                if event.key == pygame.K_i:
+                if event.key == pygame.K_i or event.key == pygame.K_ESCAPE:
                     self.player.inventory_menu_is_active = False
 
         else:
@@ -81,7 +81,6 @@ class PlayerController:
                 if event.key == pygame.K_x:
                     chest = self.player.check_chest_collision()
                     if chest:
-                        self.sfx['chest_open'].play()
                         chest.open()
                 if event.key == pygame.K_b:
                     if not self.player.skills_menu_is_active:

@@ -66,8 +66,7 @@ class GameLoot:
                     else:
                         self.game.player.scrolls[scroll_name] = 1
                 elif loot_item.i_type in keys:
-                    key = keys[loot_item.i_type]
-                    self.game.player.keys[key] += 1
+                    self.game.player.keys[loot_item.i_type] += 1
 
                 self.game.loot.remove(loot_item)
 
@@ -200,6 +199,8 @@ class Chest:
         self.chest_close = self.animation.images[0]
         self.chest_opened = self.animation.images[-1]
         self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
+        self.message_panel = pygame.image.load(BASE_IMG_PATH + 'tiles/chest/panel/msg_panel.png')
+        self.font = pygame.font.Font('data/fonts/simple.ttf', 14)
         self.keys_map = {
             "steel_key": 'Rare', "red_key": 'Unique', "bronze_key": 'Epic', "purple_key": 'Legendary',
             "gold_key": 'Mythical'
@@ -207,11 +208,15 @@ class Chest:
 
     def open(self):
         if not self.is_opened:
-            if self.lock is None or self.lock in self.game.player.keys:
+            if self.lock is None or self.game.player.keys[self.lock] > 0:
                 self.is_opened = True
+                self.game.sfx['chest_open'].play()
                 if self.lock is not None:
                     self.game.player.keys[self.lock] -= 1
                 self.get_item()
+            else:
+                pass
+                # self.game.sfx['closed_lock'].play()
 
     def get_item(self):
         # Generate and add equipment to player's inventory
@@ -226,9 +231,23 @@ class Chest:
             self.animation.update()
 
     def render(self, surf, offset=(0, 0)):
+        window_offset_x = 40
+        window_offset_y = 40
+        msg_offset_x = 28
+        msg_offset_y = 30
         if not self.is_opened:
             # Render closed chest
             surf.blit(self.chest_close, (self.pos[0] - offset[0], self.pos[1] - offset[1]))
+
+            if self.rect.colliderect(self.game.player.rect()):
+                surf.blit(self.message_panel, (self.pos[0] - window_offset_x - offset[0], self.pos[1] - window_offset_y - offset[1]))
+                if self.lock is None or self.game.player.keys[self.lock] > 0:
+                    message = self.font.render("TO OPEN PRESS X", True, (189, 165, 139))
+                    surf.blit(message, (self.pos[0] - msg_offset_x - offset[0], self.pos[1] - msg_offset_y - offset[1]))
+                else:
+                    message = self.font.render(f"NEED A {self.lock.replace('_', ' ').upper()}", True, (189, 165, 139))
+                    surf.blit(message, (self.pos[0] - msg_offset_x - offset[0], self.pos[1] - msg_offset_y - offset[1]))
+
         else:
             # Render open chest
             if self.animation.done:
@@ -236,10 +255,11 @@ class Chest:
             else:
                 surf.blit(self.animation.current_sprite(), (self.pos[0] - offset[0], self.pos[1] - offset[1]))
 
-        pygame.draw.rect(surf, (0, 255, 0), (self.rect.x - offset[0], self.rect.y - offset[1],
-                                             self.rect.width, self.rect.height), 1)
+        # pygame.draw.rect(surf, (0, 255, 0), (self.rect.x - offset[0], self.rect.y - offset[1],
+        #                                      self.rect.width, self.rect.height), 1)
 
 
+# chests
 class CommonChest(Chest):
     def __init__(self, game, pos, size):
         super().__init__(game, pos, size)
@@ -268,6 +288,32 @@ class LegendaryChest(Chest):
 class MythicalChest(Chest):
     def __init__(self, game, pos, size):
         super().__init__(game, pos, size, lock='gold_key', chest_class='mythical')
+
+
+# keys
+class SteelKey(GameLoot):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, 'steel_key')
+
+
+class RedKey(GameLoot):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, 'red_key')
+
+
+class BronzeKey(GameLoot):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, 'bronze_key')
+
+
+class PurpleKey(GameLoot):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, 'purple_key')
+
+
+class GoldKey(GameLoot):
+    def __init__(self, game, pos, size):
+        super().__init__(game, pos, size, 'gold_key')
 
 
 class Merchant:

@@ -800,7 +800,7 @@ class InventoryMenu:
     def __init__(self, game):
         self.game = game
         self.inventory_menu = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window.png')
-        self.frame = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_frame.png')
+        self.frame = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png')
         self.font = pygame.font.Font('data/fonts/simple.ttf', 16)
         self.selected_row = 0
         self.selected_col = 0
@@ -840,6 +840,6 @@ class InventoryMenu:
                     self.game.display.blit(item_image, item_rect)
 
         # Displaying the cursor
-        frame_pos = {(i, j): (x + 191 + j * 45, y + 62 + i * 44) for i in range(5) for j in range(6)}
+        frame_pos = {(i, j): (x + 191 + j * 45, y + 62 + i * 43.5) for i in range(5) for j in range(6)}
         current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
         self.game.display.blit(self.frame, current_frame_pos)

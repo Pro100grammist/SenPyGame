@@ -68,7 +68,7 @@ def load_assets():
         'player/death': Animation(load_images_entities('entities/player/death', trim_left=0, trim_right=0), img_dur=6),
 
 
-        # game
+        # game loot
         'loot/gem': Animation(load_images('tiles/loot/gem'), img_dur=6),
         'loot/coin': Animation(load_images('tiles/loot/coin'), img_dur=6),
         'loot/glass_red': Animation(load_images('tiles/loot/glass_red'), img_dur=6),
@@ -79,8 +79,14 @@ def load_assets():
         'loot/bloodlust_scroll': Animation(load_images('tiles/loot/bloodlust_scroll')),
         'loot/speed_scroll': Animation(load_images('tiles/loot/speed_scroll')),
         'loot/invulnerability_scroll': Animation(load_images('tiles/loot/invulnerability_scroll')),
-        'loot_spawn': load_images('tiles/loot_spawn/'),
+        'loot_spawn': load_images('tiles/loot_spawn'),
 
+        # keys
+        'loot/steel_key': Animation(load_images('tiles/loot/keys/steel_key'), img_dur=6),
+        'loot/red_key': Animation(load_images('tiles/loot/keys/red_key'), img_dur=6),
+        'loot/bronze_key': Animation(load_images('tiles/loot/keys/bronze_key'), img_dur=6),
+        'loot/purple_key': Animation(load_images('tiles/loot/keys/purple_key'), img_dur=6),
+        'loot/gold_key': Animation(load_images('tiles/loot/keys/gold_key'), img_dur=6),
 
         # chests
         'chest/common': Animation(load_images('tiles/chest/common'), img_dur=6, loop=False),
@@ -106,13 +112,14 @@ def load_sfx():
                    'orc_archer', 'big_zombie', 'big_daemon',
                    'fireball', 'fire_hit', 'fire_punch',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
-                   'switch', 'select', 'use_potion', 'suriken_rebound',
+                   'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
                    'flipping_scroll1', 'flipping_scroll2', 'flipping_scroll3',
                    'green_smoke', 'corruption',
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
                    'heal', 'healed', 'cough', 'tired', 'revive',
-                   'move_cursor', 'open_skill', 'rejected', 'chest_open']
+                   'move_cursor', 'open_skill', 'rejected', 'chest_open',
+                   'steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key',]
 
     return {name: pygame.mixer.Sound(f'data/sfx/{name}.wav') for name in sound_names}
 
