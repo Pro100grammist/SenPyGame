@@ -13,6 +13,7 @@ class PlayerController:
         self.inventory = inventory
 
     def handle_events(self, event):
+        # skills tree
         if self.player.skills_menu_is_active:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
@@ -27,6 +28,7 @@ class PlayerController:
                     self.skills_tree.open_skill()
                 if event.key in (pygame.K_b, pygame.K_ESCAPE):
                     self.player.skills_menu_is_active = False
+        # character menu
         elif self.player.character_menu_is_active:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
@@ -39,6 +41,7 @@ class PlayerController:
                     self.character_menu.move_cursor('right')
                 if event.key in (pygame.K_c, pygame.K_ESCAPE):
                     self.player.character_menu_is_active = False
+        # inventory
         elif self.player.inventory_menu_is_active:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
@@ -49,7 +52,9 @@ class PlayerController:
                     self.inventory.move_cursor('left')
                 elif event.key == pygame.K_RIGHT:
                     self.inventory.move_cursor('right')
-                if event.key == pygame.K_i or event.key == pygame.K_ESCAPE:
+                if event.key == pygame.K_SPACE:
+                    self.inventory.apply()
+                elif event.key == pygame.K_i or event.key == pygame.K_ESCAPE:
                     self.player.inventory_menu_is_active = False
 
         else:

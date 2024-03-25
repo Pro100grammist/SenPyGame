@@ -822,6 +822,11 @@ class InventoryMenu:
 
         self.game.sfx['move_cursor'].play()
 
+    def apply(self):
+        """Current method is responsible for applying (putting on) equipment by moving the selected item
+        on the character"""
+        pass
+
     def render(self):
         # board
         x = 32
