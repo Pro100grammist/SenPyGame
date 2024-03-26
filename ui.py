@@ -3,6 +3,7 @@ import math
 import pygame
 
 from support import BASE_IMG_PATH
+from items import Equipment
 
 
 class UI:
@@ -798,16 +799,37 @@ class InventoryMenu:
      The class represents the character's inventory backpack.
     """
     def __init__(self, game):
+        """
+        Initializes the InventoryMenu class.
+
+        Parameters:
+            game (object): The game object.
+
+        Attributes:
+            game (object): The game object.
+            inventory_menu (pygame.Surface): The image representing the inventory window.
+            frame (pygame.Surface): The image representing the inventory window frame.
+            font (pygame.font.Font): The font used for rendering text.
+            selected_row (int): The currently selected row index.
+            selected_col (int): The currently selected column index.
+            grid (list): A 2D list representing the inventory grid.
+            current_cell (list): The currently selected cell coordinates.
+        """
         self.game = game
         self.inventory_menu = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window.png')
         self.frame = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png')
         self.font = pygame.font.Font('data/fonts/simple.ttf', 16)
         self.selected_row = 0
         self.selected_col = 0
-        self.grid = [['s'] * 6 for _ in range(5)]
-        self.current_cell = None
+        self.grid = [[None] * 6 for _ in range(5)]
+        self.current_cell = [self.selected_row, self.selected_col]
 
     def move_cursor(self, direction):
+        """
+        Moves the cursor in the specified direction.
+
+        Parameters: direction (str): The direction to move the cursor ('up', 'down', 'left', 'right').
+        """
         if direction == "up":
             self.selected_row -= 1
         elif direction == "down":
@@ -819,13 +841,38 @@ class InventoryMenu:
 
         self.selected_row %= len(self.grid)
         self.selected_col %= len(self.grid[0])
+        self.current_cell = [self.selected_row, self.selected_col]
 
         self.game.sfx['move_cursor'].play()
 
     def apply(self):
-        """Current method is responsible for applying (putting on) equipment by moving the selected item
-        on the character"""
-        pass
+        """
+        Applies the selected item.
+
+        Current method is responsible for applying (putting on) equipment by moving the selected item
+        on the character
+        """
+        item = self.grid[self.current_cell[0]][self.current_cell[1]]
+        if item:
+            if isinstance(item, Equipment):
+                deactivated_equipment = self.game.player.equipment[item.e_type]
+                self.game.player.equipment[item.e_type] = item
+                self.grid[self.current_cell[0]][self.current_cell[1]] = deactivated_equipment
+                replaced_item_index = self.game.player.inventory.index(item)
+                self.game.player.inventory[replaced_item_index] = deactivated_equipment
+
+    def refresh_inventory(self):
+        """
+        Updates the inventory grid.
+
+        This method synchronizes the 2D grid (self.grid) with the player's inventory self.game.player.inventory.
+        It is called whenever a new item is added to the inventory.
+        """
+        for i in range(5):
+            for j in range(6):
+                item_index = i * 6 + j
+                if item_index < len(self.game.player.inventory):
+                    self.grid[i][j] = self.game.player.inventory[item_index]
 
     def render(self):
         # board

@@ -330,7 +330,7 @@ class Player(PhysicsEntity):
         }
 
         self.keys = {
-            "steel_key": 1, "red_key": 0, "bronze_key": 1, "purple_key": 1, "gold_key": 0
+            "steel_key": 0, "red_key": 0, "bronze_key": 1, "purple_key": 1, "gold_key": 1
         }
 
         self.inventory = []

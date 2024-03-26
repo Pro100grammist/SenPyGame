@@ -150,6 +150,12 @@ class Equipment:
         self.increase_experience = self.properties.get('experience', 0)
         self.distance_damage = self.properties.get('distance_damage', 0)
 
+    def __eq__(self, other):
+        return self.name == other.name and self.e_type == other.e_type
+
+    def __hash__(self):
+        return hash((self.name, self.type))
+
 
 def load_default_equipment():
     """
@@ -225,6 +231,7 @@ class Chest:
         else:
             equipment = create_equipment()  # Create random equipment
         self.game.player.inventory.append(equipment)
+        self.game.inventory_menu.refresh_inventory()
 
     def update(self):
         if self.is_opened and not self.animation.done:
