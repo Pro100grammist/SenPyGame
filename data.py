@@ -552,6 +552,7 @@ EQUIPMENT = {
             'experience': 1,
         },
     },
+
     # body armor ________________ 18 items _______________________
     "Fallen Legionnaires Armor": {
         "name": "Fallen Legionnaires' Armor",
@@ -798,6 +799,7 @@ EQUIPMENT = {
             'experience': 2
         }
     },
+
     # gloves  ------------ 12 items --------------------
     "Warlord's Bracelets": {
         "name": "Warlord's Bracelets",
@@ -959,5 +961,932 @@ EQUIPMENT = {
             'experience': 1,
             'distance_damage': 5
         }
-    }
+    },
+
+    # boots  ------------ 13 items --------------------
+    "Hunting Boots": {
+        "name": "Hunting Boots",
+        "e_type": "boots",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 750,
+        "pic": BASE_IMG_PATH + 'ui/equipment/hunting_boots.png',
+        "price": 20,
+        "properties": {
+            'stamina': 10,
+        }
+    },
+    "Forgotten Legionnaire's Boots": {
+        "name": "Forgotten Legionnaire's Boots",
+        "e_type": "boots",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/forgotten_legionnaires_boots.png',
+        "price": 25,
+        "properties": {
+            'defence': 1,
+        }
+    },
+    "Boots of the Light Mage": {
+        "name": "Boots of the Light Mage",
+        "e_type": "boots",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/boots_of_the_light_mage.png',
+        "price": 30,
+        "properties": {
+            'mana': 5,
+        }
+    },
+    "Leviathan Defender Boots": {
+        "name": "Leviathan Defender Boots",
+        "e_type": "boots",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/leviathan_defender_boots.png',
+        "price": 80,
+        "properties": {
+            'defence': 2,
+        }
+    },
+    "Stone Guardian Boots": {
+        "name": "Stone Guardian Boots",
+        "e_type": "boots",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/stone_guardian_boots.png',
+        "price": 75,
+        "properties": {
+            'defence': 1,
+            'health': 5,
+        }
+    },
+    "Invincible Archer Boots": {
+        "name": "Invincible Archer Boots",
+        "e_type": "boots",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/invincible_archer_boots.png',
+        "price": 50,
+        "properties": {
+            'defence': 1,
+            'stamina': 5,
+        }
+    },
+    "Invincible Warrior Boots": {
+        "name": "Invincible Warrior Boots",
+        "e_type": "boots",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/invincible_warrior_boots.png',
+        "price": 120,
+        "properties": {
+            'defence': 3,
+            'health': 5,
+        }
+    },
+    "Boots of the Moon Archer": {
+        "name": "Boots of the Moon Archer",
+        "e_type": "boots",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1200,
+        "pic": BASE_IMG_PATH + 'ui/equipment/boots_of_the_moon_archer.png',
+        "price": 125,
+        "properties": {
+            'defence': 3,
+            'stamina': 5,
+        }
+    },
+    "Fire Lord's Magical Boots": {
+        "name": "Fire Lord's Magical Boots",
+        "e_type": "boots",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/fire_lords_magical_boots.png',
+        "price": 200,
+        "properties": {
+            'defence': 3,
+            'mana': 10,
+        }
+    },
+    "Moon Magic Boots": {
+        "name": "Moon Magic Boots",
+        "e_type": "boots",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 1800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/moon_magic_boots.png',
+        "price": 190,
+        "properties": {
+            'defence': 3,
+            'health': 5,
+            'mana': 5,
+        }
+    },
+    "Dragon Warrior Boots": {
+        "name": "Dragon Warrior Boots",
+        "e_type": "boots",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 2800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/dragon_warrior_boots.png',
+        "price": 240,
+        "properties": {
+            'defence': 5,
+            'health': 10,
+        }
+    },
+    "Arcanical Boots": {
+        "name": "Arcanical Boots",
+        "e_type": "boots",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 2600,
+        "pic": BASE_IMG_PATH + 'ui/equipment/arcanical_boots.png',
+        "price": 250,
+        "properties": {
+            'defence': 5,
+            'mana': 10,
+        }
+    },
+    "Mythical Wizard's Boots": {
+        "name": "Mythical Wizard's Boots",
+        "e_type": "boots",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 5500,
+        "pic": BASE_IMG_PATH + 'ui/equipment/mythical_wizards_boots.png',
+        "price": 450,
+        "properties": {
+            'defence': 6,
+            'health': 5,
+            'stamina': 5,
+            'mana': 5,
+            'experience': 1,
+        }
+    },
+
+    # pants  ------------ 12 items --------------------
+    "Armored Scabbard": {
+        "name": "Armored Scabbard",
+        "e_type": "pants",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 750,
+        "pic": BASE_IMG_PATH + 'ui/equipment/armored_scabbard.png',
+        "price": 15,
+        "properties": {
+            'defence': 1,
+        }
+    },
+    "Embroidered Pants": {
+        "name": "Embroidered Pants",
+        "e_type": "pants",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 600,
+        "pic": BASE_IMG_PATH + 'ui/equipment/embroidered_pants.png',
+        "price": 25,
+        "properties": {
+            'mana': 5,
+        }
+    },
+    "Light Archer Leggings": {
+        "name": "Light Archer Leggings",
+        "e_type": "pants",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 700,
+        "pic": BASE_IMG_PATH + 'ui/equipment/light_archer_leggings.png',
+        "price": 15,
+        "properties": {
+            'stamina': 5,
+        }
+    },
+    "Leviathan Defender Breeches": {
+        "name": "Leviathan Defender Breeches",
+        "e_type": "pants",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/leviathan_defender_breeches.png',
+        "price": 50,
+        "properties": {
+            'defence': 2,
+        }
+    },
+    "Fireproof Pants": {
+        "name": "Fireproof Pants",
+        "e_type": "pants",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/fireproof_pants.png',
+        "price": 45,
+        "properties": {
+            'defence': 1,
+            'health': 5,
+        }
+    },
+    "Forgotten Legionnaire's Scabbard": {
+        "name": "Forgotten Legionnaire's Scabbard",
+        "e_type": "pants",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1200,
+        "pic": BASE_IMG_PATH + 'ui/equipment/forgotten_legionnaires_scabbard.png',
+        "price": 50,
+        "properties": {
+            'defence': 1,
+            'mana': 5,
+        }
+    },
+    "Stone Guardian Scabbard": {
+        "name": "Stone Guardian Scabbard",
+        "e_type": "pants",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1300,
+        "pic": BASE_IMG_PATH + 'ui/equipment/stone_guardian_scabbard.png',
+        "price": 100,
+        "properties": {
+            'defence': 3,
+            'health': 5,
+        }
+    },
+    "Invincible Warrior Pants": {
+        "name": "Invincible Warrior Pants",
+        "e_type": "pants",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/invincible_warrior_pants.png',
+        "price": 110,
+        "properties": {
+            'defence': 3,
+            'stamina': 5,
+        }
+    },
+    "Moon Archer's Kneeguards": {
+        "name": "Moon Archer's Kneeguards",
+        "e_type": "pants",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/moon_archers_kneeguards.png',
+        "price": 150,
+        "properties": {
+            'defence': 4,
+            'stamina': 10,
+        }
+    },
+    "Dragon Warrior Breeches": {
+        "name": "Dragon Warrior Breeches",
+        "e_type": "pants",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2200,
+        "pic": BASE_IMG_PATH + 'ui/equipment/dragon_warrior_breeches.png',
+        "price": 110,
+        "properties": {
+            'defence': 4,
+            'health': 10,
+        }
+    },
+    "Arcanic Witcher's Knee Pads": {
+        "name": "Arcanic Witcher's Knee Pads",
+        "e_type": "pants",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 2800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/arcanic_witchers_knee_pads.png',
+        "price": 200,
+        "properties": {
+            'defence': 5,
+            'mana': 10,
+        }
+    },
+    "Kilt of the Immortals": {
+        "name": "Kilt of the Immortals",
+        "e_type": "pants",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 5500,
+        "pic": BASE_IMG_PATH + 'ui/equipment/kilt_of_the_immortals.png',
+        "price": 450,
+        "properties": {
+            'defence': 6,
+            'health': 5,
+            'stamina': 5,
+            'mana': 5,
+            'experience': 1,
+        }
+    },
+
+    # belt  ------------ 15 items --------------------
+    "Light Belt": {
+        "name": "Light Belt",
+        "e_type": "belt",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 750,
+        "pic": BASE_IMG_PATH + 'ui/equipment/light_belt.png',
+        "price": 15,
+        "properties": {
+            'defence': 1,
+        }
+    },
+    "Combat Belt": {
+        "name": "Combat Belt",
+        "e_type": "belt",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/combat_belt.png',
+        "price": 20,
+        "properties": {
+            'defence': 1,
+            'health': 5,
+        }
+    },
+    "Armored Belt": {
+        "name": "Armored Belt",
+        "e_type": "belt",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/armored_belt.png',
+        "price": 25,
+        "properties": {
+            'defence': 2,
+        }
+    },
+    "Light Hunting Belt": {
+        "name": "Light Hunting Belt",
+        "e_type": "belt",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/light_hunting_belt.png',
+        "price": 30,
+        "properties": {
+            'defence': 1,
+            'stamina': 5,
+        }
+    },
+    "Invincible Warrior Belt": {
+        "name": "Invincible Warrior Belt",
+        "e_type": "belt",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/invincible_warrior_belt.png',
+        "price": 40,
+        "properties": {
+            'defence': 2,
+            'health': 5,
+        }
+    },
+    "Leviathan Defender Belt": {
+        "name": "Leviathan Defender Belt",
+        "e_type": "belt",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/leviathan_defender_belt.png',
+        "price": 55,
+        "properties": {
+            'defence': 2,
+            'mana': 5,
+        }
+    },
+    "Forgotten Legionnaire's Belt": {
+        "name": "Forgotten Legionnaire's Belt",
+        "e_type": "belt",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/forgotten_legionnaires_belt.png',
+        "price": 50,
+        "properties": {
+            'defence': 2,
+            'stamina': 5,
+        }
+    },
+    "Moon Chest Belt": {
+        "name": "Moon Chest Belt",
+        "e_type": "belt",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1300,
+        "pic": BASE_IMG_PATH + 'ui/equipment/moon_chest_belt.png',
+        "price": 80,
+        "properties": {
+            'defence': 3,
+            'stamina': 5,
+        }
+    },
+    "Stone Guardian Belt": {
+        "name": "Stone Guardian Belt",
+        "e_type": "belt",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/stone_guardian_belt.png',
+        "price": 90,
+        "properties": {
+            'defence': 3,
+            'health': 5,
+        }
+    },
+    "Legendary Archer's Belt": {
+        "name": "Legendary Archer's Belt",
+        "e_type": "belt",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/legendary_archers_belt.png',
+        "price": 90,
+        "properties": {
+            'defence': 3,
+            'distance_damage': 5,
+        }
+    },
+    "Moon Magician's Belt": {
+        "name": "Moon Magician's Belt",
+        "e_type": "belt",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/moon_magicians_belt.png',
+        "price": 120,
+        "properties": {
+            'defence': 4,
+            'mana': 10,
+        }
+    },
+    "Fire Lord's Belt": {
+        "name": "Fire Lord's Belt",
+        "e_type": "belt",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 1800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/fire_lords_belt.png',
+        "price": 110,
+        "properties": {
+            'defence': 4,
+            'health': 5,
+            'mana': 5,
+        }
+    },
+    "Dragon Warrior Belt": {
+        "name": "Dragon Warrior Belt",
+        "e_type": "belt",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 2800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/dragon_warrior_belt.png',
+        "price": 200,
+        "properties": {
+            'defence': 5,
+            'health': 10,
+        }
+    },
+    "Arcane Wizard's Belt": {
+        "name": "Arcane Wizard's Belt",
+        "e_type": "belt",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 2600,
+        "pic": BASE_IMG_PATH + 'ui/equipment/arcane_wizards_belt.png',
+        "price": 190,
+        "properties": {
+            'defence': 5,
+            'mana': 10,
+        }
+    },
+    "Immortality Belt": {
+        "name": "Immortality Belt",
+        "e_type": "belt",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 5500,
+        "pic": BASE_IMG_PATH + 'ui/equipment/immortality_belt.png',
+        "price": 450,
+        "properties": {
+            'defence': 6,
+            'health': 5,
+            'stamina': 5,
+            'mana': 5,
+            'experience': 1,
+        }
+    },
+
+    # ring  ------------ 19 items --------------------
+    "Battle Winner's Ring": {
+        "name": "Battle Winner's Ring",
+        "e_type": "ring",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 750,
+        "pic": BASE_IMG_PATH + 'ui/equipment/battle_winners_ring.png',
+        "price": 15,
+        "properties": {
+            'defence': 1,
+        }
+    },
+    "Ring of Strength": {
+        "name": "Ring of Strength",
+        "e_type": "ring",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_strength.png',
+        "price": 20,
+        "properties": {
+            'damage': 2,
+        }
+    },
+    "Ring of Vitality": {
+        "name": "Ring of Vitality",
+        "e_type": "ring",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_vitality.png',
+        "price": 25,
+        "properties": {
+            'health': 10,
+        }
+    },
+    "Ring of Agility": {
+        "name": "Ring of Agility",
+        "e_type": "ring",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_agility.png',
+        "price": 40,
+        "properties": {
+            'stamina': 10,
+        }
+    },
+    "Ring of Wisdom": {
+        "name": "Ring of Wisdom",
+        "e_type": "ring",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_wisdom.png',
+        "price": 55,
+        "properties": {
+            'mana': 10,
+        }
+    },
+    "Ring of Endurance": {
+        "name": "Ring of Endurance",
+        "e_type": "ring",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1300,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_endurance.png',
+        "price": 50,
+        "properties": {
+            'health': 10,
+        }
+    },
+    "Forgotten Legionnaire's Ring": {
+        "name": "Forgotten Legionnaire's Ring",
+        "e_type": "ring",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/forgotten_legionnaires_ring.png',
+        "price": 40,
+        "properties": {
+            'defence': 2,
+            'health': 5,
+        }
+    },
+    "Invincible Warrior Ring": {
+        "name": "Invincible Warrior Ring",
+        "e_type": "ring",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/invincible_warrior_ring.png',
+        "price": 45,
+        "properties": {
+            'defence': 2,
+            'damage': 5,
+        }
+    },
+    "Ring of Precision": {
+        "name": "Ring of Precision",
+        "e_type": "ring",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_precision.png',
+        "price": 90,
+        "properties": {
+            'defence': 3,
+            'damage': 5,
+        }
+    },
+    "Ring of Arcana": {
+        "name": "Ring of Arcana",
+        "e_type": "ring",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1600,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_arcana.png',
+        "price": 120,
+        "properties": {
+            'defence': 5,
+            'mana': 10,
+        }
+    },
+    "Leviathan Defender Ring": {
+        "name": "Leviathan Defender Ring",
+        "e_type": "ring",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1300,
+        "pic": BASE_IMG_PATH + 'ui/equipment/leviathan_defender_ring.png',
+        "price": 80,
+        "properties": {
+            'defence': 3,
+            'mana': 10,
+        }
+    },
+    "Stone Guardian's Ring": {
+        "name": "Stone Guardian's Ring",
+        "e_type": "ring",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/stone_guardians_ring.png',
+        "price": 90,
+        "properties": {
+            'defence': 3,
+            'stamina': 10,
+        }
+    },
+    "Ring of Power": {
+        "name": "Ring of Power",
+        "e_type": "ring",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_power.png',
+        "price": 150,
+        "properties": {
+            'defence': 5,
+            'damage': 5,
+            'distance_damage': 10,
+        }
+    },
+    "Magic Fire Ring": {
+        "name": "Magic Fire Ring",
+        "e_type": "ring",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 3000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/magic_fire_ring.png',
+        "price": 130,
+        "properties": {
+            'damage': 10,
+            'health': 10,
+        }
+    },
+    "Light Defender's Ring": {
+        "name": "Light Defender's Ring",
+        "e_type": "ring",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/light_defenders_ring.png',
+        "price": 140,
+        "properties": {
+            'defence': 5,
+            'mana': 10,
+        }
+    },
+    "Moon Mage's Ring": {
+        "name": "Moon Mage's Ring",
+        "e_type": "ring",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 2600,
+        "pic": BASE_IMG_PATH + 'ui/equipment/moon_mages_ring.png',
+        "price": 190,
+        "properties": {
+            'damage': 10,
+            'mana': 10,
+        }
+    },
+    "Ring of Immortality": {
+        "name": "Ring of Immortality",
+        "e_type": "ring",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 4000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ring_of_immortality.png',
+        "price": 300,
+        "properties": {
+            'defence': 5,
+            'damage': 5,
+            'distance_damage': 10,
+            'health': 10,
+        }
+    },
+    "Dragon Warrior Ring": {
+        "name": "Dragon Warrior Ring",
+        "e_type": "ring",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 4800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/dragon_warrior_ring.png',
+        "price": 300,
+        "properties": {
+            'defence': 5,
+            'damage': 5,
+            'distance_damage': 10,
+            'stamina': 10,
+        }
+    },
+    "Darkness Spellcaster's Ring": {
+        "name": "Darkness Spellcaster's Ring",
+        "e_type": "ring",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 5500,
+        "pic": BASE_IMG_PATH + 'ui/equipment/darkness_spellcasters_ring.png',
+        "price": 450,
+        "properties": {
+            'defence': 6,
+            'damage': 5,
+            'health': 10,
+            'stamina': 10,
+            'mana': 10,
+            'experience': 2
+        }
+    },
+
+    # amulet  ------------ 10 items --------------------
+    "Moon Magician's Amulet": {
+        "name": "Moon Magician's Amulet",
+        "e_type": "amulet",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 750,
+        "pic": BASE_IMG_PATH + 'ui/equipment/moon_magicians_amulet.png',
+        "price": 50,
+        "properties": {
+            'defence': 2,
+            'mana': 5
+        }
+    },
+    "Light Warrior Amulet": {
+        "name": "Light Warrior Amulet",
+        "e_type": "amulet",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/light_warrior_amulet.png',
+        "price": 60,
+        "properties": {
+            'defence': 2,
+            'health': 10
+        }
+    },
+    "Amulet Witch's Eye": {
+        "name": "Amulet Witch's Eye",
+        "e_type": "amulet",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/amulet_witchs_eye.png',
+        "price": 80,
+        "properties": {
+            'defence': 2,
+            'mana': 5,
+            'health': 10
+        }
+    },
+    "Winning archer's amulet": {
+        "name": "Winning archer's amulet",
+        "e_type": "amulet",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/winning_archers_amulet.png',
+        "price": 65,
+        "properties": {
+            'defence': 2,
+            'stamina': 10
+        }
+    },
+    "Mage warrior amulet": {
+        "name": "Mage warrior amulet",
+        "e_type": "amulet",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1300,
+        "pic": BASE_IMG_PATH + 'ui/equipment/mage_warrior_amulet.png',
+        "price": 80,
+        "properties": {
+            'defence': 3,
+            'damage': 5,
+            'mana': 5
+        }
+    },
+    "Leviathan's guardian amulet": {
+        "name": "Leviathan's guardian amulet",
+        "e_type": "amulet",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/leviathans_guardian_amulet.png',
+        "price": 110,
+        "properties": {
+            'defence': 5,
+            'health': 10
+        }
+    },
+    "Stone Guardian Amulet": {
+        "name": "Stone Guardian Amulet",
+        "e_type": "amulet",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/stone_guardian_amulet.png',
+        "price": 140,
+        "properties": {
+            'defence': 4,
+            'damage': 5,
+            'health': 5
+        }
+    },
+    "Fire Lord's Amulet": {
+        "name": "Fire Lord's Amulet",
+        "e_type": "amulet",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 1800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/fire_lords_amulet.png',
+        "price": 150,
+        "properties": {
+            'defence': 4,
+            'mana': 5,
+            'health': 5,
+            'stamina': 5,
+        }
+    },
+    "Dragon Guardian Amulet": {
+        "name": "Dragon Guardian Amulet",
+        "e_type": "amulet",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 2800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/dragon_guardian_amulet.png',
+        "price": 200,
+        "properties": {
+            'defence': 5,
+            'distance_damage': 5,
+            'health': 20,
+        }
+    },
+    "Amulet of immortality": {
+        "name": "Amulet of immortality",
+        "e_type": "amulet",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 5500,
+        "pic": BASE_IMG_PATH + 'ui/equipment/amulet_of_immortality.png',
+        "price": 750,
+        "properties": {
+            'defence': 6,
+            'distance_damage': 10,
+            'health': 10,
+            'stamina': 10,
+            'mana': 5,
+            'experience': 2
+        }
+    },
+    # _______________________ melee _________________________
+
+
+    # ____________________ long_rage_weapon _________________
+
+
 }
