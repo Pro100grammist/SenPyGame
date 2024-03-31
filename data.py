@@ -276,33 +276,80 @@ DEFAULT_EQUIPMENT = {
 player_equipments = {
     'Common': [
         "Legionnaire's Helmet", "Warrior's Helmet", "Abandoned Knight's Tophelm", "Hunter's Whispering Hood",
-        "Fallen Legionnaires Armor", "Great Fire Armor", "Invincible Archer's Cape", "Spellcaster's Robe",
-        "Warlord's Bracelets", "Warrior's Gauntlets", "Magical Cuffs",
+        'Fallen Legionnaires Armor', 'Great Fire Armor', "Invincible Archer's Cape", "Spellcaster's Robe",
+        "Warlord's Bracelets", "Warrior's Gauntlets", 'Magical Cuffs',
+        'Hunting Boots', "Forgotten Legionnaire's Boots", 'Boots of the Light Mage',
+        'Armored Scabbard', 'Embroidered Pants', 'Light Archer Leggings',
+        'Light Belt', 'Combat Belt', 'Armored Belt', 'Light Hunting Belt',
+        "Battle Winner's Ring", 'Ring of Strength', 'Ring of Vitality', 'Ring of Agility',
+        "Moon Magician's Amulet", 'Light Warrior Amulet',
+        'Light Katana', 'Short Sword', "Forgotten Hero's Dagger",
+        'Hunting Bow', "Legionnaire's bow", 'Knife of the Ruthless Killer', 'Boomerang'
     ],
+
     'Rare': [
         "Paladin's Helmet", "Blood Warrior's Helmet", "Forgotten King's Mage Helmet", "Archer's Star Crown",
-        "Divine Warrior’s Armor", "Forgotten Legionnaire's Armor", "Stone Guardians Armor", "Witch Lord's Cloak",
+        'Divine Warrior’s Armor', "Forgotten Legionnaire's Armor", 'Stone Guardians Armor', "Witch Lord's Cloak",
         "Leviathan's Defender Gloves", "Invisible Archer's Gloves", "Witch Archer's Gloves",
+        'Leviathan Defender Boots', 'Stone Guardian Boots', 'Invincible Archer Boots',
+        'Leviathan Defender Breeches', 'Fireproof Pants', "Forgotten Legionnaire's Scabbard",
+        'Invincible Warrior Belt', 'Leviathan Defender Belt', "Forgotten Legionnaire's Belt",
+        'Ring of Wisdom', 'Ring of Endurance', "Forgotten Legionnaire's Ring", 'Invincible Warrior Ring',
+        "Amulet Witch's Eye", "Winning archer's amulet",
+        "Assassin's Sting", "Ruthless Warrior's Sword", 'Battle Flamberg', 'Axe of the Victorious',
+        "Forgotten Master's Bow", "Legendary Archer's Bow", 'Sacrificial Knives', "Firefighter's Crossbow"
     ],
+
     'Unique': [
-        "Stone Columns Helmet", "Leviathan King's Helmet", "Moonwatcher's glengarry", "Mighty Magician's Hood",
-        "Holy Knight's Armor", "Shadow Chainmail", "Leviathan Archer's Cape", "Witcher's Cuirass",
-        "Desert Fires Gauntlets", "Moon Archer's Gloves",
+        'Stone Columns Helmet', "Leviathan King's Helmet", "Moonwatcher's glengarry", "Mighty Magician's Hood",
+        "Holy Knight's Armor", 'Shadow Chainmail', "Leviathan Archer's Cape", "Witcher's Cuirass",
+        'Desert Fires Gauntlets', "Moon Archer's Gloves",
+        'Invincible Warrior Boots', 'Boots of the Moon Archer',
+        'Stone Guardian Scabbard', 'Invincible Warrior Pants',
+        'Moon Chest Belt', 'Stone Guardian Belt', "Legendary Archer's Belt",
+        'Ring of Precision', 'Ring of Arcana', 'Leviathan Defender Ring', "Stone Guardian's Ring",
+        'Mage warrior amulet', "Leviathan's guardian amulet",
+        "Leviathan's cutter", "Beastmaster's great hammer", 'Blade of Lightning',
+        "Firebender's Bow", 'Legendary Sniper Crossbow', 'Shadow Masters Shuriken', 'Forged Dragon Crossbow'
     ],
+
     'Epic': [
-        "Dragon Guardian Helmet", "Witches' Mantilla of Anturium", "Archangel's Hope Tiara",
-        "Leviathan Conqueror Chainmail", "Moon Defender's Armor", "Scriptologist's Robe",
-        "Dragon Warrior's Bracelets", "Mystery Archer's Gloves"
+        'Dragon Guardian Helmet', "Witches' Mantilla of Anturium", "Archangel's Hope Tiara",
+        'Leviathan Conqueror Chainmail', "Moon Defender's Armor", "Scriptologist's Robe",
+        "Dragon Warrior's Bracelets", "Mystery Archer's Gloves",
+        "Fire Lord's Magical Boots", 'Moon Magic Boots',
+        "Moon Archer's Kneeguards", 'Dragon Warrior Breeches',
+        "Moon Magician's Belt", "Fire Lord's Belt",
+        'Ring of Power', 'Magic Fire Ring', "Light Defender's Ring",
+        'Stone Guardian Amulet', "Fire Lord's Amulet",
+        'Gladius of the Stone Guardian', 'Legendary Battle Axe', 'Ebonite Rapier',
+        'Crystal Bow', "Dragon's Wrath Bow", 'Wind Lord Shuriken'
     ],
+
     'Legendary': [
         "Supreme Liberator's Helmet", "Mighty Mage's Capyrot",
-        "Dragon Guard Armor", "Magic and Mysticism Robe",
-        "Fire Lord's Gloves"
+        'Dragon Guard Armor', 'Magic and Mysticism Robe',
+        "Fire Lord's Gloves",
+        'Dragon Warrior Boots', 'Arcanical Boots',
+        "Arcanic Witcher's Knee Pads",
+        'Dragon Warrior Belt', "Arcane Wizard's Belt",
+        "Moon Mage's Ring", 'Ring of Immortality', 'Dragon Warrior Ring',
+        'Dragon Guardian Amulet',
+        'Blade of Dragons', 'Arcanic two-handed sword', 'Crystal Sword',
+        'Dragon Slayer', 'Magic Crossbow'
     ],
+
     'Mythical': [
         "Great Fire Conqueror's Helmet",
-        "Armor of the Immortals",
-        "Dragon Mage Lord's Gloves"
+        'Armor of the Immortals',
+        "Dragon Mage Lord's Gloves",
+        "Mythical Wizard's Boots",
+        'Kilt of the Immortals',
+        'Immortality Belt',
+        "Darkness Spellcaster's Ring",
+        'Amulet of immortality',
+        "Titan's Thunderbolt", 'The Soul Ripper',
+        'Wind conqueror', 'Whisper of death'
     ]
 }
 
@@ -1883,10 +1930,477 @@ EQUIPMENT = {
             'experience': 2
         }
     },
-    # _______________________ melee _________________________
 
+    # melee  ------------ 18 items --------------------
+    "Light Katana": {
+        "name": "Light Katana",
+        "e_type": "melee",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 750,
+        "pic": BASE_IMG_PATH + 'ui/equipment/light_katana.png',
+        "price": 35,
+        "properties": {
+            'damage': 3,
+            'stamina': -5,
+        }
+    },
+    "Short Sword": {
+        "name": "Short Sword",
+        "e_type": "melee",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/short_sword.png',
+        "price": 40,
+        "properties": {
+            'damage': 4,
+            'stamina': -10,
+        }
+    },
+    "Forgotten Hero's Dagger": {
+        "name": "Forgotten Hero's Dagger",
+        "e_type": "melee",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 1400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/forgotten_heros_dagger.png',
+        "price": 45,
+        "properties": {
+            'damage': 2,
+        }
+    },
+    "Assassin's Sting": {
+        "name": "Assassin's Sting",
+        "e_type": "melee",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/assassins_sting.png',
+        "price": 80,
+        "properties": {
+            'damage': 5,
+        }
+    },
+    "Ruthless Warrior's Sword": {
+        "name": "Ruthless Warrior's Sword",
+        "e_type": "melee",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 1100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ruthless_warriors_sword.png',
+        "price": 75,
+        "properties": {
+            'damage': 6,
+            'stamina': -5,
+        }
+    },
+    "Battle Flamberg": {
+        "name": "Battle Flamberg",
+        "e_type": "melee",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 2000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/battle_flamberg.png',
+        "price": 100,
+        "properties": {
+            'damage': 6,
+            'stamina': -10,
+        }
+    },
+    "Axe of the Victorious": {
+        "name": "Axe of the Victorious",
+        "e_type": "melee",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 2200,
+        "pic": BASE_IMG_PATH + 'ui/equipment/axe_of_the_victorious.png',
+        "price": 105,
+        "properties": {
+            'damage': 7,
+            'stamina': -15,
+        }
+    },
+    "Leviathan's cutter": {
+        "name": "Leviathan's cutter",
+        "e_type": "melee",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 2300,
+        "pic": BASE_IMG_PATH + 'ui/equipment/leviathans_cutter.png',
+        "price": 180,
+        "properties": {
+            'damage': 8,
+            'stamina': -10,
+        }
+    },
+    "Beastmaster's great hammer": {
+        "name": "Beastmaster's great hammer",
+        "e_type": "melee",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 2400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/beastmasters_great_hammer.png',
+        "price": 185,
+        "properties": {
+            'damage': 9,
+            'stamina': -15,
+        }
+    },
+    "Blade of Lightning": {
+        "name": "Blade of Lightning",
+        "e_type": "melee",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 1500,
+        "pic": BASE_IMG_PATH + 'ui/equipment/blade_of_lightning.png',
+        "price": 190,
+        "properties": {
+            'damage': 7,
+        }
+    },
+    "Gladius of the Stone Guardian": {
+        "name": "Gladius of the Stone Guardian",
+        "e_type": "melee",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2700,
+        "pic": BASE_IMG_PATH + 'ui/equipment/gladius_of_the_stone_guardian.png',
+        "price": 220,
+        "properties": {
+            'damage': 11,
+            'stamina': -5,
+        }
+    },
+    "Legendary Battle Axe": {
+        "name": "Legendary Battle Axe",
+        "e_type": "melee",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2400,
+        "pic": BASE_IMG_PATH + 'ui/equipment/legendary_battle_axe.png',
+        "price": 225,
+        "properties": {
+            'damage': 12,
+            'stamina': -10,
+        }
+    },
+    "Ebonite Rapier": {
+        "name": "Ebonite Rapier",
+        "e_type": "melee",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 2100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/ebonite_rapier.png',
+        "price": 210,
+        "properties": {
+            'damage': 10,
+        }
+    },
+    "Blade of Dragons": {
+        "name": "Blade of Dragons",
+        "e_type": "melee",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 3200,
+        "pic": BASE_IMG_PATH + 'ui/equipment/blade_of_dragons.png',
+        "price": 270,
+        "properties": {
+            'damage': 14,
+            'health': 10
+        }
+    },
+    "Arcanic two-handed sword": {
+        "name": "Arcanic two-handed sword",
+        "e_type": "melee",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 3000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/arcanic_two_handed_sword.png',
+        "price": 260,
+        "properties": {
+            'attack': 13,
+            'mana': 10,
+        }
+    },
+    "Crystal Sword": {
+        "name": "Crystal Sword",
+        "e_type": "melee",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 2800,
+        "pic": BASE_IMG_PATH + 'ui/equipment/crystal_sword.png',
+        "price": 265,
+        "properties": {
+            'attack': 14,
+            'stamina': 15,
+        }
+    },
+    "Titan's Thunderbolt": {
+        "name": "Titan's Thunderbolt",
+        "e_type": "melee",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 6000,
+        "pic": BASE_IMG_PATH + 'ui/equipment/titans_thunderbolt.png',
+        "price": 550,
+        "properties": {
+            'attack': 16,
+            'stamina': 10,
+            'health': 10,
+            'mana': 5,
+            'experience': 2
+        }
+    },
+    "The Soul Ripper": {
+        "name": "The Soul Ripper",
+        "e_type": "melee",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 6500,
+        "pic": BASE_IMG_PATH + 'ui/equipment/soul_ripper.png',
+        "price": 600,
+        "properties": {
+            'attack': 15,
+            'health': 10,
+            'mana': 10,
+            'experience': 2
+        }
+    },
 
-    # ____________________ long_rage_weapon _________________
-
-
+    # long_rage_weapon  ------------ 18 items --------------------
+    "Hunting Bow": {
+        "name": "Hunting Bow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 20,  # shot life
+        "pic": BASE_IMG_PATH + 'ui/equipment/hunting_bow.png',
+        "price": 25,
+        "properties": {
+            'distance_damage': 40,
+        }
+    },
+    "Legionnaire's bow": {
+        "name": "Legionnaire's bow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 30,
+        "pic": BASE_IMG_PATH + 'ui/equipment/legionnaires_bow.png',
+        "price": 30,
+        "properties": {
+            'distance_damage': 35,
+        }
+    },
+    "Knife of the Ruthless Killer": {
+        "name": "Knife of the Ruthless Killer",
+        "e_type": "long_rage_weapon",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 20,
+        "pic": BASE_IMG_PATH + 'ui/equipment/knife_of_the_ruthless_killer.png',
+        "price": 25,
+        "properties": {
+            'distance_damage': 45,
+        }
+    },
+    "Boomerang": {
+        "name": "Boomerang",
+        "e_type": "long_rage_weapon",
+        "rarity": "Common",
+        "e_class": 1,
+        "condition": 15,
+        "pic": BASE_IMG_PATH + 'ui/equipment/chakramborder.png',
+        "price": 35,
+        "properties": {
+            'distance_damage': 55,
+        }
+    },
+    "Forgotten Master's Bow": {
+        "name": "Forgotten Master's Bow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 30,
+        "pic": BASE_IMG_PATH + 'ui/equipment/forgotten_masters_bow.png',
+        "price": 50,
+        "properties": {
+            'distance_damage': 90,
+        }
+    },
+    "Legendary Archer's Bow": {
+        "name": "Legendary Archer's Bow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 35,
+        "pic": BASE_IMG_PATH + 'ui/equipment/legendary_archers_bow.png',
+        "price": 45,
+        "properties": {
+            'distance_damage': 85,
+        }
+    },
+    "Sacrificial Knives": {
+        "name": "Sacrificial Knives",
+        "e_type": "long_rage_weapon",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 300,
+        "pic": BASE_IMG_PATH + 'ui/equipment/sacrificial_knives.png',
+        "price": 40,
+        "properties": {
+            'distance_damage': 75,
+        }
+    },
+    "Firefighter's Crossbow": {
+        "name": "Firefighter's Crossbow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Rare",
+        "e_class": 2,
+        "condition": 30,
+        "pic": BASE_IMG_PATH + 'ui/equipment/firefighters_crossbow.png',
+        "price": 55,
+        "properties": {
+            'distance_damage': 95,
+        }
+    },
+    "Firebender's Bow": {
+        "name": "Firebender's Bow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 40,
+        "pic": BASE_IMG_PATH + 'ui/equipment/firebenders_bow.png',
+        "price": 60,
+        "properties": {
+            'distance_damage': 105,
+        }
+    },
+    "Legendary Sniper Crossbow": {
+        "name": "Legendary Sniper Crossbow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 40,
+        "pic": BASE_IMG_PATH + 'ui/equipment/legendary_sniper_crossbow.png',
+        "price": 65,
+        "properties": {
+            'distance_damage': 110,
+        }
+    },
+    "Shadow Masters Shuriken": {
+        "name": "Shadow Masters Shuriken",
+        "e_type": "long_rage_weapon",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 45,
+        "pic": BASE_IMG_PATH + 'ui/equipment/shadow_masters_shuriken.png',
+        "price": 70,
+        "properties": {
+            'distance_damage': 100,
+        }
+    },
+    "Forged Dragon Crossbow": {
+        "name": "Forged Dragon Crossbow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Unique",
+        "e_class": 3,
+        "condition": 35,
+        "pic": BASE_IMG_PATH + 'ui/equipment/forged_dragon_crossbow.png',
+        "price": 75,
+        "properties": {
+            'distance_damage': 120,
+        }
+    },
+    "Crystal Bow": {
+        "name": "Crystal Bow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 60,
+        "pic": BASE_IMG_PATH + 'ui/equipment/crystal_bow.png',
+        "price": 100,
+        "properties": {
+            'distance_damage': 130,
+        }
+    },
+    "Dragon's Wrath Bow": {
+        "name": "Dragon's Wrath Bow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 50,
+        "pic": BASE_IMG_PATH + 'ui/equipment/dragons_wrath_bow.png',
+        "price": 105,
+        "properties": {
+            'distance_damage': 140,
+        }
+    },
+    "Wind Lord Shuriken": {
+        "name": "Wind Lord Shuriken",
+        "e_type": "long_rage_weapon",
+        "rarity": "Epic",
+        "e_class": 4,
+        "condition": 55,
+        "pic": BASE_IMG_PATH + 'ui/equipment/wind_lord_shuriken.png',
+        "price": 95,
+        "properties": {
+            'distance_damage': 120,
+        }
+    },
+    "Dragon Slayer": {
+        "name": "Dragon Slayer",
+        "e_type": "long_rage_weapon",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 70,
+        "pic": BASE_IMG_PATH + 'ui/equipment/dragon_slayer.png',
+        "price": 150,
+        "properties": {
+            'distance_damage': 150,
+            'health': 15,
+        }
+    },
+    "Magic Crossbow": {
+        "name": "Magic Crossbow",
+        "e_type": "long_rage_weapon",
+        "rarity": "Legendary",
+        "e_class": 5,
+        "condition": 70,
+        "pic": BASE_IMG_PATH + 'ui/equipment/magic_crossbow.png',
+        "price": 170,
+        "properties": {
+            'distance_damage': 140,
+            'mana': 10,
+        }
+    },
+    "Wind conqueror": {
+        "name": "Wind conqueror",
+        "e_type": "long_rage_weapon",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 100,
+        "pic": BASE_IMG_PATH + 'ui/equipment/wind_conqueror.png',
+        "price": 400,
+        "properties": {
+            'distance_damage': 170,
+            'stamina': 20,
+            'experience': 2,
+        }
+    },
+    "Whisper of death": {
+        "name": "Whisper of death",
+        "e_type": "long_rage_weapon",
+        "rarity": "Mythical",
+        "e_class": 6,
+        "condition": 90,
+        "pic": BASE_IMG_PATH + 'ui/equipment/whisper_of_death.png',
+        "price": 500,
+        "properties": {
+            'distance_damage': 200,
+            'health': 20,
+            'experience': 2,
+        }
+    }
 }
