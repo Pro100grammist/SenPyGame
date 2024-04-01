@@ -154,7 +154,7 @@ class UI:
         # stamina
         st_x = 54
         st_y = 24
-        intensity = int(255 * (self.game.player.stamina / self.game.player.max_stamina))
+        intensity = min(int(255 * (self.game.player.stamina / self.game.player.max_stamina)), 255)
         stamina_color = (0, intensity, 0)
         stamina_rect = pygame.Rect(st_x, st_y, self.game.player.stamina * 0.8, 3)
         pygame.draw.rect(self.game.display, stamina_color, stamina_rect)
@@ -855,11 +855,21 @@ class InventoryMenu:
         item = self.grid[self.current_cell[0]][self.current_cell[1]]
         if item:
             if isinstance(item, Equipment):
-                deactivated_equipment = self.game.player.equipment[item.e_type]
-                self.game.player.equipment[item.e_type] = item
-                self.grid[self.current_cell[0]][self.current_cell[1]] = deactivated_equipment
-                replaced_item_index = self.game.player.inventory.index(item)
-                self.game.player.inventory[replaced_item_index] = deactivated_equipment
+                if item.e_type not in self.game.player.equipment:
+                    self.game.player.equipment[item.e_type] = item
+                    self.grid[self.current_cell[0]][self.current_cell[1]] = None
+                    self.game.player.inventory.remove(item)
+
+                else:
+                    deactivated_equipment = self.game.player.equipment[item.e_type]
+                    self.game.player.refreshing_player_status(deactivated_equipment, -1)
+                    self.game.player.equipment[item.e_type] = item
+                    self.grid[self.current_cell[0]][self.current_cell[1]] = deactivated_equipment
+                    replaced_item_index = self.game.player.inventory.index(item)
+                    self.game.player.inventory[replaced_item_index] = deactivated_equipment
+
+                self.game.player.refreshing_player_status(item)
+                self.refresh_inventory()
 
     def refresh_inventory(self):
         """

@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Any
 
 from support import BASE_IMG_PATH
-from data import DEFAULT_EQUIPMENT, EQUIPMENT, player_equipments
+from data import EQUIPMENT, player_equipments
 
 
 class GameLoot:

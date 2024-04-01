@@ -4,7 +4,6 @@ import random
 import pygame
 
 from data import experience_points
-from items import load_default_equipment
 from particle import Particle, Spark, create_particles
 from projectile import (Suriken, AnimatedFireball, SkullSmoke, HollySpell, SpeedSpell,
                         BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
@@ -335,8 +334,7 @@ class Player(PhysicsEntity):
 
         self.inventory = []
 
-        self.equipment = load_default_equipment()
-        self.player_upgrade()
+        self.equipment = {}
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.current_size[0], self.current_size[1])
@@ -358,9 +356,9 @@ class Player(PhysicsEntity):
         self.agile = self.skills["Endurance Mastery"] * self.level
         self.strength = self.skills["Weapon Mastery"] * self.level
         self.wisdom = self.skills["Sorcery Mastery"] * self.level
-        self.max_health = 100 + self.vitality * 2
-        self.max_mana = 100 + self.wisdom * 2
-        self.max_stamina = 100 + self.agile * 2
+        self.max_health += self.vitality * 2
+        self.max_mana += self.wisdom * 2
+        self.max_stamina += self.agile * 2
         self.game.sfx['level_up'].play()
 
     def jump(self):
@@ -531,14 +529,13 @@ class Player(PhysicsEntity):
         else:
             return 0
 
-    def player_upgrade(self):
-        for item in self.equipment.values():
-            self.strength += item.increase_damage
-            self.defence += item.increase_defence
-            self.max_health += item.increase_health
-            self.max_stamina += item.increase_stamina
-            self.max_mana += item.increase_mana
-            self.exp_multiplier += item.increase_experience
+    def refreshing_player_status(self, item, direction=1):
+        self.strength += item.increase_damage * direction
+        self.defence += item.increase_defence * direction
+        self.max_health += item.increase_health * direction
+        self.max_stamina += item.increase_stamina * direction
+        self.max_mana += item.increase_mana * direction
+        self.exp_multiplier += item.increase_experience * direction
 
     def update(self, tilemap, movement=(0, 0)):
         speed = (movement[0] * self.super_speed, movement[1])

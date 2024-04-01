@@ -213,7 +213,7 @@ class Game:
     def handling_player_damage(self):
         voice = str(random.randint(1, 3))
         self.sfx['damaged' + voice].play()
-        self.player.current_health -= 30 - (self.player.skills["Steel Skin"] * 5)
+        self.player.current_health -= 40 - self.player.defence - (self.player.skills["Steel Skin"] * 5)
 
     def run(self):
         """
