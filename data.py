@@ -97,7 +97,9 @@ def load_assets():
         'chest/legendary': Animation(load_images('tiles/chest/legendary'), img_dur=6, loop=False),
         'chest/mythical': Animation(load_images('tiles/chest/mythical'), img_dur=6, loop=False),
         'chest_spawn': load_images('tiles/chest/chest_spawn/'),
-        
+
+        # traders
+        'merchant': Animation(load_images_entities('entities/merchant', scale_factor=0.75), img_dur=8),
 
         # particle
         'particle/particle': Animation(load_images('particles/particle'), img_dur=6, loop=False),
@@ -230,4 +232,4 @@ def load_data(json_file):
     return equipment_data
 
 
-EQUIPMENT = load_data('equipment.json')
+EQUIPMENT = load_data('data/equipment.json')

@@ -529,13 +529,13 @@ class Player(PhysicsEntity):
         else:
             return 0
 
-    def refreshing_player_status(self, item, direction=1):
-        self.strength += item.increase_damage * direction
-        self.defence += item.increase_defence * direction
-        self.max_health += item.increase_health * direction
-        self.max_stamina += item.increase_stamina * direction
-        self.max_mana += item.increase_mana * direction
-        self.exp_multiplier += item.increase_experience * direction
+    def refreshing_player_status(self, item, in_dec=1):
+        self.strength += item.increase_damage * in_dec
+        self.defence += item.increase_defence * in_dec
+        self.max_health += item.increase_health * in_dec
+        self.max_stamina += item.increase_stamina * in_dec
+        self.max_mana += item.increase_mana * in_dec
+        self.exp_multiplier += item.increase_experience * in_dec
 
     def update(self, tilemap, movement=(0, 0)):
         speed = (movement[0] * self.super_speed, movement[1])

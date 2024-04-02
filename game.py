@@ -18,9 +18,11 @@ from settings import *
 
 from projectile import (SkullSmoke, AnimatedFireball, HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         BloodEffect)
-from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison, HollyScroll, SpeedScroll,
-                   BloodlustScroll, InvulnerabilityScroll, CommonChest, RareChest, UniqueChest, EpicChest,
-                   LegendaryChest, MythicalChest, SteelKey, RedKey, BronzeKey, PurpleKey, GoldKey)
+from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
+                   HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
+                   CommonChest, RareChest, UniqueChest, EpicChest, LegendaryChest, MythicalChest,
+                   SteelKey, RedKey, BronzeKey, PurpleKey, GoldKey,
+                   Merchant)
 
 
 pygame.init()
@@ -40,7 +42,7 @@ class Game:
         self.display_2 = pygame.Surface((DISPLAY_WIDTH, DISPLAY_HEIGTH))
         self.clock = pygame.time.Clock()
         self.sfx = load_sfx()
-        self.volume_settings = volume_settings
+        self.volume_settings = VOLUME_SETTINGS
 
         self.assets = load_assets()
         self.clouds = Clouds(self.assets['clouds'])
@@ -68,6 +70,7 @@ class Game:
         self.damage_rates = []
         self.loot = []
         self.chests = []
+        self.merchants = []
         self.enemies = []
 
         self.shaking_screen_effect = 0
@@ -117,13 +120,15 @@ class Game:
             3: lambda pos: BigDaemon(self, pos),
         }
 
-        for spawner in self.map.extract([('spawners', i) for i in range(4)]):
+        for spawner in self.map.extract([('spawners', i) for i in range(5)]):
             variant = spawner['variant']
-            if variant == 0:
+            if variant == 0:  # player
                 self.player.pos = spawner['pos']
                 self.player.air_time = 0
             elif variant in enemy_constructors:
                 self.enemies.append(enemy_constructors[variant](spawner['pos']))
+            elif variant == 4:  # merchant
+                self.merchants.append(Merchant(self, spawner['pos']))
 
         # game loot
         loot_id = {
@@ -293,6 +298,11 @@ class Game:
             for chest in self.chests:
                 chest.update()
                 chest.render(self.display, offset=render_scroll)
+
+            # updating and rendering traders on map
+            for merchant in self.merchants:
+                merchant.update()
+                merchant.render(self.display, offset=render_scroll)
 
             # updating state and rendering enemies
             for enemy in self.enemies.copy():

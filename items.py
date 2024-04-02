@@ -328,8 +328,24 @@ class Merchant:
     Class representing traders and merchants in the game.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, game, pos, size=(32, 32)):
+        self.game = game
+        self.animation = self.game.assets['merchant'].copy()
+        self.pos = list(pos)
+        self.size = size
+        self.flip = False
+        self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
+
+    def update(self):
+        self.animation.update()
+
+        for trader in self.game.merchants.copy():
+            if trader.rect.colliderect(self.game.player.rect()):
+                pass
+
+    def render(self, surf, offset=(0, 0)):
+        surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
+                  (self.pos[0] - offset[0], self.pos[1] + 4 - offset[1]))
 
 
 

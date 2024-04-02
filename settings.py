@@ -3,7 +3,7 @@ SCREEN_HEIGTH = 960
 DISPLAY_WIDTH = 640
 DISPLAY_HEIGTH = 480
 
-volume_settings = {
+VOLUME_SETTINGS = {
     'ambience': 0.3,
     'attack': 0.5,
     'shoot': 0.3,
@@ -21,4 +21,4 @@ volume_settings = {
 }
 
 
-rain_on_levels = [0, 3]
+rain_on_levels = [1, 3]
