@@ -335,6 +335,22 @@ class Merchant:
         self.size = size
         self.flip = False
         self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
+        self.stuff = self.generate_stuff()
+
+    @staticmethod
+    def generate_stuff():
+        stuff = []
+        while len(stuff) < 24:
+            item = create_equipment()
+            if item not in stuff:
+                stuff.append(item)
+        grid = [stuff[i:i + 6] for i in range(0, len(stuff), 6)]
+
+        return grid
+
+    def look_stuff(self):
+        self.game.merchant_window.stuff = self.stuff
+        self.game.player.trading = True
 
     def update(self):
         self.animation.update()
@@ -345,9 +361,4 @@ class Merchant:
 
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
-                  (self.pos[0] - offset[0], self.pos[1] + 4 - offset[1]))
-
-
-
-
-
+                  (self.pos[0] - offset[0], self.pos[1] - offset[1]))

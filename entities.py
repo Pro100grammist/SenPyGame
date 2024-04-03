@@ -301,6 +301,7 @@ class Player(PhysicsEntity):
         self.skills_menu_is_active = False
         self.character_menu_is_active = False
         self.inventory_menu_is_active = False
+        self.trading = False
 
         self.skills = {
             # health and vitality
@@ -520,6 +521,11 @@ class Player(PhysicsEntity):
             if chest.rect.colliderect(self.rect()):
                 if not chest.is_opened:
                     return chest
+
+    def check_merchant_collision(self):
+        for merchant in self.game.merchants:
+            if merchant.rect.colliderect(self.rect()):
+                return merchant
 
     @staticmethod
     def wave_value():

@@ -12,7 +12,7 @@ from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
 from player_controller import PlayerController
-from ui import UI, SkillsTree, CharacterMenu, InventoryMenu
+from ui import UI, SkillsTree, CharacterMenu, InventoryMenu, MerchantWindow
 from support import volume_adjusting
 from settings import *
 
@@ -53,11 +53,13 @@ class Game:
         self.skills_tree = SkillsTree(self)
         self.character_menu = CharacterMenu(self)
         self.inventory_menu = InventoryMenu(self)
+        self.merchant_window = MerchantWindow(self)
 
         self.movement = [False, False]
         self.player = Player(self)
         self.player_controller = PlayerController(
-            self.player, self.sfx, self.movement, self.skills_tree, self.character_menu, self.inventory_menu
+            self.player, self.sfx, self.movement, self.skills_tree, self.character_menu, self.inventory_menu,
+            self.merchant_window,
         )
 
         self.projectiles = []
@@ -485,6 +487,8 @@ class Game:
                 self.character_menu.render()
             elif self.player.inventory_menu_is_active:
                 self.inventory_menu.render()
+            elif self.player.trading:
+                self.merchant_window.render()
 
             #  handling of controller events
             for event in pygame.event.get():

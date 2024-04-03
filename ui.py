@@ -905,3 +905,82 @@ class InventoryMenu:
         frame_pos = {(i, j): (x + 191 + j * 45, y + 62 + i * 43.5) for i in range(5) for j in range(6)}
         current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
         self.game.display.blit(self.frame, current_frame_pos)
+
+
+class MerchantWindow:
+    """
+    The class represents the merchant's trading window
+    """
+
+    def __init__(self, game):
+        """
+
+        :param game:
+        """
+        self.game = game
+        self.goods_stand = pygame.image.load(BASE_IMG_PATH + 'ui/merchant/merchant_window.png')
+        self.frame = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png')
+        self.font = pygame.font.Font('data/fonts/simple.ttf', 16)
+        self.selected_row = 0
+        self.selected_col = 0
+        self.stuff = []
+        self.current_item = [self.selected_row, self.selected_col]
+
+    def move_cursor(self, direction):
+        """
+        Moves the cursor in the specified direction.
+
+        Parameters: direction (str): The direction to move the cursor ('up', 'down', 'left', 'right').
+        """
+        if direction == "up":
+            self.selected_row -= 1
+        elif direction == "down":
+            self.selected_row += 1
+        elif direction == "left":
+            self.selected_col -= 1
+        elif direction == "right":
+            self.selected_col += 1
+
+        self.selected_row %= len(self.stuff)
+        self.selected_col %= len(self.stuff[0])
+
+        # while self.grid[self.selected_row][self.selected_col] is None:
+        #     self.move_cursor(direction)
+
+        self.current_item = [self.selected_row, self.selected_col]
+
+        self.game.sfx['move_cursor'].play()
+
+    def buy(self):
+        """
+        Applies the selected item.
+
+        Current method is responsible for applying (putting on) equipment by moving the selected item
+        on the character
+        """
+        item = self.stuff[self.selected_row][self.selected_col]
+        if item:
+            if isinstance(item, Equipment):
+                self.game.player.inventory.append(item)
+                self.game.inventory_menu.refresh_inventory()
+
+    def render(self):
+        # board
+        x = (self.game.display.get_width() - self.goods_stand.get_width()) // 2
+        y = 2
+        self.game.display.blit(self.goods_stand, (x, y))
+
+        # Displaying items in store cells
+        item_pos = {(i, j): (x + 48 + j * 66, y + 208 + i * 61) for i in range(4) for j in range(6)}
+        for i in range(4):
+            for j in range(6):
+                if i < len(self.stuff) and j < len(self.stuff[i]):
+                    item = self.stuff[i][j]
+                    if item:
+                        item_image = pygame.image.load(item.pic)
+                        item_rect = item_image.get_rect()
+                        item_rect.topleft = item_pos[(i, j)]
+                        if [i, j] == self.current_item:
+                            item_image = pygame.transform.scale(item_image,
+                                                                (int(item_rect.width * 1.2), int(item_rect.height * 1.2)))
+                        self.game.display.blit(item_image, item_rect)

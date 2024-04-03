@@ -4,13 +4,14 @@ from random import randint
 
 
 class PlayerController:
-    def __init__(self, player, sfx, movement, skills_tree, character_menu, inventory):
+    def __init__(self, player, sfx, movement, skills_tree, character_menu, inventory, merchant):
         self.player = player
         self.sfx = sfx
         self.movement = movement
         self.skills_tree = skills_tree
         self.character_menu = character_menu
         self.inventory = inventory
+        self.merchant = merchant
 
     def handle_events(self, event):
         # skills tree
@@ -56,6 +57,21 @@ class PlayerController:
                     self.inventory.apply()
                 elif event.key == pygame.K_i or event.key == pygame.K_ESCAPE:
                     self.player.inventory_menu_is_active = False
+        # merchant window
+        elif self.player.trading:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    self.merchant.move_cursor('up')
+                elif event.key == pygame.K_DOWN:
+                    self.merchant.move_cursor('down')
+                elif event.key == pygame.K_LEFT:
+                    self.merchant.move_cursor('left')
+                elif event.key == pygame.K_RIGHT:
+                    self.merchant.move_cursor('right')
+                if event.key == pygame.K_SPACE:
+                    self.merchant.buy()
+                elif event.key == pygame.K_ESCAPE:
+                    self.player.trading = False
 
         else:
             if event.type == pygame.KEYDOWN and not self.player.death_hit:
@@ -85,8 +101,11 @@ class PlayerController:
                     self.player.use_item()
                 if event.key == pygame.K_x:
                     chest = self.player.check_chest_collision()
+                    merchant = self.player.check_merchant_collision()
                     if chest:
                         chest.open()
+                    elif merchant:
+                        merchant.look_stuff()
                 if event.key == pygame.K_b:
                     if not self.player.skills_menu_is_active:
                         self.player.skills_menu_is_active = True

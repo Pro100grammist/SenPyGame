@@ -99,7 +99,7 @@ def load_assets():
         'chest_spawn': load_images('tiles/chest/chest_spawn/'),
 
         # traders
-        'merchant': Animation(load_images_entities('entities/merchant', scale_factor=0.75), img_dur=8),
+        'merchant': Animation(load_images_entities('entities/merchant', scale_factor=0.80), img_dur=8),
 
         # particle
         'particle/particle': Animation(load_images('particles/particle'), img_dur=6, loop=False),
