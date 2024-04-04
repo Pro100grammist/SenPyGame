@@ -190,7 +190,6 @@ def create_equipment(name=None, rareness=None):
         else:
             equipment_instance = Equipment(**EQUIPMENT[random_item])
             equipment_cache[random_item] = equipment_instance
-            print(equipment_instance.name)
             return equipment_instance
 
 
@@ -334,7 +333,7 @@ class Merchant:
         self.pos = list(pos)
         self.size = size
         self.flip = False
-        self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
+        self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0] + 16, self.size[1] + 16)
         self.stuff = self.generate_stuff()
 
     @staticmethod

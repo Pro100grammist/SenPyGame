@@ -961,8 +961,14 @@ class MerchantWindow:
         item = self.stuff[self.selected_row][self.selected_col]
         if item:
             if isinstance(item, Equipment):
-                self.game.player.inventory.append(item)
-                self.game.inventory_menu.refresh_inventory()
+                if self.game.player.money >= item.price:
+                    self.game.player.inventory.append(item)
+                    self.game.inventory_menu.refresh_inventory()
+                    self.game.player.money -= item.price
+                    self.stuff[self.selected_row][self.selected_col] = None
+                    self.game.sfx['buy_goods'].play()
+                else:
+                    self.game.sfx['not_enough_money'].play()
 
     def render(self):
         # board
@@ -971,7 +977,7 @@ class MerchantWindow:
         self.game.display.blit(self.goods_stand, (x, y))
 
         # Displaying items in store cells
-        item_pos = {(i, j): (x + 48 + j * 66, y + 208 + i * 61) for i in range(4) for j in range(6)}
+        item_pos = {(i, j): (x + 48 + j * 68, y + 208 + i * 61) for i in range(4) for j in range(6)}
         for i in range(4):
             for j in range(6):
                 if i < len(self.stuff) and j < len(self.stuff[i]):

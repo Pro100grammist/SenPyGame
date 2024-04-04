@@ -273,7 +273,7 @@ class Player(PhysicsEntity):
         self.min_stamina = 20
         self.stamina = self.max_stamina
 
-        self.money = 0
+        self.money = 5000
         self.heal_potions = 3
         self.magic_potions = 3
         self.stamina_potions = 3

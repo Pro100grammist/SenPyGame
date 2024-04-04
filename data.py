@@ -122,7 +122,8 @@ def load_sfx():
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
                    'heal', 'healed', 'cough', 'tired', 'revive',
                    'move_cursor', 'open_skill', 'rejected', 'chest_open',
-                   'steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key',]
+                   'steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key',
+                   'not_enough_money', 'buy_goods']
 
     return {name: pygame.mixer.Sound(f'data/sfx/{name}.wav') for name in sound_names}
 
