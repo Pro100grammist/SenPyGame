@@ -13,7 +13,7 @@ class GameLoot:
     """
     The class represents the gaming items like a potions, scrolls, coins, gems.
     """
-    def __init__(self, game, pos, size, i_type):
+    def __init__(self, game, pos, size, i_type, name=None):
         """
         Initializes the GameLoot object.
         :param game: game class instance
@@ -23,11 +23,18 @@ class GameLoot:
         """
         self.game = game
         self.i_type = i_type
-        self.animation = self.game.assets['loot/' + self.i_type].copy()
-        self.pos = list(pos)
+        self.name = name
+        self.animation = self.game.assets['loot/' + self.i_type].copy() if self.game else None
+        self.pos = list(pos) if pos else None
         self.size = size
         self.flip = False
-        self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
+        self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]) if self.pos else None
+
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def __hash__(self):
+        return hash(self.name)
 
     def update(self):
         self.animation.update()
@@ -78,53 +85,99 @@ class GameLoot:
 class Gem(GameLoot):
     def __init__(self, game, pos, size):
         super().__init__(game, pos, size, 'gem')
+        self.name = 'Gem'
 
 
 class Coin(GameLoot):
     def __init__(self, game, pos, size):
         super().__init__(game, pos, size, 'coin')
+        self.name = 'Coin'
 
 
 # Potions
 class HealthPoison(GameLoot):
-    def __init__(self, game, pos, size):
+    def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'glass_red')
+        self.name = 'Health Potion'
+        self.price = 3
+        self.pic = BASE_IMG_PATH + 'ui/merchant/health_potion.png'
 
 
 class MagicPoison(GameLoot):
-    def __init__(self, game, pos, size):
+    def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'glass_blue')
+        self.name = 'Magic Potion'
+        self.price = 3
+        self.pic = BASE_IMG_PATH + 'ui/merchant/mana_potion.png'
 
 
 class StaminaPoison(GameLoot):
-    def __init__(self, game, pos, size):
+    def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'glass_green')
+        self.name = 'Stamina Poison'
+        self.price = 2
+        self.pic = BASE_IMG_PATH + 'ui/merchant/stamina_potion.png'
 
 
 class PowerPoison(GameLoot):
-    def __init__(self, game, pos, size):
+    def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'glass_yellow')
+        self.name = 'PowerPoison'
+        self.price = 6
+        self.pic = BASE_IMG_PATH + 'ui/merchant/power_potion.png'
 
 
 # scrolls
 class HollyScroll(GameLoot):
-    def __init__(self, game, pos, size):
+    def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'holly_scroll')
+        self.name = 'Holly Scroll'
+        self.price = 10
+        self.pic = BASE_IMG_PATH + 'ui/scrolls/holly_scroll.png'
 
 
 class BloodlustScroll(GameLoot):
-    def __init__(self, game, pos, size):
+    def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'bloodlust_scroll')
+        self.name = 'Bloodlust Scroll'
+        self.price = 5
+        self.pic = BASE_IMG_PATH + 'ui/scrolls/bloodlust_scroll.png'
 
 
 class SpeedScroll(GameLoot):
-    def __init__(self, game, pos, size):
+    def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'speed_scroll')
+        self.name = 'Speed Scroll'
+        self.price = 5
+        self.pic = BASE_IMG_PATH + 'ui/scrolls/speed_scroll.png'
 
 
 class InvulnerabilityScroll(GameLoot):
-    def __init__(self, game, pos, size):
+    def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'invulnerability_scroll')
+        self.name = 'Invulnerability Scroll'
+        self.price = 10
+        self.pic = BASE_IMG_PATH + 'ui/scrolls/invulnerability_scroll.png'
+
+
+def create_scroll():
+    available_scrolls = [BloodlustScroll, SpeedScroll, InvulnerabilityScroll, HollyScroll, SpeedScroll, HollyScroll]
+    random.shuffle(available_scrolls)
+    scrolls = []
+    for scroll in available_scrolls[:6]:
+        scrolls.append(scroll())
+
+    return scrolls
+
+
+def create_poison():
+    available_poisons = [HealthPoison, MagicPoison, StaminaPoison, PowerPoison, HealthPoison, StaminaPoison]
+    random.shuffle(available_poisons)
+    poisons = []
+    for poison in available_poisons[:6]:
+        poisons.append(poison())
+
+    return poisons
 
 
 class Equipment:
@@ -151,10 +204,10 @@ class Equipment:
         self.distance_damage = self.properties.get('distance_damage', 0)
 
     def __eq__(self, other):
-        return self.name == other.name and self.e_type == other.e_type
+        return self.name == other.name
 
     def __hash__(self):
-        return hash((self.name, self.type))
+        return hash(self.name)
 
 
 def load_default_equipment():
@@ -338,14 +391,14 @@ class Merchant:
 
     @staticmethod
     def generate_stuff():
-        stuff = []
-        while len(stuff) < 24:
+        stuff = create_scroll() + create_poison()
+
+        while len(stuff) < 36:
             item = create_equipment()
             if item not in stuff:
                 stuff.append(item)
-        grid = [stuff[i:i + 6] for i in range(0, len(stuff), 6)]
 
-        return grid
+        return [stuff[i:i + 6] for i in range(0, len(stuff), 6)]
 
     def look_stuff(self):
         self.game.merchant_window.stuff = self.stuff

@@ -4,6 +4,7 @@ import pygame
 
 from support import BASE_IMG_PATH
 from items import Equipment
+from data import POTIONS, SCROLLS
 
 
 class UI:
@@ -925,6 +926,14 @@ class MerchantWindow:
         self.selected_col = 0
         self.stuff = []
         self.current_item = [self.selected_row, self.selected_col]
+        self.item_positions = {
+            (0, 0): (116, 52), (0, 1): (184, 52), (0, 2): (252, 52), (0, 3): (320, 52), (0, 4): (388, 52), (0, 5): (450, 52),
+            (1, 0): (138, 140), (1, 1): (202, 140), (1, 2): (269, 140), (1, 3): (336, 140), (1, 4): (406, 140), (1, 5): (473, 140),
+            (2, 0): (138, 208), (2, 1): (200, 208), (2, 2): (269, 208), (2, 3): (336, 208), (2, 4): (406, 208), (2, 5): (473, 208),
+            (3, 0): (138, 268), (3, 1): (200, 268), (3, 2): (269, 268), (3, 3): (336, 268), (3, 4): (406, 268), (3, 5): (473, 268),
+            (4, 0): (138, 328), (4, 1): (200, 328), (4, 2): (269, 328), (4, 3): (336, 328), (4, 4): (406, 328), (4, 5): (473, 328),
+            (5, 0): (138, 388), (5, 1): (200, 388), (5, 2): (269, 388), (5, 3): (336, 388), (5, 4): (406, 388), (5, 5): (473, 388)
+        }
 
     def move_cursor(self, direction):
         """
@@ -960,15 +969,32 @@ class MerchantWindow:
         """
         item = self.stuff[self.selected_row][self.selected_col]
         if item:
-            if isinstance(item, Equipment):
-                if self.game.player.money >= item.price:
-                    self.game.player.inventory.append(item)
-                    self.game.inventory_menu.refresh_inventory()
-                    self.game.player.money -= item.price
-                    self.stuff[self.selected_row][self.selected_col] = None
-                    self.game.sfx['buy_goods'].play()
-                else:
-                    self.game.sfx['not_enough_money'].play()
+            if self.game.player.money >= item.price:
+                self.game.player.money -= item.price
+                if isinstance(item, Equipment):
+                    self.buy_equipment(item)
+                elif "Scroll" in item.i_type:
+                    self.buy_scroll(item)
+                elif "Poison" in item.i_type:
+                    self.buy_poison(item)
+                self.stuff[self.selected_row][self.selected_col] = None
+                self.game.sfx['buy_goods'].play()
+            else:
+                self.game.sfx['not_enough_money'].play()
+
+    def buy_equipment(self, item):
+        self.game.player.inventory.append(item)
+        self.game.inventory_menu.refresh_inventory()
+
+    def buy_scroll(self, item):
+        scroll_name = SCROLLS.get(item.name)
+        if scroll_name:
+            self.game.player.scrolls[scroll_name] += 1
+
+    def buy_poison(self, item):
+        potion_type = POTIONS.get(item.i_type)
+        if potion_type:
+            setattr(self.game.player, potion_type, getattr(self.game.player, potion_type) + 1)
 
     def render(self):
         # board
@@ -977,15 +1003,15 @@ class MerchantWindow:
         self.game.display.blit(self.goods_stand, (x, y))
 
         # Displaying items in store cells
-        item_pos = {(i, j): (x + 48 + j * 68, y + 208 + i * 61) for i in range(4) for j in range(6)}
-        for i in range(4):
+        # item_pos = {(i, j): (x + 48 + j * 68, y + 208 + i * 61) for i in range(4) for j in range(6)}
+        for i in range(6):
             for j in range(6):
                 if i < len(self.stuff) and j < len(self.stuff[i]):
                     item = self.stuff[i][j]
                     if item:
                         item_image = pygame.image.load(item.pic)
                         item_rect = item_image.get_rect()
-                        item_rect.topleft = item_pos[(i, j)]
+                        item_rect.topleft = self.item_positions[(i, j)]
                         if [i, j] == self.current_item:
                             item_image = pygame.transform.scale(item_image,
                                                                 (int(item_rect.width * 1.2), int(item_rect.height * 1.2)))

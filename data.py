@@ -128,6 +128,20 @@ def load_sfx():
     return {name: pygame.mixer.Sound(f'data/sfx/{name}.wav') for name in sound_names}
 
 
+POTIONS = {
+    'glass_red': 'heal_potions',
+    'glass_green': 'stamina_potions',
+    'glass_blue': 'magic_potions',
+    'glass_yellow': 'power_potions'
+}
+
+SCROLLS = {
+    'Holly Scroll': 'holly_spell',
+    'Speed Scroll': 'speed_spell',
+    'Bloodlust Scroll': 'bloodlust_spell',
+    'Invulnerability Scroll': 'invulnerability_spell'
+}
+
 color_schema = {
     'white': (255, 255, 255),
     'black': (0, 0, 0),
