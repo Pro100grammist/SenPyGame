@@ -973,9 +973,9 @@ class MerchantWindow:
                 self.game.player.money -= item.price
                 if isinstance(item, Equipment):
                     self.buy_equipment(item)
-                elif "Scroll" in item.i_type:
+                elif "Scroll" in type(item).__name__:
                     self.buy_scroll(item)
-                elif "Poison" in item.i_type:
+                elif "Poison" in type(item).__name__:
                     self.buy_poison(item)
                 self.stuff[self.selected_row][self.selected_col] = None
                 self.game.sfx['buy_goods'].play()
@@ -988,13 +988,11 @@ class MerchantWindow:
 
     def buy_scroll(self, item):
         scroll_name = SCROLLS.get(item.name)
-        if scroll_name:
-            self.game.player.scrolls[scroll_name] += 1
+        self.game.player.scrolls[scroll_name] += 1
 
     def buy_poison(self, item):
         potion_type = POTIONS.get(item.i_type)
-        if potion_type:
-            setattr(self.game.player, potion_type, getattr(self.game.player, potion_type) + 1)
+        setattr(self.game.player, potion_type, getattr(self.game.player, potion_type) + 1)
 
     def render(self):
         # board
