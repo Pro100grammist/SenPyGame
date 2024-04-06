@@ -1012,5 +1012,18 @@ class MerchantWindow:
                         item_rect.topleft = self.item_positions[(i, j)]
                         if [i, j] == self.current_item:
                             item_image = pygame.transform.scale(item_image,
-                                                                (int(item_rect.width * 1.2), int(item_rect.height * 1.2)))
+                                                                (int(item_rect.width * 1.2),
+                                                                 int(item_rect.height * 1.2)))
+                            name_text = self.font.render(f"{item.name}", True, (255, 255, 255))
+                            self.game.display.blit(name_text, (x + 34, y + 14))
+
+                            price_text = self.font.render(f"Price: {item.price}", True, (255, 255, 255))
+                            self.game.display.blit(price_text, (x + 370, y + 14))
+
+                            details_text = self.font.render('Press "E" to view details', True, (255, 255, 255))
+                            self.game.display.blit(details_text, (x + 32, y + 440))
+
+                            founds_text = self.font.render(f"Money balance: {self.game.player.money}", True, (255, 255, 255))
+                            self.game.display.blit(founds_text, (x + 300, y + 440))
+
                         self.game.display.blit(item_image, item_rect)

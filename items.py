@@ -101,6 +101,7 @@ class HealthPoison(GameLoot):
         self.name = 'Health Potion'
         self.price = 3
         self.pic = BASE_IMG_PATH + 'ui/merchant/health_potion.png'
+        self.description = ''
 
 
 class MagicPoison(GameLoot):
@@ -109,6 +110,7 @@ class MagicPoison(GameLoot):
         self.name = 'Magic Potion'
         self.price = 3
         self.pic = BASE_IMG_PATH + 'ui/merchant/mana_potion.png'
+        self.description = ''
 
 
 class StaminaPoison(GameLoot):
@@ -117,6 +119,7 @@ class StaminaPoison(GameLoot):
         self.name = 'Stamina Poison'
         self.price = 2
         self.pic = BASE_IMG_PATH + 'ui/merchant/stamina_potion.png'
+        self.description = ''
 
 
 class PowerPoison(GameLoot):
@@ -125,6 +128,7 @@ class PowerPoison(GameLoot):
         self.name = 'PowerPoison'
         self.price = 6
         self.pic = BASE_IMG_PATH + 'ui/merchant/power_potion.png'
+        self.description = ''
 
 
 # scrolls
@@ -134,6 +138,7 @@ class HollyScroll(GameLoot):
         self.name = 'Holly Scroll'
         self.price = 10
         self.pic = BASE_IMG_PATH + 'ui/scrolls/holly_scroll.png'
+        self.description = ''
 
 
 class BloodlustScroll(GameLoot):
@@ -142,6 +147,7 @@ class BloodlustScroll(GameLoot):
         self.name = 'Bloodlust Scroll'
         self.price = 5
         self.pic = BASE_IMG_PATH + 'ui/scrolls/bloodlust_scroll.png'
+        self.description = ''
 
 
 class SpeedScroll(GameLoot):
@@ -150,6 +156,7 @@ class SpeedScroll(GameLoot):
         self.name = 'Speed Scroll'
         self.price = 5
         self.pic = BASE_IMG_PATH + 'ui/scrolls/speed_scroll.png'
+        self.description = ''
 
 
 class InvulnerabilityScroll(GameLoot):
@@ -158,6 +165,7 @@ class InvulnerabilityScroll(GameLoot):
         self.name = 'Invulnerability Scroll'
         self.price = 10
         self.pic = BASE_IMG_PATH + 'ui/scrolls/invulnerability_scroll.png'
+        self.description = ''
 
 
 def create_scroll():
