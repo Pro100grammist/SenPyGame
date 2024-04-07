@@ -72,6 +72,11 @@ class PlayerController:
                     self.merchant.buy()
                 elif event.key == pygame.K_ESCAPE:
                     self.player.trading = False
+                if event.key == pygame.K_e:
+                    if not self.merchant.view_details:
+                        self.merchant.view_details = True
+                    else:
+                        self.merchant.view_details = False
 
         else:
             if event.type == pygame.KEYDOWN and not self.player.death_hit:

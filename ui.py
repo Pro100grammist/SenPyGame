@@ -920,11 +920,13 @@ class MerchantWindow:
         """
         self.game = game
         self.goods_stand = pygame.image.load(BASE_IMG_PATH + 'ui/merchant/merchant_window.png')
+        self.details_desk = pygame.image.load(BASE_IMG_PATH + 'ui/merchant/details_board.png')
         self.frame = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png')
         self.font = pygame.font.Font('data/fonts/simple.ttf', 16)
         self.selected_row = 0
         self.selected_col = 0
         self.stuff = []
+        self.view_details = False
         self.current_item = [self.selected_row, self.selected_col]
         self.item_positions = {
             (0, 0): (116, 52), (0, 1): (184, 52), (0, 2): (252, 52), (0, 3): (320, 52), (0, 4): (388, 52), (0, 5): (450, 52),
@@ -1027,3 +1029,6 @@ class MerchantWindow:
                             self.game.display.blit(founds_text, (x + 300, y + 440))
 
                         self.game.display.blit(item_image, item_rect)
+
+        if self.view_details:
+            self.game.display.blit(self.details_desk, (x + 28, y + 28))
