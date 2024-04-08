@@ -4,7 +4,7 @@ import pygame
 
 from support import BASE_IMG_PATH
 from items import Equipment
-from data import POTIONS, SCROLLS
+from data import POTIONS, SCROLLS, MERCHANT_ITEM_POS, UI_PATH
 
 
 class UI:
@@ -919,23 +919,17 @@ class MerchantWindow:
         :param game:
         """
         self.game = game
-        self.goods_stand = pygame.image.load(BASE_IMG_PATH + 'ui/merchant/merchant_window.png')
-        self.details_desk = pygame.image.load(BASE_IMG_PATH + 'ui/merchant/details_board.png')
-        self.frame = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png')
-        self.font = pygame.font.Font('data/fonts/simple.ttf', 16)
+        self.goods_stand = UI_PATH.get('goods_stand')
+        self.details_desk = UI_PATH.get('details_desk')
+        self.frame = UI_PATH.get('frame')
+        self.font = pygame.font.Font('data/fonts/MainFont.ttf', 16)
+        self.font_title = pygame.font.Font('data/fonts/MainFont.ttf', 20)
         self.selected_row = 0
         self.selected_col = 0
         self.stuff = []
         self.view_details = False
-        self.current_item = [self.selected_row, self.selected_col]
-        self.item_positions = {
-            (0, 0): (116, 52), (0, 1): (184, 52), (0, 2): (252, 52), (0, 3): (320, 52), (0, 4): (388, 52), (0, 5): (450, 52),
-            (1, 0): (138, 140), (1, 1): (202, 140), (1, 2): (269, 140), (1, 3): (336, 140), (1, 4): (406, 140), (1, 5): (473, 140),
-            (2, 0): (138, 208), (2, 1): (200, 208), (2, 2): (269, 208), (2, 3): (336, 208), (2, 4): (406, 208), (2, 5): (473, 208),
-            (3, 0): (138, 268), (3, 1): (200, 268), (3, 2): (269, 268), (3, 3): (336, 268), (3, 4): (406, 268), (3, 5): (473, 268),
-            (4, 0): (138, 328), (4, 1): (200, 328), (4, 2): (269, 328), (4, 3): (336, 328), (4, 4): (406, 328), (4, 5): (473, 328),
-            (5, 0): (138, 388), (5, 1): (200, 388), (5, 2): (269, 388), (5, 3): (336, 388), (5, 4): (406, 388), (5, 5): (473, 388)
-        }
+        self.current_item = None
+        self.item_positions = MERCHANT_ITEM_POS
 
     def move_cursor(self, direction):
         """
@@ -943,22 +937,32 @@ class MerchantWindow:
 
         Parameters: direction (str): The direction to move the cursor ('up', 'down', 'left', 'right').
         """
-        if direction == "up":
-            self.selected_row -= 1
-        elif direction == "down":
-            self.selected_row += 1
-        elif direction == "left":
-            self.selected_col -= 1
-        elif direction == "right":
-            self.selected_col += 1
 
-        self.selected_row %= len(self.stuff)
-        self.selected_col %= len(self.stuff[0])
+        max_attempts = 5
+        attempts = 0
 
-        # while self.grid[self.selected_row][self.selected_col] is None:
-        #     self.move_cursor(direction)
+        while attempts < max_attempts:
+            if direction == "up":
+                self.selected_row -= 1
+            elif direction == "down":
+                self.selected_row += 1
+            elif direction == "left":
+                self.selected_col -= 1
+            elif direction == "right":
+                self.selected_col += 1
 
-        self.current_item = [self.selected_row, self.selected_col]
+            self.selected_row %= len(self.stuff)
+            self.selected_col %= len(self.stuff[0])
+
+            if self.stuff[self.selected_row][self.selected_col] is not None:
+                break
+
+            attempts += 1
+
+        if attempts == max_attempts:
+            pass
+
+        self.current_item = self.stuff[self.selected_row][self.selected_col]
 
         self.game.sfx['move_cursor'].play()
 
@@ -1012,23 +1016,75 @@ class MerchantWindow:
                         item_image = pygame.image.load(item.pic)
                         item_rect = item_image.get_rect()
                         item_rect.topleft = self.item_positions[(i, j)]
-                        if [i, j] == self.current_item:
+                        if [i, j] == [self.selected_row, self.selected_col]:
                             item_image = pygame.transform.scale(item_image,
                                                                 (int(item_rect.width * 1.2),
                                                                  int(item_rect.height * 1.2)))
-                            name_text = self.font.render(f"{item.name}", True, (255, 255, 255))
-                            self.game.display.blit(name_text, (x + 34, y + 14))
 
-                            price_text = self.font.render(f"Price: {item.price}", True, (255, 255, 255))
-                            self.game.display.blit(price_text, (x + 370, y + 14))
-
-                            details_text = self.font.render('Press "E" to view details', True, (255, 255, 255))
+                            details_text = self.font.render('Press "E" to view details', True, 'white')
                             self.game.display.blit(details_text, (x + 32, y + 440))
-
-                            founds_text = self.font.render(f"Money balance: {self.game.player.money}", True, (255, 255, 255))
-                            self.game.display.blit(founds_text, (x + 300, y + 440))
 
                         self.game.display.blit(item_image, item_rect)
 
         if self.view_details:
-            self.game.display.blit(self.details_desk, (x + 28, y + 28))
+            self.game.display.blit(self.details_desk, (x + 4, y + 50))
+            item = self.stuff[self.selected_row][self.selected_col]
+            name_render = self.font_title.render(item.name, True, (255, 255, 255))
+
+            render_list = []
+
+            if item.price > 0:
+                price = f"Price        {item.price} Gold"
+                price_render = self.font.render(price, True, (255, 255, 255))
+                render_list.append(price_render)
+            if hasattr(item, 'rarity'):
+                eq_class = f"Class         {item.rarity}"
+                rarity_render = self.font.render(eq_class, True, (255, 255, 255))
+                render_list.append(rarity_render)
+            if hasattr(item, 'increase_defence') and item.increase_defence:
+                defence = f"Defence         + {item.increase_defence}"
+                defence_render = self.font.render(defence, True, (255, 255, 255))
+                render_list.append(defence_render)
+            if hasattr(item, 'increase_damage') and item.increase_damage > 0:
+                damage = f"Damage         + {item.increase_damage}"
+                damage_render = self.font.render(damage, True, (255, 255, 255))
+                render_list.append(damage_render)
+            if hasattr(item, 'distance_damage') and item.distance_damage:
+                d_damage = f"Damage         + {item.distance_damage}"
+                d_damage_render = self.font.render(d_damage, True, (255, 255, 255))
+                render_list.append(d_damage_render)
+            if hasattr(item, 'increase_health') and item.increase_health:
+                health = f"Health          + {item.increase_health}"
+                health_render = self.font.render(health, True, (255, 255, 255))
+                render_list.append(health_render)
+            if hasattr(item, 'increase_stamina') and item.increase_stamina:
+                stamina = f"Stamina         + {item.increase_stamina}"
+                stamina_render = self.font.render(stamina, True, (255, 255, 255))
+                render_list.append(stamina_render)
+            if hasattr(item, 'increase_mana') and item.increase_mana:
+                mana = f"Mana           + {item.increase_mana}"
+                mana_render = self.font.render(mana, True, (255, 255, 255))
+                render_list.append(mana_render)
+            if hasattr(item, 'increase_experience') and item.increase_experience:
+                experience = f"Experience     + {item.increase_experience} %"
+                experience_render = self.font.render(experience, True, (255, 255, 255))
+                render_list.append(experience_render)
+
+            self.game.display.blit(name_render, (x + 50, y + 100))
+
+            y_offset = 2
+            for i in render_list:
+                self.game.display.blit(i, (x + 50, y + 140 + y_offset))
+                y_offset += 20
+
+            image = pygame.image.load(self.current_item.pic)
+            self.game.display.blit(image, (x + 340, y + 160))
+
+            founds_text = self.font.render(f"Money balance: {self.game.player.money}", True, 'white')
+            self.game.display.blit(founds_text, (x + 154, y + 66))
+
+            confirm_text = self.font.render(f"YES/y", True, 'white')
+            self.game.display.blit(confirm_text, (x + 72, y + 300))
+
+            cancel_text = self.font.render(f"NO/n", True, 'white')
+            self.game.display.blit(cancel_text, (x + 360, y + 300))

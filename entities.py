@@ -3,7 +3,7 @@ import random
 
 import pygame
 
-from data import experience_points
+from data import EXP_POINTS
 from particle import Particle, Spark, create_particles
 from projectile import (Suriken, AnimatedFireball, SkullSmoke, HollySpell, SpeedSpell,
                         BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
@@ -149,7 +149,7 @@ class Enemy(PhysicsEntity):
 
                 if self.health <= 0:
                     self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
-                    self.game.player.increase_experience(experience_points[self.e_type])
+                    self.game.player.increase_experience(EXP_POINTS[self.e_type])
                     return True
                 else:
                     return False
@@ -452,7 +452,7 @@ class Player(PhysicsEntity):
                         self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
 
                         if enemy.health <= 0:
-                            self.increase_experience(experience_points[enemy.e_type])
+                            self.increase_experience(EXP_POINTS[enemy.e_type])
                             self.game.enemies.remove(enemy)
 
     def ranged_attack(self):

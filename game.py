@@ -6,7 +6,7 @@ import random
 
 import pygame
 
-from data import load_assets, load_sfx, color_schema
+from data import load_assets, load_sfx, COLOR_SCHEMA
 from entities import Player, OrcArcher, BigZombie, BigDaemon
 from map import Map
 from weather import Clouds, Raindrop
@@ -498,7 +498,7 @@ class Game:
                 self.player_controller.handle_events(event)
 
             if self.transition:
-                color = color_schema['white']
+                color = COLOR_SCHEMA['white']
                 trans_mapping = pygame.Surface(self.display.get_size())
                 pygame.draw.circle(trans_mapping, color, (DISPLAY_WIDTH // 2, DISPLAY_HEIGTH // 2),
                                    (30 - abs(self.transition)) * 8)

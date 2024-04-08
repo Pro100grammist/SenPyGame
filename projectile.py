@@ -4,7 +4,7 @@ import pygame
 
 from particle import Particle, Spark, create_particles
 from support import Animation
-from data import experience_points
+from data import EXP_POINTS
 
 
 class Projectile:
@@ -149,7 +149,7 @@ class Suriken(Projectile):
                 enemy.health -= 100
 
                 if enemy.health <= 0:
-                    self.game.player.increase_experience(experience_points[enemy.e_type])
+                    self.game.player.increase_experience(EXP_POINTS[enemy.e_type])
                     self.game.enemies.remove(enemy)
 
                 self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)

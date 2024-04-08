@@ -142,7 +142,23 @@ SCROLLS = {
     'Invulnerability Scroll': 'invulnerability_spell'
 }
 
-color_schema = {
+UI_PATH = {
+    'goods_stand': pygame.image.load(BASE_IMG_PATH + 'ui/merchant/merchant_window.png'),
+    'details_desk': pygame.image.load(BASE_IMG_PATH + 'ui/merchant/details_board.png'),
+    'frame': pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png')
+}
+
+
+MERCHANT_ITEM_POS = {
+    (0, 0): (116, 52), (0, 1): (184, 52), (0, 2): (252, 52), (0, 3): (320, 52), (0, 4): (388, 52), (0, 5): (450, 52),
+    (1, 0): (138, 140), (1, 1): (202, 140), (1, 2): (269, 140), (1, 3): (336, 140), (1, 4): (406, 140), (1, 5): (473, 140),
+    (2, 0): (138, 208), (2, 1): (200, 208), (2, 2): (269, 208), (2, 3): (336, 208), (2, 4): (406, 208), (2, 5): (473, 208),
+    (3, 0): (138, 268), (3, 1): (200, 268), (3, 2): (269, 268), (3, 3): (336, 268), (3, 4): (406, 268), (3, 5): (473, 268),
+    (4, 0): (138, 328), (4, 1): (200, 328), (4, 2): (269, 328), (4, 3): (336, 328), (4, 4): (406, 328), (4, 5): (473, 328),
+    (5, 0): (138, 388), (5, 1): (200, 388), (5, 2): (269, 388), (5, 3): (336, 388), (5, 4): (406, 388), (5, 5): (473, 388)
+}
+
+COLOR_SCHEMA = {
     'white': (255, 255, 255),
     'black': (0, 0, 0),
     'red': (255, 0, 0),
@@ -154,13 +170,13 @@ color_schema = {
 }
 
 
-experience_points = {
+EXP_POINTS = {
     'big_daemon': 50,
     'big_zombie': 30,
     'orc_archer': 10,
 }
 
-player_equipments = {
+EQUIPMENTS_CATEGORIES = {
     'Common': [
         "Legionnaire's Helmet", "Warrior's Helmet", "Abandoned Knight's Tophelm", "Hunter's Whispering Hood",
         'Fallen Legionnaires Armor', 'Great Fire Armor', "Invincible Archer's Cape", "Spellcaster's Robe",

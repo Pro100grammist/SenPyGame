@@ -3,7 +3,7 @@ import math
 import pygame
 
 from support import Animation
-from data import experience_points, color_schema
+from data import EXP_POINTS, COLOR_SCHEMA
 
 
 class Particle:
@@ -56,7 +56,7 @@ class Spark:
             (self.pos[0] + math.cos(self.angle - math.pi * 0.5) * self.speed * 0.5 - offset[0], self.pos[1] + math.sin(self.angle - math.pi * 0.5) * self.speed * 0.5 - offset[1]),
         ]
 
-        spark_color = color_schema.get(self.shade, (255, 255, 255))
+        spark_color = COLOR_SCHEMA.get(self.shade, (255, 255, 255))
 
         pygame.draw.polygon(surf, spark_color, render_points)
 

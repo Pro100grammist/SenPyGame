@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Any
 
 from support import BASE_IMG_PATH
-from data import EQUIPMENT, player_equipments
+from data import EQUIPMENT, EQUIPMENTS_CATEGORIES
 
 
 class GameLoot:
@@ -245,7 +245,7 @@ def create_equipment(name=None, rareness=None):
             raise ValueError("An object of the Equipment class with this name does not exist.")
     else:
         rarity = rareness if rareness else random.choices(['Common', 'Rare', 'Unique', 'Epic', 'Legendary', 'Mythical'], weights=[80, 12, 5, 2, 0.9, 0.1], k=1)[0]
-        random_item = random.choice(player_equipments[rarity])
+        random_item = random.choice(EQUIPMENTS_CATEGORIES[rarity])
         if random_item in equipment_cache:
             return equipment_cache[random_item]
         else:
