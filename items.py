@@ -281,8 +281,7 @@ class Chest:
                     self.game.player.keys[self.lock] -= 1
                 self.get_item()
             else:
-                pass
-                # self.game.sfx['closed_lock'].play()
+                self.game.sfx['lock_closed'].play()
 
     def get_item(self):
         # Generate and add equipment to player's inventory
@@ -292,6 +291,7 @@ class Chest:
             equipment = create_equipment()  # Create random equipment
         self.game.player.inventory.append(equipment)
         self.game.inventory_menu.refresh_inventory()
+        self.game.sfx['get_item'].play()
 
     def update(self):
         if self.is_opened and not self.animation.done:

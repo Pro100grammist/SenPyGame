@@ -77,6 +77,12 @@ class PlayerController:
                         self.merchant.view_details = True
                     else:
                         self.merchant.view_details = False
+                if event.key == pygame.K_y:
+                    if self.merchant.view_details:
+                        self.merchant.buy()
+                        self.merchant.move_cursor('right')
+                if event.key == pygame.K_n:
+                    self.merchant.view_details = False
 
         else:
             if event.type == pygame.KEYDOWN and not self.player.death_hit:

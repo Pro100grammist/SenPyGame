@@ -819,7 +819,7 @@ class InventoryMenu:
         self.game = game
         self.inventory_menu = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window.png')
         self.frame = pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png')
-        self.font = pygame.font.Font('data/fonts/simple.ttf', 16)
+        self.font = pygame.font.Font('data/fonts/MainFont.ttf', 12)
         self.selected_row = 0
         self.selected_col = 0
         self.grid = [[None] * 6 for _ in range(5)]
@@ -871,6 +871,7 @@ class InventoryMenu:
 
                 self.game.player.refreshing_player_status(item)
                 self.refresh_inventory()
+                self.game.sfx['item_equip'].play()
 
     def refresh_inventory(self):
         """
@@ -906,6 +907,67 @@ class InventoryMenu:
         frame_pos = {(i, j): (x + 191 + j * 45, y + 62 + i * 43.5) for i in range(5) for j in range(6)}
         current_frame_pos = frame_pos[(self.selected_row, self.selected_col)]
         self.game.display.blit(self.frame, current_frame_pos)
+
+        # Current equipment rendering
+        current_equipment = self.grid[self.selected_row][self.selected_col]
+        if current_equipment:
+            name_render = self.font.render(current_equipment.name, True, (255, 255, 255))
+            eq_class = f"Class         {current_equipment.rarity}"
+            rarity_render = self.font.render(eq_class, True, (255, 255, 255))
+
+            render_list = [name_render, rarity_render]
+
+            if current_equipment.increase_defence > 0:
+                defence = f"Defence         + {current_equipment.increase_defence}"
+                defence_render = self.font.render(defence, True, (255, 255, 255))
+                render_list.append(defence_render)
+            if current_equipment.increase_damage > 0:
+                damage = f"Damage         + {current_equipment.increase_damage}"
+                damage_render = self.font.render(damage, True, (255, 255, 255))
+                render_list.append(damage_render)
+            if current_equipment.distance_damage > 0:
+                d_damage = f"Damage         + {current_equipment.distance_damage}"
+                d_damage_render = self.font.render(d_damage, True, (255, 255, 255))
+                render_list.append(d_damage_render)
+            if current_equipment.increase_health > 0:
+                health = f"Health           + {current_equipment.increase_health}"
+                health_render = self.font.render(health, True, (255, 255, 255))
+                render_list.append(health_render)
+            if current_equipment.increase_stamina > 0:
+                stamina = f"Stamina         + {current_equipment.increase_stamina}"
+                stamina_render = self.font.render(stamina, True, (255, 255, 255))
+                render_list.append(stamina_render)
+            if current_equipment.increase_mana > 0:
+                mana = f"Mana           + {current_equipment.increase_mana}"
+                mana_render = self.font.render(mana, True, (255, 255, 255))
+                render_list.append(mana_render)
+            if current_equipment.increase_experience > 0:
+                experience = f"Experience     + {current_equipment.increase_experience} %"
+                experience_render = self.font.render(experience, True, (255, 255, 255))
+                render_list.append(experience_render)
+            if current_equipment.price > 0:
+                price = f"Price            {current_equipment.price}"
+                price_render = self.font.render(price, True, (255, 255, 255))
+                render_list.append(price_render)
+            if current_equipment.condition:
+                condition = f"Condition        {current_equipment.condition}"
+                condition_render = self.font.render(condition, True, (255, 255, 255))
+                render_list.append(condition_render)
+
+            y_offset = 2
+            for i in render_list:
+                self.game.display.blit(i, (x + 42, y + 84 + y_offset))
+                y_offset += 18
+
+        # Magic scrolls rendering
+        x_offset = 92
+        for scroll in self.game.player.scrolls.items():
+            scroll_image = self.game.ui.spellbook.get(scroll[0])
+            scroll_image = pygame.transform.scale(scroll_image,
+                                                  (scroll_image.get_width() * 0.65, scroll_image.get_height() * 0.65))
+            scroll_amount = scroll[1]
+            self.game.display.blit(scroll_image, (x + x_offset, y + 328))
+            x_offset += 44
 
 
 class MerchantWindow:

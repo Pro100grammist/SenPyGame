@@ -123,7 +123,7 @@ def load_sfx():
                    'heal', 'healed', 'cough', 'tired', 'revive',
                    'move_cursor', 'open_skill', 'rejected', 'chest_open',
                    'steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key',
-                   'not_enough_money', 'buy_goods']
+                   'not_enough_money', 'buy_goods', 'item_equip', 'get_item', 'lock_closed']
 
     return {name: pygame.mixer.Sound(f'data/sfx/{name}.wav') for name in sound_names}
 
