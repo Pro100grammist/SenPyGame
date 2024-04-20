@@ -2280,115 +2280,11 @@
                 27
             ]
         },
-        "58;27": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                58,
-                27
-            ]
-        },
-        "59;28": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                59,
-                28
-            ]
-        },
-        "60;27": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                60,
-                27
-            ]
-        },
         "61;28": {
             "type": "loot_spawn",
             "variant": 1,
             "pos": [
                 61,
-                28
-            ]
-        },
-        "62;27": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                62,
-                27
-            ]
-        },
-        "63;28": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                63,
-                28
-            ]
-        },
-        "64;27": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                64,
-                27
-            ]
-        },
-        "65;28": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                65,
-                28
-            ]
-        },
-        "66;27": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                66,
-                27
-            ]
-        },
-        "67;28": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                67,
-                28
-            ]
-        },
-        "68;27": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                68,
-                27
-            ]
-        },
-        "69;28": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                69,
-                28
-            ]
-        },
-        "70;27": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                70,
-                27
-            ]
-        },
-        "71;28": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                71,
                 28
             ]
         },
@@ -4677,30 +4573,6 @@
             "variant": 18,
             "pos": [
                 7,
-                39
-            ]
-        },
-        "8;39": {
-            "type": "grass",
-            "variant": 18,
-            "pos": [
-                8,
-                39
-            ]
-        },
-        "9;39": {
-            "type": "grass",
-            "variant": 18,
-            "pos": [
-                9,
-                39
-            ]
-        },
-        "10;39": {
-            "type": "grass",
-            "variant": 18,
-            "pos": [
-                10,
                 39
             ]
         },
@@ -13144,246 +13016,6 @@
                 -19
             ]
         },
-        "117;-14": {
-            "type": "stone",
-            "variant": 44,
-            "pos": [
-                117,
-                -14
-            ]
-        },
-        "118;-14": {
-            "type": "stone",
-            "variant": 50,
-            "pos": [
-                118,
-                -14
-            ]
-        },
-        "118;-19": {
-            "type": "stone",
-            "variant": 50,
-            "pos": [
-                118,
-                -19
-            ]
-        },
-        "118;-24": {
-            "type": "stone",
-            "variant": 50,
-            "pos": [
-                118,
-                -24
-            ]
-        },
-        "117;-24": {
-            "type": "stone",
-            "variant": 44,
-            "pos": [
-                117,
-                -24
-            ]
-        },
-        "117;-19": {
-            "type": "stone",
-            "variant": 44,
-            "pos": [
-                117,
-                -19
-            ]
-        },
-        "123;-26": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -26
-            ]
-        },
-        "123;-27": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -27
-            ]
-        },
-        "123;-28": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -28
-            ]
-        },
-        "123;-29": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -29
-            ]
-        },
-        "123;-30": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -30
-            ]
-        },
-        "123;-31": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -31
-            ]
-        },
-        "123;-32": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -32
-            ]
-        },
-        "123;-33": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -33
-            ]
-        },
-        "123;-34": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -34
-            ]
-        },
-        "123;-35": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -35
-            ]
-        },
-        "123;-36": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -36
-            ]
-        },
-        "123;-37": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -37
-            ]
-        },
-        "123;-38": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -38
-            ]
-        },
-        "123;-39": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -39
-            ]
-        },
-        "123;-40": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -40
-            ]
-        },
-        "123;-41": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -41
-            ]
-        },
-        "123;-42": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -42
-            ]
-        },
-        "123;-43": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -43
-            ]
-        },
-        "123;-44": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -44
-            ]
-        },
-        "123;-45": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -45
-            ]
-        },
-        "123;-46": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -46
-            ]
-        },
-        "123;-47": {
-            "type": "stone",
-            "variant": 46,
-            "pos": [
-                123,
-                -47
-            ]
-        },
-        "118;-28": {
-            "type": "stone",
-            "variant": 50,
-            "pos": [
-                118,
-                -28
-            ]
-        },
-        "118;-29": {
-            "type": "loot_spawn",
-            "variant": 0,
-            "pos": [
-                118,
-                -29
-            ]
-        },
         "115;-10": {
             "type": "spawners",
             "variant": 2,
@@ -13432,30 +13064,6 @@
                 -14
             ]
         },
-        "118;-20": {
-            "type": "spawners",
-            "variant": 1,
-            "pos": [
-                118,
-                -20
-            ]
-        },
-        "118;-15": {
-            "type": "spawners",
-            "variant": 1,
-            "pos": [
-                118,
-                -15
-            ]
-        },
-        "122;-26": {
-            "type": "spawners",
-            "variant": 1,
-            "pos": [
-                122,
-                -26
-            ]
-        },
         "16;-12": {
             "type": "loot_spawn",
             "variant": 1,
@@ -13470,14 +13078,6 @@
             "pos": [
                 21,
                 -11
-            ]
-        },
-        "25;-12": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                25,
-                -12
             ]
         },
         "11;30": {
@@ -15208,14 +14808,6 @@
                 17
             ]
         },
-        "-2;-14": {
-            "type": "spawners",
-            "variant": 2,
-            "pos": [
-                -2,
-                -14
-            ]
-        },
         "-10;-14": {
             "type": "spawners",
             "variant": 2,
@@ -15320,14 +14912,6 @@
                 1
             ]
         },
-        "-30;0": {
-            "type": "decor",
-            "variant": 23,
-            "pos": [
-                -30,
-                0
-            ]
-        },
         "14;-7": {
             "type": "loot_spawn",
             "variant": 8,
@@ -15342,30 +14926,6 @@
             "pos": [
                 72,
                 -2
-            ]
-        },
-        "93;-1": {
-            "type": "loot_spawn",
-            "variant": 12,
-            "pos": [
-                93,
-                -1
-            ]
-        },
-        "90;-9": {
-            "type": "loot_spawn",
-            "variant": 11,
-            "pos": [
-                90,
-                -9
-            ]
-        },
-        "118;-26": {
-            "type": "loot_spawn",
-            "variant": 14,
-            "pos": [
-                118,
-                -26
             ]
         },
         "69;29": {
@@ -15400,14 +14960,6 @@
                 38
             ]
         },
-        "9;38": {
-            "type": "loot_spawn",
-            "variant": 3,
-            "pos": [
-                9,
-                38
-            ]
-        },
         "10;38": {
             "type": "loot_spawn",
             "variant": 2,
@@ -15422,14 +14974,6 @@
             "pos": [
                 11,
                 38
-            ]
-        },
-        "9;31": {
-            "type": "loot_spawn",
-            "variant": 10,
-            "pos": [
-                9,
-                31
             ]
         },
         "-33;1": {
@@ -15744,390 +15288,6 @@
                 7
             ]
         },
-        "-39;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                8
-            ]
-        },
-        "-39;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                9
-            ]
-        },
-        "-39;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                10
-            ]
-        },
-        "-39;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                11
-            ]
-        },
-        "-39;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                12
-            ]
-        },
-        "-39;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                13
-            ]
-        },
-        "-39;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                14
-            ]
-        },
-        "-39;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                15
-            ]
-        },
-        "-39;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                16
-            ]
-        },
-        "-39;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                17
-            ]
-        },
-        "-39;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                18
-            ]
-        },
-        "-39;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                19
-            ]
-        },
-        "-39;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                20
-            ]
-        },
-        "-39;21": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                21
-            ]
-        },
-        "-39;22": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                22
-            ]
-        },
-        "-39;23": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                23
-            ]
-        },
-        "-39;24": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                24
-            ]
-        },
-        "-39;25": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                25
-            ]
-        },
-        "-39;26": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                26
-            ]
-        },
-        "-39;27": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                27
-            ]
-        },
-        "-39;28": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                28
-            ]
-        },
-        "-39;29": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                29
-            ]
-        },
-        "-39;30": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                30
-            ]
-        },
-        "-39;31": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -39,
-                31
-            ]
-        },
-        "-40;31": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                31
-            ]
-        },
-        "-40;30": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                30
-            ]
-        },
-        "-40;29": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                29
-            ]
-        },
-        "-40;28": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                28
-            ]
-        },
-        "-40;27": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                27
-            ]
-        },
-        "-40;26": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                26
-            ]
-        },
-        "-40;25": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                25
-            ]
-        },
-        "-40;24": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                24
-            ]
-        },
-        "-40;23": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                23
-            ]
-        },
-        "-40;22": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                22
-            ]
-        },
-        "-40;21": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                21
-            ]
-        },
-        "-40;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                20
-            ]
-        },
-        "-40;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                19
-            ]
-        },
-        "-40;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                18
-            ]
-        },
-        "-40;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                17
-            ]
-        },
-        "-40;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                16
-            ]
-        },
-        "-40;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                15
-            ]
-        },
-        "-40;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                14
-            ]
-        },
-        "-40;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                13
-            ]
-        },
-        "-40;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                12
-            ]
-        },
-        "-40;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                11
-            ]
-        },
-        "-40;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                10
-            ]
-        },
-        "-40;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                9
-            ]
-        },
-        "-40;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -40,
-                8
-            ]
-        },
         "-40;7": {
             "type": "grass",
             "variant": 6,
@@ -16222,198 +15382,6 @@
             "pos": [
                 -41,
                 7
-            ]
-        },
-        "-41;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                8
-            ]
-        },
-        "-41;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                9
-            ]
-        },
-        "-41;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                10
-            ]
-        },
-        "-41;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                11
-            ]
-        },
-        "-41;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                12
-            ]
-        },
-        "-41;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                13
-            ]
-        },
-        "-41;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                14
-            ]
-        },
-        "-41;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                15
-            ]
-        },
-        "-41;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                16
-            ]
-        },
-        "-41;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                17
-            ]
-        },
-        "-41;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                18
-            ]
-        },
-        "-41;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                19
-            ]
-        },
-        "-41;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                20
-            ]
-        },
-        "-41;21": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                21
-            ]
-        },
-        "-41;22": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                22
-            ]
-        },
-        "-41;23": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                23
-            ]
-        },
-        "-41;24": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                24
-            ]
-        },
-        "-41;25": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                25
-            ]
-        },
-        "-41;27": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                27
-            ]
-        },
-        "-41;28": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                28
-            ]
-        },
-        "-41;29": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                29
-            ]
-        },
-        "-41;26": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                26
-            ]
-        },
-        "-41;30": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                30
-            ]
-        },
-        "-41;31": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -41,
-                31
             ]
         },
         "-39;-8": {
@@ -17142,414 +16110,6 @@
             "pos": [
                 -46,
                 7
-            ]
-        },
-        "-46;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                8
-            ]
-        },
-        "-46;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                9
-            ]
-        },
-        "-46;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                10
-            ]
-        },
-        "-46;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                11
-            ]
-        },
-        "-46;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                12
-            ]
-        },
-        "-46;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                13
-            ]
-        },
-        "-46;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                14
-            ]
-        },
-        "-46;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                15
-            ]
-        },
-        "-46;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                16
-            ]
-        },
-        "-46;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                17
-            ]
-        },
-        "-46;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                18
-            ]
-        },
-        "-46;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                19
-            ]
-        },
-        "-46;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                20
-            ]
-        },
-        "-46;21": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                21
-            ]
-        },
-        "-46;22": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                22
-            ]
-        },
-        "-46;23": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                23
-            ]
-        },
-        "-46;24": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                24
-            ]
-        },
-        "-46;25": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                25
-            ]
-        },
-        "-46;26": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                26
-            ]
-        },
-        "-46;27": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                27
-            ]
-        },
-        "-46;28": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                28
-            ]
-        },
-        "-46;29": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                29
-            ]
-        },
-        "-46;30": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                30
-            ]
-        },
-        "-46;31": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -46,
-                31
-            ]
-        },
-        "-45;31": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                31
-            ]
-        },
-        "-44;31": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                31
-            ]
-        },
-        "-43;31": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                31
-            ]
-        },
-        "-42;31": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                31
-            ]
-        },
-        "-42;30": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                30
-            ]
-        },
-        "-42;29": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                29
-            ]
-        },
-        "-42;28": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                28
-            ]
-        },
-        "-42;27": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                27
-            ]
-        },
-        "-42;26": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                26
-            ]
-        },
-        "-42;25": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                25
-            ]
-        },
-        "-42;24": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                24
-            ]
-        },
-        "-42;23": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                23
-            ]
-        },
-        "-42;22": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                22
-            ]
-        },
-        "-42;21": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                21
-            ]
-        },
-        "-42;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                20
-            ]
-        },
-        "-42;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                19
-            ]
-        },
-        "-42;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                18
-            ]
-        },
-        "-42;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                17
-            ]
-        },
-        "-42;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                16
-            ]
-        },
-        "-42;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                15
-            ]
-        },
-        "-42;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                14
-            ]
-        },
-        "-42;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                13
-            ]
-        },
-        "-42;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                12
-            ]
-        },
-        "-42;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                11
-            ]
-        },
-        "-42;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                10
-            ]
-        },
-        "-42;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                9
-            ]
-        },
-        "-42;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -42,
-                8
             ]
         },
         "-42;7": {
@@ -18512,46 +17072,6 @@
                 7
             ]
         },
-        "-43;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                8
-            ]
-        },
-        "-43;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                9
-            ]
-        },
-        "-43;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                10
-            ]
-        },
-        "-44;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                9
-            ]
-        },
-        "-44;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                8
-            ]
-        },
         "-44;7": {
             "type": "grass",
             "variant": 6,
@@ -18616,532 +17136,12 @@
                 7
             ]
         },
-        "-45;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                8
-            ]
-        },
-        "-45;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                9
-            ]
-        },
-        "-44;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                10
-            ]
-        },
-        "-43;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                11
-            ]
-        },
-        "-44;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                11
-            ]
-        },
-        "-45;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                10
-            ]
-        },
-        "-45;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                11
-            ]
-        },
-        "-45;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                12
-            ]
-        },
-        "-45;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                13
-            ]
-        },
-        "-45;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                14
-            ]
-        },
-        "-45;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                15
-            ]
-        },
-        "-45;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                16
-            ]
-        },
-        "-45;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                17
-            ]
-        },
-        "-45;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                18
-            ]
-        },
-        "-45;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                19
-            ]
-        },
-        "-45;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                20
-            ]
-        },
-        "-44;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                20
-            ]
-        },
-        "-44;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                19
-            ]
-        },
-        "-44;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                18
-            ]
-        },
-        "-44;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                17
-            ]
-        },
-        "-44;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                16
-            ]
-        },
-        "-44;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                15
-            ]
-        },
-        "-44;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                14
-            ]
-        },
-        "-44;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                13
-            ]
-        },
-        "-44;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                12
-            ]
-        },
-        "-43;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                12
-            ]
-        },
-        "-43;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                13
-            ]
-        },
-        "-43;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                14
-            ]
-        },
-        "-43;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                15
-            ]
-        },
-        "-43;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                16
-            ]
-        },
-        "-43;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                20
-            ]
-        },
-        "-43;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                19
-            ]
-        },
-        "-43;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                18
-            ]
-        },
-        "-43;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                17
-            ]
-        },
-        "-44;21": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                21
-            ]
-        },
-        "-44;22": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                22
-            ]
-        },
-        "-44;23": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                23
-            ]
-        },
-        "-44;24": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                24
-            ]
-        },
-        "-44;25": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                25
-            ]
-        },
-        "-44;26": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                26
-            ]
-        },
-        "-44;27": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                27
-            ]
-        },
-        "-44;28": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                28
-            ]
-        },
-        "-43;28": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                28
-            ]
-        },
-        "-43;27": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                27
-            ]
-        },
-        "-43;26": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                26
-            ]
-        },
-        "-43;25": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                25
-            ]
-        },
-        "-43;24": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                24
-            ]
-        },
-        "-43;23": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                23
-            ]
-        },
-        "-43;22": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                22
-            ]
-        },
-        "-43;21": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                21
-            ]
-        },
-        "-45;21": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                21
-            ]
-        },
-        "-45;22": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                22
-            ]
-        },
-        "-45;23": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                23
-            ]
-        },
-        "-45;24": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                24
-            ]
-        },
-        "-45;25": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                25
-            ]
-        },
-        "-45;26": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                26
-            ]
-        },
-        "-45;27": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                27
-            ]
-        },
-        "-45;28": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                28
-            ]
-        },
-        "-45;29": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                29
-            ]
-        },
-        "-45;30": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -45,
-                30
-            ]
-        },
-        "-44;30": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                30
-            ]
-        },
-        "-43;30": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                30
-            ]
-        },
-        "-43;29": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -43,
-                29
-            ]
-        },
-        "-44;29": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -44,
-                29
-            ]
-        },
         "-36;-3": {
             "type": "spawners",
             "variant": 4,
             "pos": [
                 -36,
                 -3
-            ]
-        },
-        "-1;6": {
-            "type": "grass",
-            "variant": 0,
-            "pos": [
-                -1,
-                6
             ]
         },
         "-2;6": {
@@ -19350,342 +17350,6 @@
             "pos": [
                 -21,
                 7
-            ]
-        },
-        "-21;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                8
-            ]
-        },
-        "-21;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                9
-            ]
-        },
-        "-21;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                10
-            ]
-        },
-        "-21;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                11
-            ]
-        },
-        "-21;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                12
-            ]
-        },
-        "-21;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                13
-            ]
-        },
-        "-21;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                14
-            ]
-        },
-        "-21;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                15
-            ]
-        },
-        "-21;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                16
-            ]
-        },
-        "-21;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                17
-            ]
-        },
-        "-21;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                18
-            ]
-        },
-        "-21;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                19
-            ]
-        },
-        "-21;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -21,
-                20
-            ]
-        },
-        "-22;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                20
-            ]
-        },
-        "-23;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                20
-            ]
-        },
-        "-24;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                20
-            ]
-        },
-        "-25;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                20
-            ]
-        },
-        "-26;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                20
-            ]
-        },
-        "-27;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                20
-            ]
-        },
-        "-28;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                20
-            ]
-        },
-        "-29;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                20
-            ]
-        },
-        "-30;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                20
-            ]
-        },
-        "-31;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                20
-            ]
-        },
-        "-32;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                20
-            ]
-        },
-        "-33;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                20
-            ]
-        },
-        "-34;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                20
-            ]
-        },
-        "-35;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                20
-            ]
-        },
-        "-36;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                20
-            ]
-        },
-        "-37;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                20
-            ]
-        },
-        "-38;20": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                20
-            ]
-        },
-        "-38;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                19
-            ]
-        },
-        "-38;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                18
-            ]
-        },
-        "-38;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                17
-            ]
-        },
-        "-38;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                16
-            ]
-        },
-        "-38;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                15
-            ]
-        },
-        "-38;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                14
-            ]
-        },
-        "-38;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                13
-            ]
-        },
-        "-38;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                12
-            ]
-        },
-        "-38;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                11
-            ]
-        },
-        "-38;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                10
-            ]
-        },
-        "-38;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                9
-            ]
-        },
-        "-38;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -38,
-                8
             ]
         },
         "-38;7": {
@@ -19904,318 +17568,6 @@
                 7
             ]
         },
-        "-22;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                8
-            ]
-        },
-        "-22;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                9
-            ]
-        },
-        "-22;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                10
-            ]
-        },
-        "-22;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                11
-            ]
-        },
-        "-22;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                12
-            ]
-        },
-        "-22;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                13
-            ]
-        },
-        "-22;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                14
-            ]
-        },
-        "-22;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                15
-            ]
-        },
-        "-22;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                16
-            ]
-        },
-        "-22;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                17
-            ]
-        },
-        "-22;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                18
-            ]
-        },
-        "-22;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -22,
-                19
-            ]
-        },
-        "-23;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                19
-            ]
-        },
-        "-24;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                19
-            ]
-        },
-        "-25;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                19
-            ]
-        },
-        "-26;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                19
-            ]
-        },
-        "-27;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                19
-            ]
-        },
-        "-28;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                19
-            ]
-        },
-        "-29;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                19
-            ]
-        },
-        "-30;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                19
-            ]
-        },
-        "-31;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                19
-            ]
-        },
-        "-32;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                19
-            ]
-        },
-        "-33;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                19
-            ]
-        },
-        "-34;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                19
-            ]
-        },
-        "-35;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                19
-            ]
-        },
-        "-36;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                19
-            ]
-        },
-        "-36;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                18
-            ]
-        },
-        "-37;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                18
-            ]
-        },
-        "-37;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                17
-            ]
-        },
-        "-37;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                16
-            ]
-        },
-        "-37;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                15
-            ]
-        },
-        "-37;19": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                19
-            ]
-        },
-        "-37;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                14
-            ]
-        },
-        "-37;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                13
-            ]
-        },
-        "-37;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                12
-            ]
-        },
-        "-37;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                11
-            ]
-        },
-        "-37;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                10
-            ]
-        },
-        "-37;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                9
-            ]
-        },
-        "-37;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -37,
-                8
-            ]
-        },
         "-37;7": {
             "type": "grass",
             "variant": 6,
@@ -20400,806 +17752,6 @@
                 7
             ]
         },
-        "-23;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                8
-            ]
-        },
-        "-23;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                9
-            ]
-        },
-        "-23;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                10
-            ]
-        },
-        "-23;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                11
-            ]
-        },
-        "-23;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                12
-            ]
-        },
-        "-23;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                13
-            ]
-        },
-        "-23;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                14
-            ]
-        },
-        "-23;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                15
-            ]
-        },
-        "-23;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                16
-            ]
-        },
-        "-23;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                17
-            ]
-        },
-        "-23;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -23,
-                18
-            ]
-        },
-        "-24;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                18
-            ]
-        },
-        "-25;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                18
-            ]
-        },
-        "-26;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                18
-            ]
-        },
-        "-27;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                18
-            ]
-        },
-        "-28;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                18
-            ]
-        },
-        "-29;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                18
-            ]
-        },
-        "-30;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                18
-            ]
-        },
-        "-31;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                18
-            ]
-        },
-        "-32;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                18
-            ]
-        },
-        "-33;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                18
-            ]
-        },
-        "-34;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                18
-            ]
-        },
-        "-35;18": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                18
-            ]
-        },
-        "-35;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                17
-            ]
-        },
-        "-35;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                16
-            ]
-        },
-        "-36;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                16
-            ]
-        },
-        "-36;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                17
-            ]
-        },
-        "-36;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                15
-            ]
-        },
-        "-36;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                14
-            ]
-        },
-        "-36;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                13
-            ]
-        },
-        "-36;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                12
-            ]
-        },
-        "-36;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                11
-            ]
-        },
-        "-36;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                10
-            ]
-        },
-        "-36;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                9
-            ]
-        },
-        "-36;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -36,
-                8
-            ]
-        },
-        "-35;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                14
-            ]
-        },
-        "-35;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                15
-            ]
-        },
-        "-34;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                15
-            ]
-        },
-        "-33;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                15
-            ]
-        },
-        "-33;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                16
-            ]
-        },
-        "-34;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                16
-            ]
-        },
-        "-34;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                17
-            ]
-        },
-        "-33;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                17
-            ]
-        },
-        "-32;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                17
-            ]
-        },
-        "-31;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                17
-            ]
-        },
-        "-30;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                17
-            ]
-        },
-        "-29;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                17
-            ]
-        },
-        "-28;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                17
-            ]
-        },
-        "-27;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                17
-            ]
-        },
-        "-26;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                17
-            ]
-        },
-        "-25;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                17
-            ]
-        },
-        "-24;17": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                17
-            ]
-        },
-        "-24;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                16
-            ]
-        },
-        "-25;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                16
-            ]
-        },
-        "-26;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                16
-            ]
-        },
-        "-27;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                16
-            ]
-        },
-        "-28;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                16
-            ]
-        },
-        "-29;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                16
-            ]
-        },
-        "-30;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                16
-            ]
-        },
-        "-31;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                16
-            ]
-        },
-        "-32;16": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                16
-            ]
-        },
-        "-32;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                15
-            ]
-        },
-        "-31;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                15
-            ]
-        },
-        "-30;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                15
-            ]
-        },
-        "-29;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                15
-            ]
-        },
-        "-28;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                15
-            ]
-        },
-        "-27;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                15
-            ]
-        },
-        "-26;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                15
-            ]
-        },
-        "-25;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                15
-            ]
-        },
-        "-24;15": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                15
-            ]
-        },
-        "-24;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                14
-            ]
-        },
-        "-25;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                14
-            ]
-        },
-        "-26;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                14
-            ]
-        },
-        "-27;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                14
-            ]
-        },
-        "-28;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                14
-            ]
-        },
-        "-29;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                14
-            ]
-        },
-        "-30;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                14
-            ]
-        },
-        "-31;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                14
-            ]
-        },
-        "-32;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                14
-            ]
-        },
-        "-33;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                14
-            ]
-        },
-        "-34;14": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                14
-            ]
-        },
-        "-34;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                13
-            ]
-        },
-        "-35;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                13
-            ]
-        },
-        "-33;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                13
-            ]
-        },
-        "-32;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                13
-            ]
-        },
-        "-31;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                13
-            ]
-        },
-        "-30;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                13
-            ]
-        },
-        "-25;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                13
-            ]
-        },
-        "-24;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                13
-            ]
-        },
-        "-26;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                13
-            ]
-        },
-        "-27;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                13
-            ]
-        },
-        "-28;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                13
-            ]
-        },
-        "-29;13": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                13
-            ]
-        },
-        "-27;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                12
-            ]
-        },
-        "-26;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                12
-            ]
-        },
-        "-25;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                12
-            ]
-        },
-        "-25;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                11
-            ]
-        },
-        "-25;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                10
-            ]
-        },
-        "-25;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                9
-            ]
-        },
-        "-25;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -25,
-                8
-            ]
-        },
         "-25;7": {
             "type": "grass",
             "variant": 6,
@@ -21254,150 +17806,6 @@
             "pos": [
                 -24,
                 7
-            ]
-        },
-        "-24;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                8
-            ]
-        },
-        "-24;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                9
-            ]
-        },
-        "-24;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                10
-            ]
-        },
-        "-24;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                11
-            ]
-        },
-        "-24;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -24,
-                12
-            ]
-        },
-        "-28;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                12
-            ]
-        },
-        "-29;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                12
-            ]
-        },
-        "-30;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                12
-            ]
-        },
-        "-31;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                12
-            ]
-        },
-        "-32;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                12
-            ]
-        },
-        "-33;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                12
-            ]
-        },
-        "-34;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                12
-            ]
-        },
-        "-34;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                11
-            ]
-        },
-        "-35;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                11
-            ]
-        },
-        "-35;12": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                12
-            ]
-        },
-        "-35;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                10
-            ]
-        },
-        "-35;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                9
-            ]
-        },
-        "-35;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -35,
-                8
             ]
         },
         "-35;7": {
@@ -21470,110 +17878,6 @@
             "pos": [
                 -34,
                 7
-            ]
-        },
-        "-34;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                9
-            ]
-        },
-        "-34;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                10
-            ]
-        },
-        "-33;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                10
-            ]
-        },
-        "-33;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                11
-            ]
-        },
-        "-32;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                11
-            ]
-        },
-        "-31;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                11
-            ]
-        },
-        "-30;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                11
-            ]
-        },
-        "-29;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                11
-            ]
-        },
-        "-27;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                11
-            ]
-        },
-        "-26;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                11
-            ]
-        },
-        "-26;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                10
-            ]
-        },
-        "-26;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                9
-            ]
-        },
-        "-26;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -26,
-                8
             ]
         },
         "-26;7": {
@@ -21694,182 +17998,6 @@
             "pos": [
                 -34,
                 6
-            ]
-        },
-        "-34;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -34,
-                8
-            ]
-        },
-        "-33;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                8
-            ]
-        },
-        "-33;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -33,
-                9
-            ]
-        },
-        "-32;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                10
-            ]
-        },
-        "-31;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                10
-            ]
-        },
-        "-30;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                10
-            ]
-        },
-        "-28;11": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                11
-            ]
-        },
-        "-28;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                10
-            ]
-        },
-        "-27;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                10
-            ]
-        },
-        "-29;10": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                10
-            ]
-        },
-        "-29;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                9
-            ]
-        },
-        "-28;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                9
-            ]
-        },
-        "-27;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                8
-            ]
-        },
-        "-28;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -28,
-                8
-            ]
-        },
-        "-29;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -29,
-                8
-            ]
-        },
-        "-30;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                8
-            ]
-        },
-        "-31;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                8
-            ]
-        },
-        "-32;8": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                8
-            ]
-        },
-        "-32;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -32,
-                9
-            ]
-        },
-        "-31;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -31,
-                9
-            ]
-        },
-        "-30;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -30,
-                9
-            ]
-        },
-        "-27;9": {
-            "type": "grass",
-            "variant": 6,
-            "pos": [
-                -27,
-                9
             ]
         },
         "-27;7": {
@@ -22040,14 +18168,6 @@
                 7
             ]
         },
-        "-1;7": {
-            "type": "grass",
-            "variant": 8,
-            "pos": [
-                -1,
-                7
-            ]
-        },
         "-2;7": {
             "type": "grass",
             "variant": 8,
@@ -22199,6 +18319,2382 @@
                 -20,
                 7
             ]
+        },
+        "-11;5": {
+            "type": "decor",
+            "variant": 0,
+            "pos": [
+                -11,
+                5
+            ]
+        },
+        "-19;5": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -19,
+                5
+            ]
+        },
+        "-18;5": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -18,
+                5
+            ]
+        },
+        "-17;5": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -17,
+                5
+            ]
+        },
+        "-16;5": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -16,
+                5
+            ]
+        },
+        "-15;5": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -15,
+                5
+            ]
+        },
+        "-14;5": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -14,
+                5
+            ]
+        },
+        "-13;5": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -13,
+                5
+            ]
+        },
+        "-13;4": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -13,
+                4
+            ]
+        },
+        "-13;3": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -13,
+                3
+            ]
+        },
+        "-15;4": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -15,
+                4
+            ]
+        },
+        "-16;4": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -16,
+                4
+            ]
+        },
+        "-14;4": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -14,
+                4
+            ]
+        },
+        "-17;4": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -17,
+                4
+            ]
+        },
+        "-18;4": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -18,
+                4
+            ]
+        },
+        "-19;4": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -19,
+                4
+            ]
+        },
+        "-19;3": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -19,
+                3
+            ]
+        },
+        "-17;3": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -17,
+                3
+            ]
+        },
+        "-15;3": {
+            "type": "decor",
+            "variant": 5,
+            "pos": [
+                -15,
+                3
+            ]
+        },
+        "-28;-2": {
+            "type": "decor",
+            "variant": 15,
+            "pos": [
+                -28,
+                -2
+            ]
+        },
+        "-13;-13": {
+            "type": "loot_spawn",
+            "variant": 0,
+            "pos": [
+                -13,
+                -13
+            ]
+        },
+        "9;31": {
+            "type": "loot_spawn",
+            "variant": 14,
+            "pos": [
+                9,
+                31
+            ]
+        },
+        "119;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                119,
+                17
+            ]
+        },
+        "120;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                120,
+                17
+            ]
+        },
+        "121;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                121,
+                17
+            ]
+        },
+        "122;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                122,
+                17
+            ]
+        },
+        "123;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                123,
+                17
+            ]
+        },
+        "124;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                124,
+                17
+            ]
+        },
+        "125;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                125,
+                17
+            ]
+        },
+        "126;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                126,
+                17
+            ]
+        },
+        "127;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                127,
+                17
+            ]
+        },
+        "128;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                128,
+                17
+            ]
+        },
+        "129;17": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                129,
+                17
+            ]
+        },
+        "124;12": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                124,
+                12
+            ]
+        },
+        "125;12": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                125,
+                12
+            ]
+        },
+        "131;14": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                131,
+                14
+            ]
+        },
+        "130;14": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                130,
+                14
+            ]
+        },
+        "129;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                129,
+                8
+            ]
+        },
+        "130;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                130,
+                8
+            ]
+        },
+        "131;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                131,
+                8
+            ]
+        },
+        "124;5": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                124,
+                5
+            ]
+        },
+        "125;5": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                125,
+                5
+            ]
+        },
+        "126;5": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                126,
+                5
+            ]
+        },
+        "129;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                129,
+                2
+            ]
+        },
+        "130;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                130,
+                2
+            ]
+        },
+        "131;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                131,
+                2
+            ]
+        },
+        "124;-2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                124,
+                -2
+            ]
+        },
+        "125;-2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                125,
+                -2
+            ]
+        },
+        "126;-2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                126,
+                -2
+            ]
+        },
+        "128;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                128,
+                -8
+            ]
+        },
+        "129;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                129,
+                -8
+            ]
+        },
+        "124;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                124,
+                -8
+            ]
+        },
+        "125;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                125,
+                -8
+            ]
+        },
+        "126;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                126,
+                -8
+            ]
+        },
+        "127;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                127,
+                -8
+            ]
+        },
+        "132;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                132,
+                2
+            ]
+        },
+        "133;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                133,
+                2
+            ]
+        },
+        "134;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                134,
+                2
+            ]
+        },
+        "135;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                135,
+                2
+            ]
+        },
+        "136;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                136,
+                2
+            ]
+        },
+        "137;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                137,
+                2
+            ]
+        },
+        "138;2": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                138,
+                2
+            ]
+        },
+        "132;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                132,
+                8
+            ]
+        },
+        "133;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                133,
+                8
+            ]
+        },
+        "134;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                134,
+                8
+            ]
+        },
+        "135;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                135,
+                8
+            ]
+        },
+        "136;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                136,
+                8
+            ]
+        },
+        "137;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                137,
+                8
+            ]
+        },
+        "138;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                138,
+                8
+            ]
+        },
+        "139;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                139,
+                8
+            ]
+        },
+        "140;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                140,
+                8
+            ]
+        },
+        "141;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                141,
+                8
+            ]
+        },
+        "142;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                142,
+                8
+            ]
+        },
+        "143;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                143,
+                8
+            ]
+        },
+        "144;8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                144,
+                8
+            ]
+        },
+        "132;14": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                132,
+                14
+            ]
+        },
+        "133;14": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                133,
+                14
+            ]
+        },
+        "129;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                129,
+                -5
+            ]
+        },
+        "130;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                130,
+                -5
+            ]
+        },
+        "131;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                131,
+                -5
+            ]
+        },
+        "132;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                132,
+                -5
+            ]
+        },
+        "133;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                133,
+                -5
+            ]
+        },
+        "134;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                134,
+                -5
+            ]
+        },
+        "135;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                135,
+                -5
+            ]
+        },
+        "136;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                136,
+                -5
+            ]
+        },
+        "137;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                137,
+                -5
+            ]
+        },
+        "138;-5": {
+            "type": "grass",
+            "variant": 1,
+            "pos": [
+                138,
+                -5
+            ]
+        },
+        "129;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                129,
+                -4
+            ]
+        },
+        "130;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                130,
+                -4
+            ]
+        },
+        "131;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                131,
+                -4
+            ]
+        },
+        "132;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                132,
+                -4
+            ]
+        },
+        "133;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                133,
+                -4
+            ]
+        },
+        "134;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                134,
+                -4
+            ]
+        },
+        "135;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                135,
+                -4
+            ]
+        },
+        "136;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                136,
+                -4
+            ]
+        },
+        "137;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                137,
+                -4
+            ]
+        },
+        "138;-4": {
+            "type": "grass",
+            "variant": 7,
+            "pos": [
+                138,
+                -4
+            ]
+        },
+        "130;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                130,
+                -8
+            ]
+        },
+        "131;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                131,
+                -8
+            ]
+        },
+        "132;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                132,
+                -8
+            ]
+        },
+        "133;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                133,
+                -8
+            ]
+        },
+        "134;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                134,
+                -8
+            ]
+        },
+        "135;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                135,
+                -8
+            ]
+        },
+        "136;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                136,
+                -8
+            ]
+        },
+        "137;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                137,
+                -8
+            ]
+        },
+        "138;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                138,
+                -8
+            ]
+        },
+        "139;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                139,
+                -8
+            ]
+        },
+        "140;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                140,
+                -8
+            ]
+        },
+        "141;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                141,
+                -8
+            ]
+        },
+        "142;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                142,
+                -8
+            ]
+        },
+        "143;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                143,
+                -8
+            ]
+        },
+        "139;-4": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                139,
+                -4
+            ]
+        },
+        "140;-4": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                140,
+                -4
+            ]
+        },
+        "141;-4": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                141,
+                -4
+            ]
+        },
+        "142;-4": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                142,
+                -4
+            ]
+        },
+        "143;-4": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                143,
+                -4
+            ]
+        },
+        "144;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                144,
+                -8
+            ]
+        },
+        "145;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                145,
+                -8
+            ]
+        },
+        "146;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                146,
+                -8
+            ]
+        },
+        "147;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                147,
+                -8
+            ]
+        },
+        "148;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                148,
+                -8
+            ]
+        },
+        "149;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                149,
+                -8
+            ]
+        },
+        "150;-8": {
+            "type": "grass",
+            "variant": 3,
+            "pos": [
+                150,
+                -8
+            ]
+        },
+        "114;-27": {
+            "type": "loot_spawn",
+            "variant": 13,
+            "pos": [
+                114,
+                -27
+            ]
+        },
+        "115;-12": {
+            "type": "decor",
+            "variant": 24,
+            "pos": [
+                115,
+                -12
+            ]
+        },
+        "112;-12": {
+            "type": "decor",
+            "variant": 26,
+            "pos": [
+                112,
+                -12
+            ]
+        },
+        "100;-12": {
+            "type": "decor",
+            "variant": 25,
+            "pos": [
+                100,
+                -12
+            ]
+        },
+        "108;-9": {
+            "type": "decor",
+            "variant": 22,
+            "pos": [
+                108,
+                -9
+            ]
+        },
+        "115;-15": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                115,
+                -15
+            ]
+        },
+        "116;-15": {
+            "type": "background_objects",
+            "variant": 33,
+            "pos": [
+                116,
+                -15
+            ]
+        },
+        "117;-15": {
+            "type": "background_objects",
+            "variant": 43,
+            "pos": [
+                117,
+                -15
+            ]
+        },
+        "117;-21": {
+            "type": "background_objects",
+            "variant": 43,
+            "pos": [
+                117,
+                -21
+            ]
+        },
+        "116;-21": {
+            "type": "background_objects",
+            "variant": 34,
+            "pos": [
+                116,
+                -21
+            ]
+        },
+        "115;-21": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                115,
+                -21
+            ]
+        },
+        "122;-26": {
+            "type": "background_objects",
+            "variant": 33,
+            "pos": [
+                122,
+                -26
+            ]
+        },
+        "122;-29": {
+            "type": "background_objects",
+            "variant": 34,
+            "pos": [
+                122,
+                -29
+            ]
+        },
+        "122;-34": {
+            "type": "background_objects",
+            "variant": 34,
+            "pos": [
+                122,
+                -34
+            ]
+        },
+        "122;-31": {
+            "type": "background_objects",
+            "variant": 0,
+            "pos": [
+                122,
+                -31
+            ]
+        },
+        "122;-38": {
+            "type": "background_objects",
+            "variant": 0,
+            "pos": [
+                122,
+                -38
+            ]
+        },
+        "121;-26": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -26
+            ]
+        },
+        "121;-27": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -27
+            ]
+        },
+        "121;-28": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -28
+            ]
+        },
+        "121;-29": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -29
+            ]
+        },
+        "121;-30": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -30
+            ]
+        },
+        "121;-31": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -31
+            ]
+        },
+        "121;-32": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -32
+            ]
+        },
+        "121;-33": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -33
+            ]
+        },
+        "121;-34": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -34
+            ]
+        },
+        "121;-35": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -35
+            ]
+        },
+        "121;-36": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -36
+            ]
+        },
+        "121;-37": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -37
+            ]
+        },
+        "121;-38": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -38
+            ]
+        },
+        "121;-39": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                121,
+                -39
+            ]
+        },
+        "123;-26": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -26
+            ]
+        },
+        "123;-27": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -27
+            ]
+        },
+        "123;-28": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -28
+            ]
+        },
+        "123;-29": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -29
+            ]
+        },
+        "123;-30": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -30
+            ]
+        },
+        "123;-31": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -31
+            ]
+        },
+        "123;-32": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -32
+            ]
+        },
+        "123;-33": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -33
+            ]
+        },
+        "123;-34": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -34
+            ]
+        },
+        "123;-35": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -35
+            ]
+        },
+        "123;-36": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -36
+            ]
+        },
+        "123;-37": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -37
+            ]
+        },
+        "123;-38": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -38
+            ]
+        },
+        "123;-39": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -39
+            ]
+        },
+        "122;-41": {
+            "type": "background_objects",
+            "variant": 22,
+            "pos": [
+                122,
+                -41
+            ]
+        },
+        "122;-40": {
+            "type": "background_objects",
+            "variant": 18,
+            "pos": [
+                122,
+                -40
+            ]
+        },
+        "121;-40": {
+            "type": "background_objects",
+            "variant": 14,
+            "pos": [
+                121,
+                -40
+            ]
+        },
+        "121;-41": {
+            "type": "background_objects",
+            "variant": 14,
+            "pos": [
+                121,
+                -41
+            ]
+        },
+        "122;-42": {
+            "type": "background_objects",
+            "variant": 29,
+            "pos": [
+                122,
+                -42
+            ]
+        },
+        "123;-41": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -41
+            ]
+        },
+        "123;-40": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                123,
+                -40
+            ]
+        },
+        "122;-39": {
+            "type": "background_objects",
+            "variant": 33,
+            "pos": [
+                122,
+                -39
+            ]
+        },
+        "122;-37": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                122,
+                -37
+            ]
+        },
+        "122;-36": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                122,
+                -36
+            ]
+        },
+        "122;-35": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                122,
+                -35
+            ]
+        },
+        "122;-33": {
+            "type": "background_objects",
+            "variant": 36,
+            "pos": [
+                122,
+                -33
+            ]
+        },
+        "122;-32": {
+            "type": "background_objects",
+            "variant": 36,
+            "pos": [
+                122,
+                -32
+            ]
+        },
+        "122;-30": {
+            "type": "background_objects",
+            "variant": 36,
+            "pos": [
+                122,
+                -30
+            ]
+        },
+        "122;-28": {
+            "type": "background_objects",
+            "variant": 36,
+            "pos": [
+                122,
+                -28
+            ]
+        },
+        "122;-27": {
+            "type": "background_objects",
+            "variant": 36,
+            "pos": [
+                122,
+                -27
+            ]
+        },
+        "116;-22": {
+            "type": "loot_spawn",
+            "variant": 0,
+            "pos": [
+                116,
+                -22
+            ]
+        },
+        "116;-16": {
+            "type": "loot_spawn",
+            "variant": 8,
+            "pos": [
+                116,
+                -16
+            ]
+        },
+        "-27;-7": {
+            "type": "loot_spawn",
+            "variant": 11,
+            "pos": [
+                -27,
+                -7
+            ]
+        },
+        "-1;-13": {
+            "type": "large_decor",
+            "variant": 15,
+            "pos": [
+                -1,
+                -13
+            ]
+        },
+        "122;-43": {
+            "type": "loot_spawn",
+            "variant": 7,
+            "pos": [
+                122,
+                -43
+            ]
+        },
+        "135;1": {
+            "type": "spawners",
+            "variant": 1,
+            "pos": [
+                135,
+                1
+            ]
+        },
+        "136;7": {
+            "type": "spawners",
+            "variant": 1,
+            "pos": [
+                136,
+                7
+            ]
+        },
+        "142;7": {
+            "type": "spawners",
+            "variant": 1,
+            "pos": [
+                142,
+                7
+            ]
+        },
+        "132;-6": {
+            "type": "spawners",
+            "variant": 2,
+            "pos": [
+                132,
+                -6
+            ]
+        },
+        "137;-6": {
+            "type": "spawners",
+            "variant": 2,
+            "pos": [
+                137,
+                -6
+            ]
+        },
+        "137;-10": {
+            "type": "spawners",
+            "variant": 3,
+            "pos": [
+                137,
+                -10
+            ]
+        },
+        "135;-10": {
+            "type": "spawners",
+            "variant": 1,
+            "pos": [
+                135,
+                -10
+            ]
+        },
+        "130;-13": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                130,
+                -13
+            ]
+        },
+        "131;-13": {
+            "type": "background_objects",
+            "variant": 3,
+            "pos": [
+                131,
+                -13
+            ]
+        },
+        "132;-13": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                132,
+                -13
+            ]
+        },
+        "127;-17": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                127,
+                -17
+            ]
+        },
+        "127;-22": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                127,
+                -22
+            ]
+        },
+        "127;-27": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                127,
+                -27
+            ]
+        },
+        "127;-32": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                127,
+                -32
+            ]
+        },
+        "127;-37": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                127,
+                -37
+            ]
+        },
+        "127;-41": {
+            "type": "background_objects",
+            "variant": 6,
+            "pos": [
+                127,
+                -41
+            ]
+        },
+        "128;-41": {
+            "type": "background_objects",
+            "variant": 1,
+            "pos": [
+                128,
+                -41
+            ]
+        },
+        "128;-32": {
+            "type": "background_objects",
+            "variant": 2,
+            "pos": [
+                128,
+                -32
+            ]
+        },
+        "128;-27": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                128,
+                -27
+            ]
+        },
+        "129;-32": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                129,
+                -32
+            ]
+        },
+        "128;-37": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                128,
+                -37
+            ]
+        },
+        "129;-41": {
+            "type": "background_objects",
+            "variant": 35,
+            "pos": [
+                129,
+                -41
+            ]
+        },
+        "129;-37": {
+            "type": "background_objects",
+            "variant": 34,
+            "pos": [
+                129,
+                -37
+            ]
+        },
+        "130;-41": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                130,
+                -41
+            ]
+        },
+        "130;-37": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                130,
+                -37
+            ]
+        },
+        "130;-32": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                130,
+                -32
+            ]
+        },
+        "129;-27": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                129,
+                -27
+            ]
+        },
+        "128;-22": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                128,
+                -22
+            ]
+        },
+        "128;-17": {
+            "type": "background_objects",
+            "variant": 9,
+            "pos": [
+                128,
+                -17
+            ]
+        },
+        "5;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                5,
+                -17
+            ]
+        },
+        "6;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                6,
+                -17
+            ]
+        },
+        "7;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                7,
+                -17
+            ]
+        },
+        "8;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                8,
+                -17
+            ]
+        },
+        "9;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                9,
+                -17
+            ]
+        },
+        "10;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                10,
+                -17
+            ]
+        },
+        "11;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                11,
+                -17
+            ]
+        },
+        "12;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                12,
+                -17
+            ]
+        },
+        "13;-17": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                13,
+                -17
+            ]
+        },
+        "15;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                15,
+                -22
+            ]
+        },
+        "16;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                16,
+                -22
+            ]
+        },
+        "17;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                17,
+                -22
+            ]
+        },
+        "18;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                18,
+                -22
+            ]
+        },
+        "19;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                19,
+                -22
+            ]
+        },
+        "20;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                20,
+                -22
+            ]
+        },
+        "21;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                21,
+                -22
+            ]
+        },
+        "22;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                22,
+                -22
+            ]
+        },
+        "23;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                23,
+                -22
+            ]
+        },
+        "24;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                24,
+                -22
+            ]
+        },
+        "25;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                25,
+                -22
+            ]
+        },
+        "14;-22": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                14,
+                -22
+            ]
+        },
+        "9;-20": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                9,
+                -20
+            ]
+        },
+        "28;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                28,
+                -25
+            ]
+        },
+        "29;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                29,
+                -25
+            ]
+        },
+        "30;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                30,
+                -25
+            ]
+        },
+        "31;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                31,
+                -25
+            ]
+        },
+        "32;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                32,
+                -25
+            ]
+        },
+        "33;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                33,
+                -25
+            ]
+        },
+        "34;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                34,
+                -25
+            ]
+        },
+        "35;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                35,
+                -25
+            ]
+        },
+        "36;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                36,
+                -25
+            ]
+        },
+        "37;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                37,
+                -25
+            ]
+        },
+        "38;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                38,
+                -25
+            ]
+        },
+        "39;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                39,
+                -25
+            ]
+        },
+        "40;-25": {
+            "type": "terrain",
+            "variant": 17,
+            "pos": [
+                40,
+                -25
+            ]
+        },
+        "35;-27": {
+            "type": "spawners",
+            "variant": 1,
+            "pos": [
+                35,
+                -27
+            ]
+        },
+        "12;-18": {
+            "type": "spawners",
+            "variant": 1,
+            "pos": [
+                12,
+                -18
+            ]
+        },
+        "17;-24": {
+            "type": "spawners",
+            "variant": 2,
+            "pos": [
+                17,
+                -24
+            ]
+        },
+        "30;-27": {
+            "type": "spawners",
+            "variant": 3,
+            "pos": [
+                30,
+                -27
+            ]
+        },
+        "78;-1": {
+            "type": "loot_spawn",
+            "variant": 1,
+            "pos": [
+                78,
+                -1
+            ]
+        },
+        "129;-34": {
+            "type": "loot_spawn",
+            "variant": 1,
+            "pos": [
+                129,
+                -34
+            ]
+        },
+        "129;-29": {
+            "type": "loot_spawn",
+            "variant": 1,
+            "pos": [
+                129,
+                -29
+            ]
+        },
+        "144;7": {
+            "type": "loot_spawn",
+            "variant": 1,
+            "pos": [
+                144,
+                7
+            ]
+        },
+        "140;1": {
+            "type": "loot_spawn",
+            "variant": 1,
+            "pos": [
+                140,
+                1
+            ]
+        },
+        "129;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                129,
+                28
+            ]
+        },
+        "128;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                128,
+                28
+            ]
+        },
+        "127;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                127,
+                28
+            ]
+        },
+        "126;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                126,
+                28
+            ]
+        },
+        "125;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                125,
+                28
+            ]
+        },
+        "124;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                124,
+                28
+            ]
+        },
+        "123;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                123,
+                28
+            ]
+        },
+        "122;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                122,
+                28
+            ]
+        },
+        "121;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                121,
+                28
+            ]
+        },
+        "120;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                120,
+                28
+            ]
+        },
+        "130;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                130,
+                28
+            ]
+        },
+        "131;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                131,
+                28
+            ]
+        },
+        "132;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                132,
+                28
+            ]
+        },
+        "133;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                133,
+                28
+            ]
+        },
+        "119;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                119,
+                28
+            ]
+        },
+        "118;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                118,
+                28
+            ]
+        },
+        "117;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                117,
+                28
+            ]
+        },
+        "116;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                116,
+                28
+            ]
+        },
+        "115;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                115,
+                28
+            ]
+        },
+        "114;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                114,
+                28
+            ]
+        },
+        "113;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                113,
+                28
+            ]
+        },
+        "112;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                112,
+                28
+            ]
+        },
+        "111;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                111,
+                28
+            ]
+        },
+        "110;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                110,
+                28
+            ]
+        },
+        "109;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                109,
+                28
+            ]
+        },
+        "108;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                108,
+                28
+            ]
+        },
+        "107;28": {
+            "type": "stone",
+            "variant": 1,
+            "pos": [
+                107,
+                28
+            ]
+        },
+        "93;29": {
+            "type": "spawners",
+            "variant": 1,
+            "pos": [
+                93,
+                29
+            ]
+        },
+        "122;29": {
+            "type": "spawners",
+            "variant": 3,
+            "pos": [
+                122,
+                29
+            ]
+        },
+        "6;38": {
+            "type": "grass",
+            "variant": 9,
+            "pos": [
+                6,
+                38
+            ]
+        },
+        "6;37": {
+            "type": "grass",
+            "variant": 9,
+            "pos": [
+                6,
+                37
+            ]
+        },
+        "12;37": {
+            "type": "grass",
+            "variant": 9,
+            "pos": [
+                12,
+                37
+            ]
+        },
+        "12;38": {
+            "type": "grass",
+            "variant": 9,
+            "pos": [
+                12,
+                38
+            ]
+        },
+        "8;39": {
+            "type": "grass",
+            "variant": 18,
+            "pos": [
+                8,
+                39
+            ]
+        },
+        "10;39": {
+            "type": "grass",
+            "variant": 18,
+            "pos": [
+                10,
+                39
+            ]
+        },
+        "-25;-3": {
+            "type": "decor",
+            "variant": 28,
+            "pos": [
+                -25,
+                -3
+            ]
         }
     },
     "tile_size": 16,
@@ -22327,54 +20823,6 @@
             "type": "chest_spawn",
             "variant": 0,
             "pos": [
-                1308.75,
-                473.0
-            ]
-        },
-        {
-            "type": "chest_spawn",
-            "variant": 1,
-            "pos": [
-                1314.75,
-                409.0
-            ]
-        },
-        {
-            "type": "chest_spawn",
-            "variant": 2,
-            "pos": [
-                1401.75,
-                361.0
-            ]
-        },
-        {
-            "type": "chest_spawn",
-            "variant": 3,
-            "pos": [
-                1555.5,
-                329.25
-            ]
-        },
-        {
-            "type": "chest_spawn",
-            "variant": 4,
-            "pos": [
-                1676.25,
-                281.0
-            ]
-        },
-        {
-            "type": "chest_spawn",
-            "variant": 5,
-            "pos": [
-                1834.75,
-                249.0
-            ]
-        },
-        {
-            "type": "chest_spawn",
-            "variant": 0,
-            "pos": [
                 -254.5,
                 -214.25
             ]
@@ -22401,14 +20849,6 @@
             "pos": [
                 -505.25,
                 7.5
-            ]
-        },
-        {
-            "type": "decor",
-            "variant": 33,
-            "pos": [
-                -486.5,
-                7.75
             ]
         },
         {
@@ -22468,27 +20908,211 @@
             ]
         },
         {
-            "type": "loot_spawn",
-            "variant": 6,
+            "type": "chest_spawn",
+            "variant": 0,
             "pos": [
-                -480.25,
-                -11.75
+                1997.75,
+                -150.75
+            ]
+        },
+        {
+            "type": "chest_spawn",
+            "variant": 5,
+            "pos": [
+                2091.0,
+                -231.0
+            ]
+        },
+        {
+            "type": "chest_spawn",
+            "variant": 2,
+            "pos": [
+                1910.5,
+                -150.5
+            ]
+        },
+        {
+            "type": "chest_spawn",
+            "variant": 4,
+            "pos": [
+                2163.75,
+                473.25
             ]
         },
         {
             "type": "decor",
-            "variant": 14,
+            "variant": 35,
             "pos": [
-                -458.5,
-                -55.75
+                588.75,
+                -411.75
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 34,
+            "pos": [
+                577.25,
+                -409.75
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 34,
+            "pos": [
+                570.5,
+                -409.25
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 34,
+            "pos": [
+                550.75,
+                -409.5
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 34,
+            "pos": [
+                630.5,
+                -409.5
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 34,
+            "pos": [
+                639.25,
+                -409.25
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 33,
+            "pos": [
+                534.75,
+                -409.0
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 33,
+            "pos": [
+                522.5,
+                -408.75
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 33,
+            "pos": [
+                510.0,
+                -408.5
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 33,
+            "pos": [
+                497.5,
+                -408.5
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 32,
+            "pos": [
+                621.75,
+                -419.75
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 29,
+            "pos": [
+                565.5,
+                -411.75
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 28,
+            "pos": [
+                489.5,
+                -472.0
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 20,
+            "pos": [
+                268.5,
+                -409.75
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 21,
+            "pos": [
+                227.5,
+                -413.5
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 19,
+            "pos": [
+                231.5,
+                -370.5
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 18,
+            "pos": [
+                262.75,
+                -363.0
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 12,
+            "pos": [
+                599.75,
+                -452.25
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 11,
+            "pos": [
+                639.75,
+                -413.5
             ]
         },
         {
             "type": "loot_spawn",
-            "variant": 13,
+            "variant": 12,
             "pos": [
-                -450.0,
-                -21.75
+                643.25,
+                -455.75
+            ]
+        },
+        {
+            "type": "loot_spawn",
+            "variant": 3,
+            "pos": [
+                455.0,
+                -414.0
+            ]
+        },
+        {
+            "type": "loot_spawn",
+            "variant": 9,
+            "pos": [
+                834.25,
+                59.75
             ]
         }
     ]

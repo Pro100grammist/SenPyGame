@@ -253,8 +253,8 @@ class Player(PhysicsEntity):
         self.initial_size = size
         self.current_size = size
 
-        self.life = 2
-        self.experience_points = 60
+        self.life = 5
+        self.experience_points = 0
 
         self.vitality = 0
         self.wisdom = 0
@@ -273,11 +273,11 @@ class Player(PhysicsEntity):
         self.min_stamina = 20
         self.stamina = self.max_stamina
 
-        self.money = 5000
-        self.heal_potions = 3
-        self.magic_potions = 3
-        self.stamina_potions = 3
-        self.power_potions = 3
+        self.money = 0
+        self.heal_potions = 0
+        self.magic_potions = 0
+        self.stamina_potions = 0
+        self.power_potions = 0
         self.power_potion_timer = 600
         self.corruption = False
         self.corruption_timer = 601
@@ -292,10 +292,10 @@ class Player(PhysicsEntity):
         self.selected_scroll = 0
 
         self.scrolls = {
-            'holly_spell': 1,
-            'speed_spell': 1,
-            'bloodlust_spell': 1,
-            'invulnerability_spell': 1,
+            'holly_spell': 0,
+            'speed_spell': 0,
+            'bloodlust_spell': 0,
+            'invulnerability_spell': 0,
         }
 
         self.skills_menu_is_active = False
@@ -330,7 +330,7 @@ class Player(PhysicsEntity):
         }
 
         self.keys = {
-            "steel_key": 2, "red_key": 2, "bronze_key": 2, "purple_key": 2, "gold_key": 2
+            "steel_key": 0, "red_key": 0, "bronze_key": 0, "purple_key": 0, "gold_key": 0
         }
 
         self.inventory = []
