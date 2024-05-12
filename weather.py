@@ -55,3 +55,9 @@ class Raindrop(pygame.sprite.Sprite):
             self.rect.y = random.randint(-50, -10)
             self.rect.x = random.randint(0, SCREEN_WIDTH)
             self.speed = random.uniform(5, 10)
+
+
+class Snow(pygame.sprite.Sprite):
+    def __init__(self, x, y, wind_strength):
+        super().__init__()
+        pass

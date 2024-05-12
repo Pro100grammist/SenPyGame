@@ -111,6 +111,7 @@ class Game:
         pygame.mixer.music.load(f'data/music/level{str(self.level)}.wav')
         pygame.mixer.music.set_volume(0.25)
         pygame.mixer.music.play(-1)
+        pygame.mixer.Sound(f'data/ambiance/{str(self.level)}.wav').play(-1)
 
         # calibrate the volume of sound effects
         volume_adjusting(self.sfx, self.volume_settings)
@@ -154,7 +155,7 @@ class Game:
         for item in self.map.extract([('loot_spawn', i) for i in range(15)]):
             loot_class = loot_id.get(item['variant'])
             if loot_class:
-                self.loot.append(loot_class(self, item['pos'], (16, 16)))
+                self.loot.append(loot_class(self, item['pos'], (16, 32)))
 
         chest_id = {
             0: CommonChest,
@@ -491,11 +492,12 @@ class Game:
                 self.merchant_window.render()
 
             #  handling of controller events
+            keys = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                self.player_controller.handle_events(event)
+                self.player_controller.handle_events(event, keys)
 
             if self.transition:
                 color = COLOR_SCHEMA['white']
@@ -529,7 +531,9 @@ class Menu:
         self.screen = screen
         self.display = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGTH), pygame.SRCALPHA)
         self.background = pygame.image.load('data/images/background/main_menu.png')
+        self.background_2 = pygame.transform.scale(self.background, (self.background.get_width() // 2, self.background.get_height() // 2))
         self.background_overlay = pygame.image.load('data/images/background/overlay.png').convert_alpha()
+        self.background_overlay_2 = pygame.transform.scale(self.background_overlay, (self.background_overlay.get_width() // 2, self.background_overlay.get_height() // 2))
         self.overlay_alpha = 70
         self.alpha_direction = 1
         self.overlay_rotation_angle = 0
@@ -618,8 +622,8 @@ class Menu:
     def run(self):
         """Runs the main loop of the menu."""
         while True:
-            self.screen.blit(self.background, (0, 0))
-            rotated_overlay = pygame.transform.rotate(self.background_overlay, self.overlay_rotation_angle)
+            self.screen.blit(self.background_2, (0, 0))
+            rotated_overlay = pygame.transform.rotate(self.background_overlay_2, self.overlay_rotation_angle)
             rotated_overlay_rect = rotated_overlay.get_rect(topleft=(- 12, -16))
             rotated_overlay.set_alpha(self.overlay_alpha)
             self.screen.blit(rotated_overlay, rotated_overlay_rect)
@@ -655,7 +659,7 @@ class Menu:
             for i, option in enumerate(self.options):
                 color = (255, 255, 255) if i == self.selected_option else (128, 128, 128)
                 menu_option = self.font.render(option, True, color)
-                menu = menu_option.get_rect(center=(SCREEN_WIDTH // 2, 400 + i * 50))
+                menu = menu_option.get_rect(center=(SCREEN_WIDTH // 2, 174 + i * 50))
                 self.screen.blit(menu_option, menu)
 
             if random.random() < 0.1:  # Simulating the appearance of new particles with a certain probability

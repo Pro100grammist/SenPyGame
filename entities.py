@@ -543,6 +543,15 @@ class Player(PhysicsEntity):
         self.max_mana += item.increase_mana * in_dec
         self.exp_multiplier += item.increase_experience * in_dec
 
+    def cheat_mode_on(self):
+        self.scrolls = {k: 9 for k, v in self.scrolls.items()}
+        self.experience_points = 50
+        self.money = 9999
+        self.heal_potions += 9
+        self.magic_potions += 9
+        self.stamina_potions += 9
+        self.power_potions += 9
+
     def update(self, tilemap, movement=(0, 0)):
         speed = (movement[0] * self.super_speed, movement[1])
         super().update(tilemap, movement=speed)

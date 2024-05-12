@@ -2,6 +2,8 @@ import pygame
 
 from random import randint
 
+from pygame.locals import K_g, K_o, K_d
+
 
 class PlayerController:
     def __init__(self, player, sfx, movement, skills_tree, character_menu, inventory, merchant):
@@ -13,7 +15,11 @@ class PlayerController:
         self.inventory = inventory
         self.merchant = merchant
 
-    def handle_events(self, event):
+    def handle_events(self, event, keys):
+        # cheat_mod
+        if keys[K_g] and keys[K_o] and keys[K_d]:
+            self.player.cheat_mode_on()
+
         # skills tree
         if self.player.skills_menu_is_active:
             if event.type == pygame.KEYDOWN:
