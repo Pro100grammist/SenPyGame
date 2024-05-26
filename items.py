@@ -5,8 +5,8 @@ import pygame
 from collections import defaultdict
 from typing import Any
 
-from support import BASE_IMG_PATH
-from data import EQUIPMENT, EQUIPMENTS_CATEGORIES
+from support import BASE_IMG_PATH, load_image
+from data import EQUIPMENT, EQUIPMENTS_CATEGORIES, BOOKS
 
 
 class GameLoot:
@@ -188,6 +188,27 @@ def create_poison():
     return poisons
 
 
+class Book:
+    def __init__(self, title):
+        self.book = BOOKS.get(title, 'default_book')
+        self.name = self.book.get('name')
+        self.branch = self.book.get('branch')
+        self.lvl = self.book.get('level')
+        self.price = self.book.get('price')
+        self.prologue = self.book.get('prologue')
+        self.features = self.book.get('features')
+        self.image = self.book.get('image')
+        self.pic = self.book.get('pic')
+
+
+class DungeonShadows(Book):
+    def __init__(self):
+        super().__init__(title='dungeon_shadows')
+
+    def read(self):
+        print('Dungeon Shadows Book read')
+
+
 class Equipment:
     """
     The class represents game equipment like weapon, armor, jewelry, and other.
@@ -254,6 +275,14 @@ def create_equipment(name=None, rareness=None):
             return equipment_instance
 
 
+def create_book(book):
+    library = {
+        'dungeon_shadows': DungeonShadows(),
+    }
+
+    return library.get(book)
+
+
 class Chest:
     def __init__(self, game, pos, size, lock=None, chest_class='common'):
         self.game = game
@@ -289,7 +318,9 @@ class Chest:
             equipment = create_equipment(rareness=self.keys_map[self.lock])  # Create equipment based on chest class
         else:
             equipment = create_equipment()  # Create random equipment
+        additional_item = create_book(book='dungeon_shadows')
         self.game.player.inventory.append(equipment)
+        self.game.player.inventory.append(additional_item)
         self.game.inventory_menu.refresh_inventory()
         self.game.sfx['get_item'].play()
 

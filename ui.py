@@ -3,7 +3,7 @@ import math
 import pygame
 
 from support import BASE_IMG_PATH
-from items import Equipment
+from items import Equipment, Book
 from data import POTIONS, SCROLLS, MERCHANT_ITEM_POS, UI_PATH
 
 
@@ -870,8 +870,13 @@ class InventoryMenu:
                     self.game.player.inventory[replaced_item_index] = deactivated_equipment
 
                 self.game.player.refreshing_player_status(item)
-                self.refresh_inventory()
-                self.game.sfx['item_equip'].play()
+
+            if isinstance(item, Book):
+                item.read()
+                self.game.player.inventory.remove(item)
+
+            self.refresh_inventory()
+            self.game.sfx['item_equip'].play()
 
     def refresh_inventory(self):
         """
@@ -911,53 +916,58 @@ class InventoryMenu:
         # Current equipment rendering
         current_equipment = self.grid[self.selected_row][self.selected_col]
         if current_equipment:
-            name_render = self.font.render(current_equipment.name, True, (255, 255, 255))
-            eq_class = f"Class         {current_equipment.rarity}"
-            rarity_render = self.font.render(eq_class, True, (255, 255, 255))
+            if isinstance(current_equipment, Equipment):
 
-            render_list = [name_render, rarity_render]
+                name_render = self.font.render(current_equipment.name, True, (255, 255, 255))
+                eq_class = f"Class         {current_equipment.rarity}"
+                rarity_render = self.font.render(eq_class, True, (255, 255, 255))
 
-            if current_equipment.increase_defence > 0:
-                defence = f"Defence         + {current_equipment.increase_defence}"
-                defence_render = self.font.render(defence, True, (255, 255, 255))
-                render_list.append(defence_render)
-            if current_equipment.increase_damage > 0:
-                damage = f"Damage         + {current_equipment.increase_damage}"
-                damage_render = self.font.render(damage, True, (255, 255, 255))
-                render_list.append(damage_render)
-            if current_equipment.distance_damage > 0:
-                d_damage = f"Damage         + {current_equipment.distance_damage}"
-                d_damage_render = self.font.render(d_damage, True, (255, 255, 255))
-                render_list.append(d_damage_render)
-            if current_equipment.increase_health > 0:
-                health = f"Health           + {current_equipment.increase_health}"
-                health_render = self.font.render(health, True, (255, 255, 255))
-                render_list.append(health_render)
-            if current_equipment.increase_stamina > 0:
-                stamina = f"Stamina         + {current_equipment.increase_stamina}"
-                stamina_render = self.font.render(stamina, True, (255, 255, 255))
-                render_list.append(stamina_render)
-            if current_equipment.increase_mana > 0:
-                mana = f"Mana           + {current_equipment.increase_mana}"
-                mana_render = self.font.render(mana, True, (255, 255, 255))
-                render_list.append(mana_render)
-            if current_equipment.increase_experience > 0:
-                experience = f"Experience     + {current_equipment.increase_experience} %"
-                experience_render = self.font.render(experience, True, (255, 255, 255))
-                render_list.append(experience_render)
-            if current_equipment.price > 0:
-                price = f"Price            {current_equipment.price}"
-                price_render = self.font.render(price, True, (255, 255, 255))
-                render_list.append(price_render)
-            if current_equipment.condition:
-                condition = f"Condition        {current_equipment.condition}"
-                condition_render = self.font.render(condition, True, (255, 255, 255))
-                render_list.append(condition_render)
+                render_list = [name_render, rarity_render]
 
-            y_offset = 2
-            for i in render_list:
-                self.game.display.blit(i, (x + 42, y + 84 + y_offset))
-                y_offset += 18
+                if current_equipment.increase_defence > 0:
+                    defence = f"Defence         + {current_equipment.increase_defence}"
+                    defence_render = self.font.render(defence, True, (255, 255, 255))
+                    render_list.append(defence_render)
+                if current_equipment.increase_damage > 0:
+                    damage = f"Damage         + {current_equipment.increase_damage}"
+                    damage_render = self.font.render(damage, True, (255, 255, 255))
+                    render_list.append(damage_render)
+                if current_equipment.distance_damage > 0:
+                    d_damage = f"Damage         + {current_equipment.distance_damage}"
+                    d_damage_render = self.font.render(d_damage, True, (255, 255, 255))
+                    render_list.append(d_damage_render)
+                if current_equipment.increase_health > 0:
+                    health = f"Health           + {current_equipment.increase_health}"
+                    health_render = self.font.render(health, True, (255, 255, 255))
+                    render_list.append(health_render)
+                if current_equipment.increase_stamina > 0:
+                    stamina = f"Stamina         + {current_equipment.increase_stamina}"
+                    stamina_render = self.font.render(stamina, True, (255, 255, 255))
+                    render_list.append(stamina_render)
+                if current_equipment.increase_mana > 0:
+                    mana = f"Mana           + {current_equipment.increase_mana}"
+                    mana_render = self.font.render(mana, True, (255, 255, 255))
+                    render_list.append(mana_render)
+                if current_equipment.increase_experience > 0:
+                    experience = f"Experience     + {current_equipment.increase_experience} %"
+                    experience_render = self.font.render(experience, True, (255, 255, 255))
+                    render_list.append(experience_render)
+                if current_equipment.price > 0:
+                    price = f"Price            {current_equipment.price}"
+                    price_render = self.font.render(price, True, (255, 255, 255))
+                    render_list.append(price_render)
+                if current_equipment.condition:
+                    condition = f"Condition        {current_equipment.condition}"
+                    condition_render = self.font.render(condition, True, (255, 255, 255))
+                    render_list.append(condition_render)
+
+                y_offset = 2
+                for i in render_list:
+                    self.game.display.blit(i, (x + 42, y + 84 + y_offset))
+                    y_offset += 18
+
+            elif isinstance(current_equipment, Book):
+                pass
 
         # Magic scrolls rendering
         x_offset = 92

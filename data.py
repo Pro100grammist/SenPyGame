@@ -263,4 +263,6 @@ def load_data(json_file):
     return equipment_data
 
 
-EQUIPMENT = load_data('data/equipment.json')
+EQUIPMENT = load_data('data/objects/equipment.json')
+
+BOOKS = load_data('data/objects/books.json')
