@@ -287,6 +287,7 @@ class Player(PhysicsEntity):
         self.critical_hit_timer = 1200
         self.invulnerability = False
         self.invulnerability_timer = 1000
+        self.necromancy = False
 
         self.selected_item = 0
         self.selected_scroll = 0

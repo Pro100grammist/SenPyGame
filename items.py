@@ -201,12 +201,51 @@ class Book:
         self.pic = self.book.get('pic')
 
 
-class DungeonShadows(Book):
-    def __init__(self):
-        super().__init__(title='dungeon_shadows')
+class DungeonShadows(Book, GameLoot):
+    def __init__(self, game, pos=(0, 0), size=(0, 0)):
+        Book.__init__(self, title='dungeon_shadows')
+        GameLoot.__init__(self, game, pos, size, i_type='dungeon_shadows')
 
     def read(self):
-        print('Dungeon Shadows Book read')
+        self.game.player.necromancy = True
+        if self.game.player.necromancy:
+            print("Now you are Necromant!")
+
+
+class ForgottenSouls(Book, GameLoot):
+    def __init__(self, game, pos=(0, 0), size=(0, 0)):
+        Book.__init__(self, title='forgotten_souls')
+        GameLoot.__init__(self, game, pos, size, i_type='forgotten_souls')
+
+    def read(self):
+        print('The House of Forgotten Souls Book read')
+
+
+class BridgeEternity(Book, GameLoot):
+    def __init__(self, game, pos=(0, 0), size=(0, 0)):
+        Book.__init__(self, title='bridge_to_eternity')
+        GameLoot.__init__(self, game, pos, size, i_type='bridge_to_eternity')
+
+    def read(self):
+        print('Bridge to Eternity')
+
+
+class WhispersAfterlife(Book, GameLoot):
+    def __init__(self, game, pos=(0, 0), size=(0, 0)):
+        Book.__init__(self, title='whispers_of_afterlife')
+        GameLoot.__init__(self, game, pos, size, i_type='whispers_of_afterlife')
+
+    def read(self):
+        print('Whispers of the Afterlife Book read')
+
+
+class Necronomicon(Book, GameLoot):
+    def __init__(self, game, pos=(0, 0), size=(0, 0)):
+        Book.__init__(self, title='necronomicon')
+        GameLoot.__init__(self, game, pos, size, i_type='necronomicon')
+
+    def read(self):
+        print('The Necronomicon of Arcata')
 
 
 class Equipment:
@@ -275,12 +314,19 @@ def create_equipment(name=None, rareness=None):
             return equipment_instance
 
 
-def create_book(book):
+def create_book(game, book=None):
     library = {
-        'dungeon_shadows': DungeonShadows(),
+        'dungeon_shadows': DungeonShadows(game),
+        'forgotten_souls': ForgottenSouls(game),
+        'bridge_to_eternity': BridgeEternity(game),
+        'whispers_of_afterlife': WhispersAfterlife(game),
+        'necronomicon': Necronomicon(game)
     }
-
-    return library.get(book)
+    if book:
+        return library.get(book)
+    else:
+        random_book = random.choice(list(library.keys()))
+        return library[random_book]
 
 
 class Chest:
@@ -318,7 +364,7 @@ class Chest:
             equipment = create_equipment(rareness=self.keys_map[self.lock])  # Create equipment based on chest class
         else:
             equipment = create_equipment()  # Create random equipment
-        additional_item = create_book(book='dungeon_shadows')
+        additional_item = create_book(self.game)
         self.game.player.inventory.append(equipment)
         self.game.player.inventory.append(additional_item)
         self.game.inventory_menu.refresh_inventory()

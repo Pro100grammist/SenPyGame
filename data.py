@@ -80,6 +80,11 @@ def load_assets():
         'loot/bloodlust_scroll': Animation(load_images('tiles/loot/bloodlust_scroll')),
         'loot/speed_scroll': Animation(load_images('tiles/loot/speed_scroll')),
         'loot/invulnerability_scroll': Animation(load_images('tiles/loot/invulnerability_scroll')),
+        'loot/dungeon_shadows': load_image('ui/books/books_icons/dungeon_shadows.png'),
+        'loot/forgotten_souls': load_image('ui/books/books_icons/forgotten_souls.png'),
+        'loot/bridge_to_eternity': load_image('ui/books/books_icons/bridge_to_eternity.png'),
+        'loot/whispers_of_afterlife': load_image('ui/books/books_icons/whispers_of_afterlife.png'),
+        'loot/necronomicon': load_image('ui/books/books_icons/necronomicon.png'),
         'loot_spawn': load_images('tiles/loot_spawn'),
 
         # keys

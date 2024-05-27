@@ -2240,30 +2240,6 @@
                 5
             ]
         },
-        "28;1": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                28,
-                1
-            ]
-        },
-        "29;1": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                29,
-                1
-            ]
-        },
-        "30;1": {
-            "type": "loot_spawn",
-            "variant": 1,
-            "pos": [
-                30,
-                1
-            ]
-        },
         "40;5": {
             "type": "loot_spawn",
             "variant": 1,
@@ -20192,14 +20168,6 @@
                 -26
             ]
         },
-        "31;-2": {
-            "type": "loot_spawn",
-            "variant": 9,
-            "pos": [
-                31,
-                -2
-            ]
-        },
         "68;2": {
             "type": "loot_spawn",
             "variant": 2,
@@ -20295,6 +20263,22 @@
                 9,
                 -21
             ]
+        },
+        "29;0": {
+            "type": "loot_spawn",
+            "variant": 1,
+            "pos": [
+                29,
+                0
+            ]
+        },
+        "32;-2": {
+            "type": "loot_spawn",
+            "variant": 9,
+            "pos": [
+                32,
+                -2
+            ]
         }
     },
     "tile_size": 16,
@@ -20329,14 +20313,6 @@
             "pos": [
                 353.25,
                 -105.5
-            ]
-        },
-        {
-            "type": "decor",
-            "variant": 33,
-            "pos": [
-                506.75,
-                -24.5
             ]
         },
         {
@@ -20785,6 +20761,94 @@
             "pos": [
                 969.5,
                 -440.0
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 11,
+            "pos": [
+                498.0,
+                -31.0
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 23,
+            "pos": [
+                465.5,
+                16.75
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 32,
+            "pos": [
+                482.75,
+                78.0
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 32,
+            "pos": [
+                494.5,
+                84.25
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 33,
+            "pos": [
+                477.75,
+                87.0
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 33,
+            "pos": [
+                512.75,
+                87.25
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 34,
+            "pos": [
+                464.0,
+                86.5
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 35,
+            "pos": [
+                519.0,
+                84.5
+            ]
+        },
+        {
+            "type": "decor",
+            "variant": 29,
+            "pos": [
+                686.25,
+                84.5
+            ]
+        },
+        {
+            "type": "large_decor",
+            "variant": 0,
+            "pos": [
+                436.0,
+                79.5
+            ]
+        },
+        {
+            "type": "large_decor",
+            "variant": 1,
+            "pos": [
+                440.0,
+                7.25
             ]
         }
     ]

@@ -967,7 +967,10 @@ class InventoryMenu:
                     y_offset += 18
 
             elif isinstance(current_equipment, Book):
-                pass
+                name_render = self.font.render(current_equipment.name, True, (255, 255, 255))
+                self.game.display.blit(name_render, (x + 42, y + 86))
+                image = pygame.image.load(current_equipment.image)
+                self.game.display.blit(image, (x + 42, y + 106))
 
         # Magic scrolls rendering
         x_offset = 92
@@ -976,8 +979,9 @@ class InventoryMenu:
             scroll_image = pygame.transform.scale(scroll_image,
                                                   (scroll_image.get_width() * 0.65, scroll_image.get_height() * 0.65))
             scroll_amount = scroll[1]
-            self.game.display.blit(scroll_image, (x + x_offset, y + 328))
-            x_offset += 44
+            if scroll[1] > 0:
+                self.game.display.blit(scroll_image, (x + x_offset, y + 328))
+                x_offset += 44
 
 
 class MerchantWindow:
