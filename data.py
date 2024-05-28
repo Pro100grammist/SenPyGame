@@ -111,6 +111,7 @@ def load_assets():
 
         # effects
         'kaboom': load_images('particles/kaboom'),
+        'necromancy': load_images('particles/spell/necromancy'),
     }
 
 

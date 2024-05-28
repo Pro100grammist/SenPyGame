@@ -7,6 +7,7 @@ from typing import Any
 
 from support import BASE_IMG_PATH, load_image
 from data import EQUIPMENT, EQUIPMENTS_CATEGORIES, BOOKS
+from projectile import Necromancy
 
 
 class GameLoot:
@@ -208,8 +209,7 @@ class DungeonShadows(Book, GameLoot):
 
     def read(self):
         self.game.player.necromancy = True
-        if self.game.player.necromancy:
-            print("Now you are Necromant!")
+        self.game.effects.append(Necromancy(self.game, self.game.player.hitbox.midtop, 0))
 
 
 class ForgottenSouls(Book, GameLoot):

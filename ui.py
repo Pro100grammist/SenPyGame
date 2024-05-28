@@ -873,7 +873,9 @@ class InventoryMenu:
 
             if isinstance(item, Book):
                 item.read()
+                self.grid[self.current_cell[0]][self.current_cell[1]] = None
                 self.game.player.inventory.remove(item)
+                self.game.player.inventory_menu_is_active = False
 
             self.refresh_inventory()
             self.game.sfx['item_equip'].play()

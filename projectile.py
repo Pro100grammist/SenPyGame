@@ -104,6 +104,12 @@ class HitEffect(AnimatedProjectile):
         super().__init__(game, pos, direction, sprites, False, image_duration=1)
 
 
+class Necromancy(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['necromancy']
+        super().__init__(game, pos, direction, sprites, False, image_duration=8)
+
+
 class BloodEffect(AnimatedProjectile):
     def __init__(self, game, pos):
         sprites = game.assets['blood']
