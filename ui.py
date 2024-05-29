@@ -871,7 +871,7 @@ class InventoryMenu:
 
                 self.game.player.refreshing_player_status(item)
 
-            if isinstance(item, Book):
+            elif isinstance(item, Book):
                 item.read()
                 self.grid[self.current_cell[0]][self.current_cell[1]] = None
                 self.game.player.inventory.remove(item)
@@ -969,10 +969,12 @@ class InventoryMenu:
                     y_offset += 18
 
             elif isinstance(current_equipment, Book):
-                name_render = self.font.render(current_equipment.name, True, (255, 255, 255))
-                self.game.display.blit(name_render, (x + 42, y + 86))
+                book_title = self.font.render(current_equipment.book_name, True, (255, 255, 255))
+                self.game.display.blit(book_title, (x + 42, y + 92))
                 image = pygame.image.load(current_equipment.image)
-                self.game.display.blit(image, (x + 42, y + 106))
+                self.game.display.blit(image, (x + 52, y + 116))
+                hint = self.font.render('To read more, press E', True, (255, 255, 255))
+                self.game.display.blit(hint, (x + 48, y + 240))
 
         # Magic scrolls rendering
         x_offset = 92

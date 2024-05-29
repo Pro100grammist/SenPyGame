@@ -192,7 +192,7 @@ def create_poison():
 class Book:
     def __init__(self, title):
         self.book = BOOKS.get(title, 'default_book')
-        self.name = self.book.get('name')
+        self.book_name = self.book.get('book_name')
         self.branch = self.book.get('branch')
         self.lvl = self.book.get('level')
         self.price = self.book.get('price')
@@ -314,19 +314,20 @@ def create_equipment(name=None, rareness=None):
             return equipment_instance
 
 
-def create_book(game, book=None):
+# Factory function to create books
+def create_book(game, book=None, pos=(0, 0), size=(0, 0)):
     library = {
-        'dungeon_shadows': DungeonShadows(game),
-        'forgotten_souls': ForgottenSouls(game),
-        'bridge_to_eternity': BridgeEternity(game),
-        'whispers_of_afterlife': WhispersAfterlife(game),
-        'necronomicon': Necronomicon(game)
+        'dungeon_shadows': DungeonShadows,
+        'forgotten_souls': ForgottenSouls,
+        'bridge_to_eternity': BridgeEternity,
+        'whispers_of_afterlife': WhispersAfterlife,
+        'necronomicon': Necronomicon
     }
     if book:
-        return library.get(book)
+        return library.get(book)(game, pos, size)
     else:
         random_book = random.choice(list(library.keys()))
-        return library[random_book]
+        return library[random_book](game)
 
 
 class Chest:
