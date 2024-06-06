@@ -42,4 +42,3 @@ from support import BASE_IMG_PATH
 #     new_base_name = new_base_name.replace('_', '0')
 #     new_file_name = f"{new_base_name}{extension}"
 #     os.rename(os.path.join(directory, file_name), os.path.join(directory, new_file_name))
-

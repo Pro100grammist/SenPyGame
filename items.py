@@ -64,6 +64,8 @@ class GameLoot:
                 if loot_item.i_type in player_stuff:
                     if loot_item.i_type == 'gem':
                         self.game.artifacts_remaining -= 1
+                    elif loot_item.i_type == 'coin':
+                        self.game.player.money += 1
                     else:
                         player_thing = player_stuff[loot_item.i_type]
                         setattr(self.game.player, player_thing, getattr(self.game.player, player_thing) + 1)
