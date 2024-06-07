@@ -10,7 +10,20 @@ from projectile import (Suriken, AnimatedFireball, SkullSmoke, HollySpell, Speed
 
 
 class PhysicsEntity:
+    """
+    A class representing an entity with physics-based movement and collision detection.
+    """
     def __init__(self, game, e_type, pos, size):
+        """
+        Initializes the PhysicsEntity object.
+
+        Parameters:
+            :param game: Reference to the game object.
+            :param e_type: Type of the entity (e.g., player, enemy).
+            :param pos: Initial position of the entity.
+            :param size: Size of the entity (width, height).
+        """
+
         self.game = game
         self.type = e_type
         self.pos = list(pos)
@@ -29,44 +42,53 @@ class PhysicsEntity:
         self.show_hitboxes = False
 
     def rect(self):
+        """Returns the rectangular area of the entity."""
         return pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
 
     def set_action(self, action):
+        """Sets the current action (animation) of the entity."""
         if action != self.action:
             self.action = action
             self.animation = self.game.assets[self.type + '/' + self.action].copy()
 
     def update_hitbox(self):
+        """Updates the hitbox of the entity."""
         self.hitbox = pygame.Rect(self.pos[0] - 16, self.pos[1] - 12, self.size[0] + 32, self.size[1] + 12)
 
+    def handle_collisions(self, entity_rect, frame_movement, tilemap, axis):
+        """Handles collisions with the tilemap based on the specified axis."""
+        for rect in tilemap.tiles_around_the_player(self.pos):
+            if entity_rect.colliderect(rect):
+                if axis == 'horizontal':
+                    if frame_movement[0] > 0:  # Moving right
+                        entity_rect.right = rect.left
+                        self.collisions['right'] = True
+                    elif frame_movement[0] < 0:  # Moving left
+                        entity_rect.left = rect.right
+                        self.collisions['left'] = True
+                    self.pos[0] = entity_rect.x
+                elif axis == 'vertical':
+                    if frame_movement[1] > 0:  # Moving down
+                        entity_rect.bottom = rect.top
+                        self.collisions['down'] = True
+                    elif frame_movement[1] < 0:  # Moving up
+                        entity_rect.top = rect.bottom
+                        self.collisions['up'] = True
+                    self.pos[1] = entity_rect.y
+
     def update(self, tilemap, movement=(0, 0)):
+        """Updates the entity's position, handles movement and collisions."""
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
 
         frame_movement = (movement[0] + self.velocity[0], movement[1] + self.velocity[1])
 
         self.pos[0] += frame_movement[0]
         entity_rect = self.rect()
-        for rect in tilemap.tiles_around_the_player(self.pos):
-            if entity_rect.colliderect(rect):
-                if frame_movement[0] > 0:
-                    entity_rect.right = rect.left
-                    self.collisions['right'] = True
-                if frame_movement[0] < 0:
-                    entity_rect.left = rect.right
-                    self.collisions['left'] = True
-                self.pos[0] = entity_rect.x
+        self.handle_collisions(entity_rect, frame_movement, tilemap, axis='horizontal')
 
         self.pos[1] += frame_movement[1]
         entity_rect = self.rect()
-        for rect in tilemap.tiles_around_the_player(self.pos):
-            if entity_rect.colliderect(rect):
-                if frame_movement[1] > 0:
-                    entity_rect.bottom = rect.top
-                    self.collisions['down'] = True
-                if frame_movement[1] < 0:
-                    entity_rect.top = rect.bottom
-                    self.collisions['up'] = True
-                self.pos[1] = entity_rect.y
+        self.handle_collisions(entity_rect, frame_movement, tilemap, axis='vertical')
 
         if movement[0] != 0:
             self.flip = False if movement[0] > 0 else True
@@ -83,6 +105,7 @@ class PhysicsEntity:
         self.update_hitbox()
 
     def render(self, surf, offset=(0, 0)):
+        """Renders the entity on the given surface."""
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
                   (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - 10 - offset[1] + self.anim_offset[1]))
 
