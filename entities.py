@@ -606,7 +606,7 @@ class Player(PhysicsEntity):
         self.power_potions += 9
 
     def update(self, tilemap, movement=(0, 0)):
-        speed = (movement[0] * self.super_speed, movement[1])
+        speed = (movement[0] * 1.5 * self.super_speed, movement[1])
         super().update(tilemap, movement=speed)
 
         self.air_time += 1

@@ -300,10 +300,12 @@ EQUIPMENTS_CATEGORIES = {
 
 def load_data(json_file):
     with open(json_file, 'r') as f:
-        equipment_data = json.load(f)
-    return equipment_data
+        data = json.load(f)
+    return data
 
 
 EQUIPMENT = load_data('data/objects/equipment.json')
 
 BOOKS = load_data('data/objects/books.json')
+
+SKILLS = load_data('data/objects/skills.json')

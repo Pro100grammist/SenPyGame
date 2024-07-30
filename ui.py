@@ -4,7 +4,7 @@ import pygame
 
 from support import BASE_IMG_PATH
 from items import Equipment, Book
-from data import POTIONS, SCROLLS, MERCHANT_ITEM_POS, UI_PATH, UI_SET
+from data import POTIONS, SCROLLS, SKILLS, MERCHANT_ITEM_POS, UI_PATH, UI_SET
 
 
 class UI:
@@ -371,199 +371,17 @@ class SkillsTree:
         "Sorcery Mastery", "Enchanter's Blessing", "Inscription Mastery", "Time Manipulation",
         """
         skills = []
-
-        # Skill 1: Healing Mastery
-        healing_mastery = Skill(
-            name="Healing Mastery",
-            image_path=BASE_IMG_PATH + 'ui/skills/healing_mastery.png',
-            coordinates=(217, 76),
-            description="Doubles the effect of using a healing potion",
-            required_experience=1,
-            level=1,
-            accessibility=None
-        )
-        skills.append(healing_mastery)
-
-        # Skill 2: Vitality Infusion
-        vitality_infusion = Skill(
-            name="Vitality Infusion",
-            image_path=BASE_IMG_PATH + 'ui/skills/vitality_infusion.png',
-            coordinates=(217, 124),
-            description="Up max hp points with each lvl and gives a chance to regain hp from the damage if hp<30%.",
-            required_experience=2,
-            level=2,
-            accessibility="Healing Mastery"
-        )
-        skills.append(vitality_infusion)
-
-        # Skill 3: Poison Resistance
-        poison_resistance = Skill(
-            name="Poison Resistance",
-            image_path=BASE_IMG_PATH + 'ui/skills/poison_resistance.png',
-            coordinates=(218, 227),
-            description="Grants immunity to poison effects",
-            required_experience=4,
-            level=4,
-            accessibility="Vitality Infusion"
-        )
-        skills.append(poison_resistance)
-
-        # Skill 4: Absorption
-        absorption = Skill(
-            name="Absorption",
-            image_path=BASE_IMG_PATH + 'ui/skills/absorption.png',
-            coordinates=(218, 283),
-            description="Absorbs enemy energy and converts it into player's health.",
-            required_experience=4,
-            level=5,
-            accessibility="Rapid Recovery"
-        )
-        skills.append(absorption)
-
-        # Skill 5: Endurance Mastery
-        endurance_mastery = Skill(
-            name="Endurance Mastery",
-            image_path=BASE_IMG_PATH + 'ui/skills/endurance_mastery.png',
-            coordinates=(392, 124),
-            description="Increases maximum stamina and reduces stamina consumption.",
-            required_experience=2,
-            level=2,
-            accessibility="Hawk's Eye"
-        )
-        skills.append(endurance_mastery)
-
-        # Skill 6: Hawk's Eye
-        hawks_eye = Skill(
-            name="Hawk's Eye",
-            image_path=BASE_IMG_PATH + 'ui/skills/hawks_eye.png',
-            coordinates=(392, 176),
-            description="Enhances critical hit chance with ranged weapons.",
-            required_experience=3,
-            level=3,
-            accessibility="Weapon Mastery"
-        )
-        skills.append(hawks_eye)
-
-        # Skill 7: Swift Reflexes (This skill not implemented yet, but I think about how to find solution)
-        swift_reflexes = Skill(
-            name="Swift Reflexes",
-            image_path=BASE_IMG_PATH + 'ui/skills/swift_reflexes.png',
-            coordinates=(392, 76),
-            description="Improves dodge ability, giving you a chance to avoid being hit by an enemy.",
-            required_experience=1,
-            level=1,
-            accessibility=None
-        )
-        skills.append(swift_reflexes)
-
-        # Skill 8: Rapid Recovery
-        rapid_recovery = Skill(
-            name="Rapid Recovery",
-            image_path=BASE_IMG_PATH + 'ui/skills/rapid_recovery.png',
-            coordinates=(277, 227),
-            description="Increases the speed of stamina regeneration after combat.",
-            required_experience=4,
-            level=4,
-            accessibility="Ruthless Strike"
-        )
-        skills.append(rapid_recovery)
-
-        # Skill 9: Ruthless Strike
-        ruthless_strike = Skill(
-            name="Ruthless Strike",
-            image_path=BASE_IMG_PATH + 'ui/skills/ruthless_strike.png',
-            coordinates=(333, 227),
-            description="Increases the chance to deal a powerful & merciless strike, ignoring enemy's armor.",
-            required_experience=4,
-            level=4,
-            accessibility="Weapon Mastery"
-        )
-        skills.append(ruthless_strike)
-
-        # Skill 10: Weapon Mastery
-        weapon_mastery = Skill(
-            name="Weapon Mastery",
-            image_path=BASE_IMG_PATH + 'ui/skills/weapon_mastery.png',
-            coordinates=(333, 176),
-            description="Improves melee weapon skills, increasing damage and attack speed.",
-            required_experience=3,
-            level=3,
-            accessibility=("Steel Skin", "Inscription Mastery")
-        )
-        skills.append(weapon_mastery)
-
-        # Skill 11: Steel Skin
-        steel_skin = Skill(
-            name="Steel Skin",
-            image_path=BASE_IMG_PATH + 'ui/skills/steel_skin.png',
-            coordinates=(333, 76),
-            description="Hardens the skin, reducing damage taken.",
-            required_experience=1,
-            level=1,
-            accessibility=None
-        )
-        skills.append(steel_skin)
-
-        # Skill 12: Berserker Rage
-        berserker_rage = Skill(
-            name="Berserker Rage",
-            image_path=BASE_IMG_PATH + 'ui/skills/berserker_rage.png',
-            coordinates=(333, 283),
-            description="When 💔 drops below 25%, the hero frenzied rage, increasing the damage inflicted on enemies.",
-            required_experience=5,
-            level=5,
-            accessibility="Ruthless Strike"
-        )
-        skills.append(berserker_rage)
-
-        # Skill 13: Sorcery Mastery
-        sorcery_mastery = Skill(
-            name="Sorcery Mastery",
-            image_path=BASE_IMG_PATH + 'ui/skills/sorcery_mastery.png',
-            coordinates=(277, 76),
-            description="Enhances magical abilities and reduces spell casting costs.",
-            required_experience=1,
-            level=1,
-            accessibility=None
-        )
-        skills.append(sorcery_mastery)
-
-        # Skill 14: Enchanter's Blessing
-        enchanters_blessing = Skill(
-            name="Enchanter's Blessing",
-            image_path=BASE_IMG_PATH + 'ui/skills/enchanters_blessing.png',
-            coordinates=(277, 124),
-            description="Blessing increases the power and effectiveness of spells.",
-            required_experience=2,
-            level=2,
-            accessibility="Sorcery Mastery"
-        )
-        skills.append(enchanters_blessing)
-
-        # Skill 15: Inscription Mastery
-        inscription_mastery = Skill(
-            name="Inscription Mastery",
-            image_path=BASE_IMG_PATH + 'ui/skills/inscription_mastery.png',
-            coordinates=(277, 176),
-            description="Gives you a chance to save a scroll with a spell while using it.",
-            required_experience=3,
-            level=3,
-            accessibility="Enchanter's Blessing"
-        )
-        skills.append(inscription_mastery)
-
-        # Skill 16: Resurrection
-        resurrection = Skill(
-            name="Resurrection",
-            image_path=BASE_IMG_PATH + 'ui/skills/time_manipulation.png',
-            coordinates=(278, 333),
-            description="It gives a chance to revive in case of the hero's death.",
-            required_experience=6,
-            level=6,
-            accessibility="Rapid Recovery"
-        )
-        skills.append(resurrection)
-
+        for name, data in SKILLS.items():
+            skill = Skill(
+                name=name,
+                image_path=BASE_IMG_PATH + data["image_path"],
+                coordinates=tuple(data["coordinates"]),
+                description=data["description"],
+                required_experience=data["required_experience"],
+                level=data["level"],
+                accessibility=data["accessibility"]
+            )
+            skills.append(skill)
         return skills
 
     def move_cursor(self, direction):
