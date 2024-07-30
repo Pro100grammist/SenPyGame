@@ -48,11 +48,19 @@ def load_assets():
         ],
 
         # enemies
-        'orc_archer/idle': Animation(load_images_entities('entities/enemy/orc_archer/idle', trim_left=0, trim_right=0, scale_factor=1.25), img_dur=6),
-        'orc_archer/run': Animation(load_images_entities('entities/enemy/orc_archer/run', trim_left=0, trim_right=0, scale_factor=1.25), img_dur=4),
+        'orc_archer/idle': Animation(
+            load_images_entities('entities/enemy/orc_archer/idle', trim_left=0, trim_right=0, scale_factor=1.25),
+            img_dur=6),
+        'orc_archer/run': Animation(
+            load_images_entities('entities/enemy/orc_archer/run', trim_left=0, trim_right=0, scale_factor=1.25),
+            img_dur=4),
 
-        'big_zombie/idle': Animation(load_images_entities('entities/enemy/big_zombie/idle', trim_left=0, trim_right=0, scale_factor=1), img_dur=6),
-        'big_zombie/run': Animation(load_images_entities('entities/enemy/big_zombie/run', trim_left=0, trim_right=0, scale_factor=1), img_dur=4),
+        'big_zombie/idle': Animation(
+            load_images_entities('entities/enemy/big_zombie/idle', trim_left=0, trim_right=0, scale_factor=1),
+            img_dur=6),
+        'big_zombie/run': Animation(
+            load_images_entities('entities/enemy/big_zombie/run', trim_left=0, trim_right=0, scale_factor=1),
+            img_dur=4),
 
         'big_daemon/idle': Animation(load_images_entities('entities/enemy/big_daemon/idle', scale_factor=1), img_dur=6),
         'big_daemon/run': Animation(load_images_entities('entities/enemy/big_daemon/run', scale_factor=1), img_dur=4),
@@ -65,9 +73,9 @@ def load_assets():
         'player/jump': Animation(load_images_entities('entities/player/jump'), img_dur=3),
         'player/fall': Animation(load_images_entities('entities/player/fall'), img_dur=3),
         'player/slide': Animation(load_images_entities('entities/player/slide'), img_dur=5),
-        'player/wall_slide': Animation(load_images_entities('entities/player/wall_slide', trim_left=0, trim_right=0), img_dur=3),
+        'player/wall_slide': Animation(load_images_entities('entities/player/wall_slide', trim_left=0, trim_right=0),
+                                       img_dur=3),
         'player/death': Animation(load_images_entities('entities/player/death', trim_left=0, trim_right=0), img_dur=6),
-
 
         # game loot
         'loot/gem': Animation(load_images('tiles/loot/gem'), img_dur=6),
@@ -149,19 +157,47 @@ SCROLLS = {
 }
 
 UI_PATH = {
+
+    'skills_tree': pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png'),
+    'skills_frame': pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_frame.png'),
+
+    'scroll_slot': pygame.image.load(BASE_IMG_PATH + 'ui/scroll_slot.png'),
+    'holly_scroll_icon': pygame.image.load(BASE_IMG_PATH + 'ui/scrolls/holly_scroll.png'),
+    'speed_scroll_icon': pygame.image.load(BASE_IMG_PATH + 'ui/scrolls/speed_scroll.png'),
+    'bloodlust_scroll_icon': pygame.image.load(BASE_IMG_PATH + 'ui/scrolls/bloodlust_scroll.png'),
+    'invulnerability_scroll_icon': pygame.image.load(BASE_IMG_PATH + 'ui/scrolls/invulnerability_scroll.png'),
+
     'goods_stand': pygame.image.load(BASE_IMG_PATH + 'ui/merchant/merchant_window.png'),
     'details_desk': pygame.image.load(BASE_IMG_PATH + 'ui/merchant/details_board.png'),
-    'frame': pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png')
+    'frame': pygame.image.load(BASE_IMG_PATH + 'ui/inventory/inventory_window_frame.png'),
+
+    'blood_overlay_hard': pygame.image.load(BASE_IMG_PATH + 'ui/screen_overlay_effect/blood_overlay_hard.png'),
+    'blood_overlay_critical': pygame.image.load(BASE_IMG_PATH + 'ui/screen_overlay_effect/blood_overlay_critical.png'),
+    'blood_overlay_fatally': pygame.image.load(BASE_IMG_PATH + 'ui/screen_overlay_effect/blood_overlay_fatally.png'),
+
 }
 
+UI_SET = [
+    'life_full', 'life_empty', 'heart_full', 'heart_tq', 'heart_half', 'heart_quarter', 'heart_empty',
+    'globe_full', 'globe_tq', 'globe_half', 'globe_quarter', 'globe_empty', 'corner_set', 'vignette',
+    'diamond_icon', 'panel', 'shuriken_icon', 'player_icon', 'inventory_bar', 'coin_icon',
+    'heal_potion_icon', 'mana_potion_icon', 'stamina_potion_icon', 'power_potion_icon', 'inventory_frame',
+    'corrupted_icon', 'double_power_icon', 'super_speed_icon', 'bloodlust_icon', 'invulnerability_icon',
+    'scroll_slot', 'hud_bg', 'xp_bar'
+]
 
 MERCHANT_ITEM_POS = {
     (0, 0): (116, 52), (0, 1): (184, 52), (0, 2): (252, 52), (0, 3): (320, 52), (0, 4): (388, 52), (0, 5): (450, 52),
-    (1, 0): (138, 140), (1, 1): (202, 140), (1, 2): (269, 140), (1, 3): (336, 140), (1, 4): (406, 140), (1, 5): (473, 140),
-    (2, 0): (138, 208), (2, 1): (200, 208), (2, 2): (269, 208), (2, 3): (336, 208), (2, 4): (406, 208), (2, 5): (473, 208),
-    (3, 0): (138, 268), (3, 1): (200, 268), (3, 2): (269, 268), (3, 3): (336, 268), (3, 4): (406, 268), (3, 5): (473, 268),
-    (4, 0): (138, 328), (4, 1): (200, 328), (4, 2): (269, 328), (4, 3): (336, 328), (4, 4): (406, 328), (4, 5): (473, 328),
-    (5, 0): (138, 388), (5, 1): (200, 388), (5, 2): (269, 388), (5, 3): (336, 388), (5, 4): (406, 388), (5, 5): (473, 388)
+    (1, 0): (138, 140), (1, 1): (202, 140), (1, 2): (269, 140), (1, 3): (336, 140), (1, 4): (406, 140),
+    (1, 5): (473, 140),
+    (2, 0): (138, 208), (2, 1): (200, 208), (2, 2): (269, 208), (2, 3): (336, 208), (2, 4): (406, 208),
+    (2, 5): (473, 208),
+    (3, 0): (138, 268), (3, 1): (200, 268), (3, 2): (269, 268), (3, 3): (336, 268), (3, 4): (406, 268),
+    (3, 5): (473, 268),
+    (4, 0): (138, 328), (4, 1): (200, 328), (4, 2): (269, 328), (4, 3): (336, 328), (4, 4): (406, 328),
+    (4, 5): (473, 328),
+    (5, 0): (138, 388), (5, 1): (200, 388), (5, 2): (269, 388), (5, 3): (336, 388), (5, 4): (406, 388),
+    (5, 5): (473, 388)
 }
 
 COLOR_SCHEMA = {
@@ -174,7 +210,6 @@ COLOR_SCHEMA = {
     'fireball': (255, 140, 0),
     'toxic': (127, 255, 0, 150)
 }
-
 
 EXP_POINTS = {
     'big_daemon': 50,

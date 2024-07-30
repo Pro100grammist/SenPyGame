@@ -38,6 +38,10 @@ class PhysicsEntity:
 
         self.last_movement = [0, 0]
 
+        self.gravity = 0.1
+        self.jump_speed = -10
+        self.max_fall_speed = 15
+
         self.hitbox = pygame.Rect(self.pos[0], self.pos[1], self.size[0] + 10, self.size[1])
         self.show_hitboxes = False
 
@@ -80,29 +84,36 @@ class PhysicsEntity:
         """Updates the entity's position, handles movement and collisions."""
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
 
+        # Apply movement
         frame_movement = (movement[0] + self.velocity[0], movement[1] + self.velocity[1])
 
+        # Apply horizontal movement
         self.pos[0] += frame_movement[0]
         entity_rect = self.rect()
         self.handle_collisions(entity_rect, frame_movement, tilemap, axis='horizontal')
 
+        # Apply vertical movement (with gravity)
+        self.velocity[1] = min(self.max_fall_speed, self.velocity[1] + self.gravity)
         self.pos[1] += frame_movement[1]
         entity_rect = self.rect()
         self.handle_collisions(entity_rect, frame_movement, tilemap, axis='vertical')
 
+        # Reset vertical velocity if on the ground or hitting the ceiling
+        if self.collisions['down'] or self.collisions['up']:
+            self.velocity[1] = 0
+
+        # Handle flipping
         if movement[0] != 0:
             self.flip = False if movement[0] > 0 else True
 
         self.last_movement = movement
-
-        self.velocity[1] = min(5, self.velocity[1] + 0.1)
-
-        if self.collisions['down'] or self.collisions['up']:
-            self.velocity[1] = 0
-
+        # self.velocity[1] = min(5, self.velocity[1] + 0.1)
         self.animation.update()
-
         self.update_hitbox()
+
+    def jump(self):
+        if self.collisions['down']:  # Can only jump if on the ground
+            self.velocity[1] = self.jump_speed
 
     def render(self, surf, offset=(0, 0)):
         """Renders the entity on the given surface."""
@@ -111,14 +122,63 @@ class PhysicsEntity:
 
 
 class Enemy(PhysicsEntity):
+    """
+    A class that represents enemy objects.
+    """
     def __init__(self, game, image,  pos, size, e_type, health):
+        """
+        Initializes the Enemy object.
+
+        Parameters:
+
+            :param game: Reference to the game object.
+            :param image: an animated object from of a specific type of enemy implemented using the Animation class
+            :param pos: Initial position of the enemy.
+            :param size: Size of the entity (width, height).
+            :param e_type: Type of the entity (in this case, the enemy type).
+            :param health: health reserve
+        """
         super().__init__(game, image, pos, size)
 
         self.walking = 0
         self.e_type = e_type
         self.health = health
 
+    def handle_player_collision(self):
+        """Handles collision with the player during dash attack."""
+        if 50 <= abs(self.game.player.dashing) >= 40:
+            if self.hitbox.colliderect(self.game.player.hitbox):
+                self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
+                self.game.sfx['hit'].play()
+                self.game.sfx[self.e_type].play()
+                shade = self.e_type
+                stamina = self.game.player.stamina
+
+                if stamina >= 25:
+                    self.game.player.stamina -= 25
+                else:
+                    self.game.player.stamina = 0
+
+                damage = 20 * self.game.player.double_power
+                self.health -= damage
+
+                self.game.damage_rates.append(DamageNumber(self.hitbox.center, damage, (255, 255, 255)))
+                self.game.sfx[self.e_type].play()
+
+                create_particles(self.game, self.rect().center, shade)
+
+                if self.health <= 0:
+                    self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
+                    self.game.player.increase_experience(EXP_POINTS[self.e_type])
+                    return True
+                else:
+                    return False
+        return False
+
     def update(self, tilemap, movement=(0, 0)):
+        """
+        Updates enemy status, including movement and collisions.
+        """
         if self.walking:
             if tilemap.checking_physical_tiles((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
                 if self.collisions['right'] or self.collisions['left']:
@@ -141,41 +201,10 @@ class Enemy(PhysicsEntity):
             self.walking = random.randint(30, 120)
 
         super().update(tilemap, movement=movement)
+        self.set_action('run' if movement[0] != 0 else 'idle')
 
-        if movement[0] != 0:
-            self.set_action('run')
-        else:
-            self.set_action('idle')
-
-        if 50 <= abs(self.game.player.dashing) >= 40:
-            if self.hitbox.colliderect(self.game.player.hitbox):
-                self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
-                self.game.sfx['hit'].play()
-                self.game.sfx[self.e_type].play()
-                shade = self.e_type
-                stamina = self.game.player.stamina
-
-                if stamina >= 25:
-                    self.game.player.stamina -= 25
-                else:
-                    self.game.player.stamina = 0
-
-                damage = 20 * self.game.player.double_power
-
-                self.health -= damage
-
-                self.game.damage_rates.append(DamageNumber(self.hitbox.center, damage, (255, 255, 255)))
-
-                self.game.sfx[self.e_type].play()
-
-                create_particles(self.game, self.rect().center, shade)
-
-                if self.health <= 0:
-                    self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
-                    self.game.player.increase_experience(EXP_POINTS[self.e_type])
-                    return True
-                else:
-                    return False
+        if self.handle_player_collision():
+            return True
 
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)

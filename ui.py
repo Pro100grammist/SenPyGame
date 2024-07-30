@@ -4,7 +4,7 @@ import pygame
 
 from support import BASE_IMG_PATH
 from items import Equipment, Book
-from data import POTIONS, SCROLLS, MERCHANT_ITEM_POS, UI_PATH
+from data import POTIONS, SCROLLS, MERCHANT_ITEM_POS, UI_PATH, UI_SET
 
 
 class UI:
@@ -32,23 +32,15 @@ class UI:
         self.font4 = pygame.font.Font('data/fonts/Uncial_WIP.ttf', 48)
         self.text_color = (255, 255, 255)
 
-        ui_set = [
-            'life_full', 'life_empty', 'heart_full', 'heart_tq', 'heart_half', 'heart_quarter', 'heart_empty',
-            'globe_full', 'globe_tq', 'globe_half', 'globe_quarter', 'globe_empty', 'corner_set', 'vignette',
-            'diamond_icon', 'panel', 'shuriken_icon', 'player_icon', 'inventory_bar', 'coin_icon',
-            'heal_potion_icon', 'mana_potion_icon', 'stamina_potion_icon', 'power_potion_icon', 'inventory_frame',
-            'corrupted_icon', 'double_power_icon', 'super_speed_icon', 'bloodlust_icon', 'invulnerability_icon',
-            'scroll_slot', 'hud_bg', 'xp_bar'
-        ]
-
-        for image in ui_set:
+        for image in UI_SET:
+            # Loads UI images from files and dynamically creates the corresponding attributes in the class
             setattr(self, image, pygame.image.load(BASE_IMG_PATH + f'ui/{image}.png'))
 
-        self.scroll_slot = pygame.image.load(BASE_IMG_PATH + 'ui/scroll_slot.png')
-        self.holly_scroll_icon = pygame.image.load(BASE_IMG_PATH + 'ui/scrolls/holly_scroll.png')
-        self.speed_scroll_icon = pygame.image.load(BASE_IMG_PATH + 'ui/scrolls/speed_scroll.png')
-        self.bloodlust_scroll_icon = pygame.image.load(BASE_IMG_PATH + 'ui/scrolls/bloodlust_scroll.png')
-        self.invulnerability_scroll_icon = pygame.image.load(BASE_IMG_PATH + 'ui/scrolls/invulnerability_scroll.png')
+        self.scroll_slot = UI_PATH.get('scroll_slot')
+        self.holly_scroll_icon = UI_PATH.get('holly_scroll_icon')
+        self.speed_scroll_icon = UI_PATH.get('speed_scroll_icon')
+        self.bloodlust_scroll_icon = UI_PATH.get('bloodlust_scroll_icon')
+        self.invulnerability_scroll_icon = UI_PATH.get('invulnerability_scroll_icon')
 
         self.status_bar = []
         self.heart_image = self.heart_full
@@ -65,12 +57,52 @@ class UI:
             'invulnerability_spell': self.invulnerability_scroll_icon
         }
 
+        self.blood_overlay_hard = UI_PATH.get('blood_overlay_hard')
+        self.blood_overlay_critical = UI_PATH.get('blood_overlay_critical')
+        self.blood_overlay_fatally = UI_PATH.get('blood_overlay_fatally')
+
+        # Settings for pulsation
+        self.pulse_time = 0
+
+    @staticmethod
+    def update_pulse_effect(image):
+        """
+        Creates a pulsating effect using a sine wave function
+        Scales the image x% larger or smaller than the original (in this case, 5%)
+        Changes the alpha channel of an image to create a flickering effect
+        """
+        time = pygame.time.get_ticks() / 1000  # get the time and convert to seconds
+        scale = 1 + 0.05 * math.sin(2 * math.pi * time)  # smooth pulsation with an amplitude of 5%
+        original_size = image.get_size()
+        new_size = (int(original_size[0] * scale), int(original_size[1] * scale))
+        scaled_image = pygame.transform.smoothscale(image, new_size)
+        alpha = int(128 + 127 * (0.5 * math.sin(2 * math.pi * time) + 0.5))
+        scaled_image.set_alpha(alpha)
+
+        return scaled_image, original_size
+
+    def blit_centered(self, image, original_size, position=(-64, -48)):
+        """
+        Draws the image centered on the display at a specific position.
+
+        :param image: The image to be drawn.
+        :param original_size: original_size
+        :param position: The position of the image center relative to the display center(
+        x=-64, y =-48, because we need 20 % larger image than screen size
+        """
+        display_rect = self.game.display.get_rect()
+        image_rect = image.get_rect(center=display_rect.center)
+        image_rect.center = (position[0] + original_size[0] // 2, position[1] + original_size[1] // 2)
+        self.game.display.blit(image, image_rect.topleft)
+
     def render(self):
+
+        # panel
         panel_x = 2
         panel_y = self.display_height - self.panel.get_height() - 2
         self.game.display.blit(self.panel, (panel_x, panel_y))
 
-        # health
+        # health & blood screen overlays
         heart_images = {
             range(80, 101): self.heart_full,
             range(60, 80): self.heart_tq,
@@ -80,8 +112,21 @@ class UI:
         }
 
         health = int((self.game.player.current_health / self.game.player.max_health) * 100)
+
+        if health <= 5:
+            pulsating_image, original_size = self.update_pulse_effect(self.blood_overlay_fatally)
+            self.blit_centered(pulsating_image, original_size)
+        elif health <= 15:
+            pulsating_image, original_size = self.update_pulse_effect(self.blood_overlay_critical)
+            self.blit_centered(pulsating_image, original_size)
+        elif health <= 25:
+            pulsating_image, original_size = self.update_pulse_effect(self.blood_overlay_hard)
+            self.blit_centered(pulsating_image, original_size)
+
         self.heart_image = next((img for rng, img in heart_images.items() if health in rng), self.heart_empty)
-        self.game.display.blit(pygame.transform.scale(self.heart_image, (self.heart_image.get_width() * 1.2, self.heart_image.get_height() * 1.2)), (22, 16))
+        self.game.display.blit(pygame.transform.scale(
+            self.heart_image, (
+                self.heart_image.get_width() * 1.2, self.heart_image.get_height() * 1.2)), (22, 16))
 
         # mana
         self.game.display.blit(self.corner_set, (self.display_width - 87, self.display_height - 115))
@@ -279,9 +324,9 @@ class SkillsTree:
     """
     def __init__(self, game):
         self.game = game
-        origin_img = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png')
+        origin_img = UI_PATH.get('skills_tree')
         self.skill_tree_base = pygame.transform.scale(origin_img, (origin_img.get_width() // 2, origin_img.get_height() // 2))
-        self.skills_frame = pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_frame.png')
+        self.skills_frame = UI_PATH.get('skills_frame')
         self.font_tree = pygame.font.Font('data/fonts/DungeonFont.ttf', 16)
         self.font_skill = pygame.font.Font('data/fonts/Charmonman-Regular.ttf', 16)
         self.skills = self.create_skills()
