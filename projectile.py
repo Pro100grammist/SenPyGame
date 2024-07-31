@@ -2,7 +2,7 @@ import random
 import math
 import pygame
 
-from particle import Particle, Spark, create_particles
+from particle import Particle, Spark, create_particles, create_sparks
 from support import Animation
 from data import EXP_POINTS
 
@@ -115,6 +115,47 @@ class BloodEffect(AnimatedProjectile):
         sprites = game.assets['blood']
         direction = 0
         super().__init__(game, pos, direction, sprites, False, image_duration=4)
+
+
+class FireTotem(AnimatedProjectile):
+    def __init__(self, game, pos):
+        sprites = game.assets['fire_totem']
+        direction = 0
+        super().__init__(game, pos, direction, sprites, False, image_duration=6)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+
+    def rect(self):
+        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
+                           self.rect_width, self.rect_height)
+
+    def update(self):
+        self.animation.update()
+        for enemy in self.game.enemies.copy():
+            if self.rect().colliderect(enemy.hitbox):
+                enemy.health -= 1
+                shade = enemy.e_type
+
+                if enemy.health <= 0:
+                    self.game.sfx['hit'].play()
+                    self.game.sfx[enemy.e_type].play()
+                    self.game.player.increase_experience(EXP_POINTS[enemy.e_type])
+                    self.game.enemies.remove(enemy)
+
+                    self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
+                    create_particles(self.game, enemy.rect().center, shade)
+                create_sparks(self.game, enemy.rect().center, shade='orange')
+
+                return True
+
+        return False
+
+    # def render(self, surf, offset=(0, 0)):
+    #     # temporary technical method for visualization of the totem lesion area
+    #     super().render(surf, offset)
+    #     rect = self.rect()
+    #     rect.topleft = (rect.left - offset[0], rect.top - offset[1])
+    #     pygame.draw.rect(surf, (255, 0, 0), rect, 2)
 
 
 class Arrow(Projectile):

@@ -5,7 +5,7 @@ import pygame
 
 from data import EXP_POINTS
 from particle import Particle, Spark, create_particles
-from projectile import (Suriken, AnimatedFireball, SkullSmoke, HollySpell, SpeedSpell,
+from projectile import (Suriken, AnimatedFireball, SkullSmoke, HollySpell, SpeedSpell, FireTotem,
                         BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
 
 
@@ -543,6 +543,17 @@ class Player(PhysicsEntity):
                         self.scrolls[spell] -= 1
                 else:
                     self.scrolls[spell] -= 1
+
+    def summoning_fire_totem(self):
+        if not self.game.dead and not self.wall_slide and self.mana >= 25:
+            spawn_point = self.rect().center
+            if self.flip:
+                spawn_point = (spawn_point[0] - 30, spawn_point[1] - 32)
+            else:
+                spawn_point = (spawn_point[0] + 26, spawn_point[1] - 32)
+
+            self.mana -= 25 - self.wisdom // 2
+            self.game.magic_effects.append(FireTotem(self.game, spawn_point))
 
     def use_item(self):
         if self.selected_item == 1 and self.heal_potions:

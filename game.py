@@ -69,6 +69,7 @@ class Game:
         self.munition = []
         self.spells = []
         self.effects = []
+        self.magic_effects = []
         self.damage_rates = []
         self.loot = []
         self.chests = []
@@ -94,7 +95,8 @@ class Game:
             self.enemies, self.loot, self.chests,
             self.projectiles, self.animated_projectiles,
             self.particles, self.sparks, self.munition,
-            self.spells, self.effects, self.damage_rates
+            self.spells, self.effects, self.magic_effects,
+            self.damage_rates
         ]
         for lst in lists_to_clear:
             lst.clear()
@@ -458,6 +460,13 @@ class Game:
                 effect.render(self.display, offset=render_scroll)
                 if effect.animation.done:
                     self.effects.remove(effect)
+
+            # updating and rendering VFX
+            for magic_effect in self.magic_effects:
+                magic_effect.update()
+                magic_effect.render(self.display, offset=render_scroll)
+                if magic_effect.animation.done:
+                    self.magic_effects.remove(magic_effect)
 
             # updating and rendering damage info
             for damage in self.damage_rates.copy():

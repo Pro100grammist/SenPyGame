@@ -1,5 +1,6 @@
 import os
 import json
+import re
 
 
 def get_directory_structure(rootdir):
@@ -38,10 +39,29 @@ def save_structure_to_json(structure, output_file):
 
 
 # Отримання абсолютного шляху до директорії, в якій знаходиться скрипт
-script_directory = os.path.dirname(os.path.abspath(__file__))
-output_file = os.path.join(script_directory, 'project_structure.json')
+# script_directory = os.path.dirname(os.path.abspath(__file__))
+# output_file = os.path.join(script_directory, 'project_structure.json')
+#
+# structure = get_directory_structure(script_directory)
+# save_structure_to_json(structure, output_file)
+#
+# print(f'Structure of the project saved to {output_file}')
 
-structure = get_directory_structure(script_directory)
-save_structure_to_json(structure, output_file)
 
-print(f'Structure of the project saved to {output_file}')
+def rename_files(directory):
+    print(f"Target directory: {directory}")
+    for filename in os.listdir(directory):
+        print(f"Processing file: {filename}")
+        match = re.search(r'\d', filename)
+        if match:
+            new_filename = '0' + filename[match.start():]
+            old_file = os.path.join(directory, filename)
+            new_file = os.path.join(directory, new_filename)
+            os.rename(old_file, new_file)
+            print(f"Renamed: {filename} -> {new_filename}")
+        else:
+            print(f"No digit found in: {filename}")
+
+
+directory_path = './data/images/particles/fire_totem'
+rename_files(directory_path)

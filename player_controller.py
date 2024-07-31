@@ -107,6 +107,8 @@ class PlayerController:
                     self.player.ranged_attack()
                 if event.key == pygame.K_q:
                     self.player.cast_spell()
+                if event.key == pygame.K_1:
+                    self.player.summoning_fire_totem()
                 if event.key == pygame.K_LCTRL:
                     self.player.selected_scroll += 1
                     sound = str(randint(1, 3))

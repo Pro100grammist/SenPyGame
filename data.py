@@ -29,6 +29,7 @@ def load_assets():
         'bloodlust_spell': load_images('particles/spell/bloodlust_spell'),
         'invulnerability_spell': load_images('particles/spell/invulnerability_spell'),
         'blood': load_images('particles/spell/blood'),
+        'fire_totem': load_images('particles/fire_totem'),
 
         # tiles
         'background_objects': load_images('tiles/background_objects'),
@@ -204,6 +205,7 @@ COLOR_SCHEMA = {
     'white': (255, 255, 255),
     'black': (0, 0, 0),
     'red': (255, 0, 0),
+    'orange': (255, 152, 0),
     'big_daemon': (255, 69, 0),
     'big_zombie': (127, 255, 0),
     'orc_archer': (255, 0, 0),
@@ -217,92 +219,14 @@ EXP_POINTS = {
     'orc_archer': 10,
 }
 
-EQUIPMENTS_CATEGORIES = {
-    'Common': [
-        "Legionnaire's Helmet", "Warrior's Helmet", "Abandoned Knight's Tophelm", "Hunter's Whispering Hood",
-        'Fallen Legionnaires Armor', 'Great Fire Armor', "Invincible Archer's Cape", "Spellcaster's Robe",
-        "Warlord's Bracelets", "Warrior's Gauntlets", 'Magical Cuffs',
-        'Hunting Boots', "Forgotten Legionnaire's Boots", 'Boots of the Light Mage',
-        'Armored Scabbard', 'Embroidered Pants', 'Light Archer Leggings',
-        'Light Belt', 'Combat Belt', 'Armored Belt', 'Light Hunting Belt',
-        "Battle Winner's Ring", 'Ring of Strength', 'Ring of Vitality', 'Ring of Agility',
-        "Moon Magician's Amulet", 'Light Warrior Amulet',
-        'Light Katana', 'Short Sword', "Forgotten Hero's Dagger",
-        'Hunting Bow', "Legionnaire's bow", 'Knife of the Ruthless Killer', 'Boomerang'
-    ],
-
-    'Rare': [
-        "Paladin's Helmet", "Blood Warrior's Helmet", "Forgotten King's Mage Helmet", "Archer's Star Crown",
-        'Divine Warrior’s Armor', "Forgotten Legionnaire's Armor", 'Stone Guardians Armor', "Witch Lord's Cloak",
-        "Leviathan's Defender Gloves", "Invisible Archer's Gloves", "Witch Archer's Gloves",
-        'Leviathan Defender Boots', 'Stone Guardian Boots', 'Invincible Archer Boots',
-        'Leviathan Defender Breeches', 'Fireproof Pants', "Forgotten Legionnaire's Scabbard",
-        'Invincible Warrior Belt', 'Leviathan Defender Belt', "Forgotten Legionnaire's Belt",
-        'Ring of Wisdom', 'Ring of Endurance', "Forgotten Legionnaire's Ring", 'Invincible Warrior Ring',
-        "Amulet Witch's Eye", "Winning archer's amulet",
-        "Assassin's Sting", "Ruthless Warrior's Sword", 'Battle Flamberg', 'Axe of the Victorious',
-        "Forgotten Master's Bow", "Legendary Archer's Bow", 'Sacrificial Knives', "Firefighter's Crossbow"
-    ],
-
-    'Unique': [
-        'Stone Columns Helmet', "Leviathan King's Helmet", "Moonwatcher's glengarry", "Mighty Magician's Hood",
-        "Holy Knight's Armor", 'Shadow Chainmail', "Leviathan Archer's Cape", "Witcher's Cuirass",
-        'Desert Fires Gauntlets', "Moon Archer's Gloves",
-        'Invincible Warrior Boots', 'Boots of the Moon Archer',
-        'Stone Guardian Scabbard', 'Invincible Warrior Pants',
-        'Moon Chest Belt', 'Stone Guardian Belt', "Legendary Archer's Belt",
-        'Ring of Precision', 'Ring of Arcana', 'Leviathan Defender Ring', "Stone Guardian's Ring",
-        'Mage warrior amulet', "Leviathan's guardian amulet",
-        "Leviathan's cutter", "Beastmaster's great hammer", 'Blade of Lightning',
-        "Firebender's Bow", 'Legendary Sniper Crossbow', 'Shadow Masters Shuriken', 'Forged Dragon Crossbow'
-    ],
-
-    'Epic': [
-        'Dragon Guardian Helmet', "Witches' Mantilla of Anturium", "Archangel's Hope Tiara",
-        'Leviathan Conqueror Chainmail', "Moon Defender's Armor", "Scriptologist's Robe",
-        "Dragon Warrior's Bracelets", "Mystery Archer's Gloves",
-        "Fire Lord's Magical Boots", 'Moon Magic Boots',
-        "Moon Archer's Kneeguards", 'Dragon Warrior Breeches',
-        "Moon Magician's Belt", "Fire Lord's Belt",
-        'Ring of Power', 'Magic Fire Ring', "Light Defender's Ring",
-        'Stone Guardian Amulet', "Fire Lord's Amulet",
-        'Gladius of the Stone Guardian', 'Legendary Battle Axe', 'Ebonite Rapier',
-        'Crystal Bow', "Dragon's Wrath Bow", 'Wind Lord Shuriken'
-    ],
-
-    'Legendary': [
-        "Supreme Liberator's Helmet", "Mighty Mage's Capyrot",
-        'Dragon Guard Armor', 'Magic and Mysticism Robe',
-        "Fire Lord's Gloves",
-        'Dragon Warrior Boots', 'Arcanical Boots',
-        "Arcanic Witcher's Knee Pads",
-        'Dragon Warrior Belt', "Arcane Wizard's Belt",
-        "Moon Mage's Ring", 'Ring of Immortality', 'Dragon Warrior Ring',
-        'Dragon Guardian Amulet',
-        'Blade of Dragons', 'Arcanic two-handed sword', 'Crystal Sword',
-        'Dragon Slayer', 'Magic Crossbow'
-    ],
-
-    'Mythical': [
-        "Great Fire Conqueror's Helmet",
-        'Armor of the Immortals',
-        "Dragon Mage Lord's Gloves",
-        "Mythical Wizard's Boots",
-        'Kilt of the Immortals',
-        'Immortality Belt',
-        "Darkness Spellcaster's Ring",
-        'Amulet of immortality',
-        "Titan's Thunderbolt", 'The Soul Ripper',
-        'Wind conqueror', 'Whisper of death'
-    ]
-}
-
 
 def load_data(json_file):
     with open(json_file, 'r') as f:
         data = json.load(f)
     return data
 
+
+EQUIPMENTS_CATEGORIES = load_data('data/objects/equipment_categories.json')
 
 EQUIPMENT = load_data('data/objects/equipment.json')
 
