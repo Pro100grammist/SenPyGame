@@ -5,7 +5,9 @@ import pygame
 
 from data import EXP_POINTS
 from particle import Particle, Spark, create_particles
-from projectile import (Suriken, AnimatedFireball, SkullSmoke, HollySpell, SpeedSpell, FireTotem,
+from projectile import (RustyShuriken, SteelShuriken, IceShuriken, EmeraldShuriken, DoubleBladedShuriken,
+                        PoisonedShuriken, StingerShuriken, PiranhaShuriken, SupersonicShuriken, PhantomShuriken,
+                        AnimatedFireball, WormFireball, SkullSmoke, HollySpell, SpeedSpell, FireTotem,
                         BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
 
 
@@ -261,6 +263,24 @@ class BigZombie(Enemy):
                                                  self.hitbox.width, self.hitbox.height), 1)
 
 
+class FireWorm(Enemy):
+    def __init__(self, game, pos, size=(8, 15)):
+        super().__init__(game, 'fire_worm', pos, size, e_type='fire_worm', health=600)
+
+    def shoot(self, offset, direction):
+        direction = 1 if not self.flip else -1
+        self.game.animated_projectiles.append(WormFireball(self.game, self.rect().midtop, direction))
+
+    def render(self, surf, offset=(0, 0)):
+        surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
+                  (self.pos[0] - 34 - offset[0] + self.anim_offset[0],
+                   self.pos[1] - 42 - offset[1] + self.anim_offset[1]))
+
+        if self.show_hitboxes:
+            pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
+                                                 self.hitbox.width, self.hitbox.height), 1)
+
+
 class BigDaemon(Enemy):
     def __init__(self, game, pos, size=(8, 15)):
         super().__init__(game, 'big_daemon', pos, size, e_type='big_daemon', health=300)
@@ -298,7 +318,8 @@ class Player(PhysicsEntity):
         self.attack_pressed = False
         self.attack_timer = 0
 
-        self.suriken_count = 20
+        self.shuriken_count = 20
+        self.shuriken = 0
 
         self.death_hit = False
 
@@ -389,6 +410,19 @@ class Player(PhysicsEntity):
         self.inventory = []
 
         self.equipment = {}
+
+        self.shuriken_levels = {
+            0: RustyShuriken,
+            1: SteelShuriken,
+            2: IceShuriken,
+            3: EmeraldShuriken,
+            4: PoisonedShuriken,
+            5: StingerShuriken,
+            6: PiranhaShuriken,
+            7: SupersonicShuriken,
+            8: PhantomShuriken,
+            9: DoubleBladedShuriken,
+        }
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], self.current_size[0], self.current_size[1])
@@ -509,11 +543,17 @@ class Player(PhysicsEntity):
                             self.game.enemies.remove(enemy)
 
     def ranged_attack(self):
-        if not self.game.dead and not self.wall_slide and self.suriken_count > 0 and self.stamina >= self.min_stamina:
+        if not self.game.dead and not self.wall_slide and self.shuriken_count > 0 and self.stamina >= self.min_stamina:
             self.stamina -= 20 - (self.agile // 4)
             direction = 1 if not self.flip else -1
-            self.game.munition.append(Suriken(self.game, self.rect().center, direction, shooter=self))
-            self.suriken_count -= 1
+            self.game.munition.append(self.shuriken_levels.get(self.shuriken, 0)(self.game, self.rect().center, direction, shooter=self))
+            self.shuriken_count -= 1
+
+    def change_shuriken(self):
+        if self.shuriken != 9:
+            self.shuriken += 1
+        else:
+            self.shuriken = 0
 
     def cast_spell(self):
         if not self.game.dead and not self.wall_slide and self.mana >= 25:

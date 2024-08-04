@@ -17,10 +17,20 @@ def load_assets():
         'bow': load_image('weapons/bow.png'),
         'projectile': load_image('weapons/arrow.png'),
         'arrow': load_image('weapons/arrow.png'),
-        'suriken': load_image('weapons/suriken.png'),
+        'rusty_shuriken': load_image('weapons/shuriken/rusty_shuriken.png').convert_alpha(),
+        'steel_shuriken': load_image('weapons/shuriken/steel_shuriken.png').convert_alpha(),
+        'ice_shuriken': load_image('weapons/shuriken/ice_shuriken.png').convert_alpha(),
+        'emerald_shuriken': load_image('weapons/shuriken/emerald_shuriken.png').convert_alpha(),
+        'poisoned_shuriken': load_image('weapons/shuriken/poisoned_shuriken.png').convert_alpha(),
+        'phantom_shuriken': load_image('weapons/shuriken/phantom_shuriken.png').convert_alpha(),
+        'shuriken_piranha': load_image('weapons/shuriken/shuriken_piranha.png').convert_alpha(),
+        'stinger_shuriken': load_image('weapons/shuriken/stinger_shuriken.png').convert_alpha(),
+        'supersonic_shuriken': load_image('weapons/shuriken/supersonic_shuriken.png').convert_alpha(),
+        'double_bladed_shuriken': load_image('weapons/shuriken/double_bladed_shuriken.png').convert_alpha(),
 
         # animated projectiles
         'fireball': load_images('particles/fireball'),
+        'worm_fireball': load_images('entities/enemy/fire_worm/fire_ball/move'),
         'skullsmoke': load_images('particles/skullmoke'),
 
         # spells
@@ -62,6 +72,9 @@ def load_assets():
         'big_zombie/run': Animation(
             load_images_entities('entities/enemy/big_zombie/run', trim_left=0, trim_right=0, scale_factor=1),
             img_dur=4),
+
+        'fire_worm/idle': Animation(load_images_entities('entities/enemy/fire_worm/idle', scale_factor=1), img_dur=6),
+        'fire_worm/run': Animation(load_images_entities('entities/enemy/fire_worm/run', scale_factor=1), img_dur=6),
 
         'big_daemon/idle': Animation(load_images_entities('entities/enemy/big_daemon/idle', scale_factor=1), img_dur=6),
         'big_daemon/run': Animation(load_images_entities('entities/enemy/big_daemon/run', scale_factor=1), img_dur=4),
@@ -127,7 +140,7 @@ def load_assets():
 def load_sfx():
     sound_names = ['jump', 'jump1', 'jump2', 'jump3', 'dash', 'hit', 'shoot', 'arrow_crash', 'ambience',
                    'attack', 'attack1', 'attack2', 'attack3', 'pain', 'damaged1', 'damaged2', 'damaged3', 'running',
-                   'orc_archer', 'big_zombie', 'big_daemon',
+                   'orc_archer', 'big_zombie', 'big_daemon', 'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3',
                    'fireball', 'fire_hit', 'fire_punch',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
@@ -213,10 +226,17 @@ COLOR_SCHEMA = {
     'toxic': (127, 255, 0, 150)
 }
 
+PROJECTILE_DAMAGE = {
+    'AnimatedFireball': 33,
+    'WormFireball': 49,
+    'SkullSmoke': 0,  # doesn't cause damage directly
+}
+
 EXP_POINTS = {
     'big_daemon': 50,
     'big_zombie': 30,
     'orc_archer': 10,
+    'fire_worm': 100,
 }
 
 

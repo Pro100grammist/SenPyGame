@@ -12,7 +12,7 @@ class Projectile:
         self.game = game
         self.pos = list(pos)
         self.direction = direction
-        self.speed = 4
+        self.speed = kwargs.get('speed', 4)
         self.image = self.game.assets.get(kwargs.get('image', ''))
 
     def update(self):
@@ -54,6 +54,15 @@ class AnimatedProjectile(Projectile):
         flipped_frame.set_alpha(self.transparency)
         surf.blit(flipped_frame, (projectile_pos[0] - flipped_frame.get_width() / 2,
                                   projectile_pos[1] - flipped_frame.get_height() / 2))
+
+
+class WormFireball(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['worm_fireball']
+        super().__init__(game, pos, direction, sprites, True, image_duration=3, velocity=5)
+
+    def rect(self):
+        return pygame.Rect(self.pos[0], self.pos[1], 20, 20)
 
 
 class AnimatedFireball(AnimatedProjectile):
@@ -168,9 +177,9 @@ class Fireball(Projectile):
         super().__init__(game, pos, direction, **{'image': 'fireball'})
 
 
-class Suriken(Projectile):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, **{'image': 'suriken'})
+class Shuriken(Projectile):
+    def __init__(self, game, pos, direction, shooter, image, damage, speed, max_distance=360):
+        super().__init__(game, pos, direction, **{'image': image, 'speed': speed})
         self.rotation = 0
         self.direction = direction
         self.rect = pygame.Rect(self.pos[0] - self.image.get_width() / 2, self.pos[1] - self.image.get_height() / 2,
@@ -178,9 +187,11 @@ class Suriken(Projectile):
         self.shooter = shooter
         self.recoil = False
         self.distance = 0
+        self.max_distance = max_distance
+        self.damage = damage
 
     def update(self):
-        if self.distance >= 360:
+        if self.distance >= self.max_distance:
             return True
 
         super().update()
@@ -191,9 +202,10 @@ class Suriken(Projectile):
         for enemy in self.game.enemies.copy():
             if self.rect.colliderect(enemy.hitbox):
                 self.game.sfx['hit'].play()
-                self.game.sfx[enemy.e_type].play()
+                sound = str(random.randint(1, 3))
+                self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
 
-                enemy.health -= 100
+                enemy.health -= self.damage
 
                 if enemy.health <= 0:
                     self.game.player.increase_experience(EXP_POINTS[enemy.e_type])
@@ -213,6 +225,56 @@ class Suriken(Projectile):
         rotated_suriken = pygame.transform.rotate(self.image, self.rotation)
         surf.blit(rotated_suriken, (self.pos[0] - offset[0] - rotated_suriken.get_width() / 2,
                                     self.pos[1] - 8 - offset[1] - rotated_suriken.get_height() / 2))
+
+
+class RustyShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='rusty_shuriken', damage=30, speed=4)
+
+
+class SteelShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='steel_shuriken', damage=40, speed=3, max_distance=400)
+
+
+class IceShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='ice_shuriken', damage=50, speed=5, max_distance=380)
+
+
+class EmeraldShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='emerald_shuriken', damage=60, speed=4, max_distance=380)
+
+
+class PoisonedShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='poisoned_shuriken', damage=75, speed=3, max_distance=380)
+
+
+class StingerShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='stinger_shuriken', damage=90, speed=6, max_distance=420)
+
+
+class PiranhaShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='shuriken_piranha', damage=100, speed=3, max_distance=400)
+
+
+class SupersonicShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='supersonic_shuriken', damage=120, speed=7, max_distance=600)
+
+
+class PhantomShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='phantom_shuriken', damage=150, speed=2, max_distance=500)
+
+
+class DoubleBladedShuriken(Shuriken):
+    def __init__(self, game, pos, direction, shooter):
+        super().__init__(game, pos, direction, shooter, image='double_bladed_shuriken', damage=220, speed=3, max_distance=300)
 
 
 class DamageNumber(pygame.sprite.Sprite):

@@ -6,8 +6,8 @@ import random
 
 import pygame
 
-from data import load_assets, load_sfx, COLOR_SCHEMA
-from entities import Player, OrcArcher, BigZombie, BigDaemon
+from data import load_assets, load_sfx, COLOR_SCHEMA, PROJECTILE_DAMAGE
+from entities import Player, OrcArcher, BigZombie, BigDaemon, FireWorm
 from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
@@ -16,7 +16,7 @@ from ui import UI, SkillsTree, CharacterMenu, InventoryMenu, MerchantWindow
 from support import volume_adjusting
 from settings import *
 
-from projectile import (SkullSmoke, AnimatedFireball, HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
+from projectile import (SkullSmoke, AnimatedFireball, WormFireball, HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         BloodEffect)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
                    HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
@@ -120,12 +120,15 @@ class Game:
 
         # placement of enemies on the level map in spawn locations
         enemy_constructors = {
+            # 0 : this is player number
             1: lambda pos: OrcArcher(self, pos),
             2: lambda pos: BigZombie(self, pos),
             3: lambda pos: BigDaemon(self, pos),
+            # 4 : this is merchant number
+            5: lambda pos: FireWorm(self, pos),
         }
 
-        for spawner in self.map.extract([('spawners', i) for i in range(5)]):
+        for spawner in self.map.extract([('spawners', i) for i in range(6)]):
             variant = spawner['variant']
             if variant == 0:  # player
                 self.player.pos = spawner['pos']
@@ -220,10 +223,10 @@ class Game:
                 center_y = self.ui.heart_image.get_height() / 2
                 self.effects.append(BloodEffect(self, (center_x, center_y)))
 
-    def handling_player_damage(self):
+    def handling_player_damage(self, damage=10):
         voice = str(random.randint(1, 3))
         self.sfx['damaged' + voice].play()
-        self.player.current_health -= 40 - self.player.defence - (self.player.skills["Steel Skin"] * 5)
+        self.player.current_health -= damage - self.player.defence - (self.player.skills["Steel Skin"] * 5)
 
     def run(self):
         """
@@ -363,7 +366,10 @@ class Game:
             # processing animated projectiles
             for projectile in self.animated_projectiles.copy():
                 if self.player.rect().colliderect(projectile.rect()):
-                    if isinstance(projectile, AnimatedFireball):
+                    projectile_name = projectile.__class__.__name__
+                    damage = PROJECTILE_DAMAGE.get(projectile_name, 10)
+
+                    if isinstance(projectile, (AnimatedFireball, WormFireball)):
                         self.sfx['fire_punch'].play()
                         if not self.player.invulnerability:
                             if (self.player.current_health <= self.player.max_health * 0.3 and
@@ -371,14 +377,15 @@ class Game:
                                 if random.random() < 0.1:
                                     self.player.current_health += 30
                                 else:
-                                    self.handling_player_damage()
+                                    self.handling_player_damage(damage=damage)
                             else:
-                                self.handling_player_damage()
+                                self.handling_player_damage(damage=damage)
 
                         for i in range(30):
                             angle = random.random() * math.pi * 2
                             self.sparks.append(
                                 Spark(self.player.rect().center, angle, 2 + random.random(), 'fireball'))
+
                     elif isinstance(projectile, SkullSmoke):
                         if not self.player.invulnerability:
                             if not self.player.skills["Poison Resistance"]:

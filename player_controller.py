@@ -105,6 +105,8 @@ class PlayerController:
                     self.player.attack()
                 if event.key == pygame.K_e:
                     self.player.ranged_attack()
+                if event.key == pygame.K_RSHIFT:
+                    self.player.change_shuriken()
                 if event.key == pygame.K_q:
                     self.player.cast_spell()
                 if event.key == pygame.K_1:

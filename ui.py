@@ -190,7 +190,7 @@ class UI:
         self.game.display.blit(coins_count, (coins_x + 16, coins_y + 1))
 
         # shuriken
-        shuriken_count = self.game.player.suriken_count
+        shuriken_count = self.game.player.shuriken_count
         shuriken_count_x = panel_x + 162
         shuriken_count_y = panel_y + 16
         self.game.display.blit(self.shuriken_icon, (shuriken_count_x, shuriken_count_y))
