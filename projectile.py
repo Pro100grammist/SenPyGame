@@ -35,17 +35,24 @@ class Projectile:
 
 
 class AnimatedProjectile(Projectile):
-    def __init__(self, game, pos, direction, sprites, loop, image_duration=5, transparency=255, velocity=0, **kwargs):
+    def __init__(self, game, pos, direction, sprites, loop, num_cycles=None, image_duration=5, transparency=255,
+                 velocity=0, reverse=False, **kwargs):
         super().__init__(game, pos, direction, **kwargs)
         self.rotation = 0
         self.loop = loop
-        self.animation = Animation(sprites, img_dur=image_duration, loop=self.loop)
+        self.num_cycles = num_cycles
         self.transparency = transparency
         self.velocity = velocity
+        self.hit_on_target = False
+        self.reverse = reverse
+        self.animation = Animation(sprites, img_dur=image_duration, loop=self.loop, num_cycles=self.num_cycles)
 
     def update(self):
-        self.pos[0] += self.velocity * self.direction
         self.animation.update()
+        if self.reverse and self.animation.current_cycle >= self.num_cycles // 2:
+            self.direction *= -1
+            self.reverse = False
+        self.pos[0] += self.velocity * self.direction
 
     def render(self, surf, offset=(0, 0)):
         projectile_pos = (self.pos[0] - offset[0], self.pos[1] - offset[1])
@@ -143,21 +150,7 @@ class FireTotem(AnimatedProjectile):
         for enemy in self.game.enemies.copy():
             if self.rect().colliderect(enemy.hitbox):
                 enemy.health -= 1
-                shade = enemy.e_type
-
-                if enemy.health <= 0:
-                    self.game.sfx['hit'].play()
-                    self.game.sfx[enemy.e_type].play()
-                    self.game.player.increase_experience(EXP_POINTS[enemy.e_type])
-                    self.game.enemies.remove(enemy)
-
-                    self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
-                    create_particles(self.game, enemy.rect().center, shade)
                 create_sparks(self.game, enemy.rect().center, shade='orange')
-
-                return True
-
-        return False
 
     # def render(self, surf, offset=(0, 0)):
     #     # temporary technical method for visualization of the totem lesion area
@@ -165,6 +158,63 @@ class FireTotem(AnimatedProjectile):
     #     rect = self.rect()
     #     rect.topleft = (rect.left - offset[0], rect.top - offset[1])
     #     pygame.draw.rect(surf, (255, 0, 0), rect, 2)
+
+
+class WaterGeyser(AnimatedProjectile):
+    def __init__(self, game, pos):
+        sprites = game.assets['water_geyser']
+        direction = 0
+        super().__init__(game, pos, direction, sprites, False, image_duration=4)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+
+    def rect(self):
+        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
+                           self.rect_width, self.rect_height)
+
+
+class IceArrow(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['ice_arrow']
+        super().__init__(game, pos, direction, sprites, False, image_duration=3, velocity=5)
+        self.hit_on_target = False
+        self.damage = random.randint(40, 60)
+
+    def rect(self):
+        return pygame.Rect(self.pos[0], self.pos[1], 20, 20)
+
+    def update(self):
+        super().update()
+        for enemy in self.game.enemies.copy():
+            if self.rect().colliderect(enemy.hitbox):
+                self.game.sfx['ice_hit'].play()
+                sound = str(random.randint(1, 3))
+                self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
+                enemy.health -= self.damage
+                self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
+                create_sparks(self.game, enemy.rect().center, shade='ice')
+                self.hit_on_target = True
+
+
+class Tornado(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['tornado']
+        super().__init__(game, pos, direction, sprites, loop=True, num_cycles=10, image_duration=6, velocity=1, reverse=True)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+
+    def rect(self):
+        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
+                           self.rect_width, self.rect_height)
+
+    def update(self):
+        super().update()
+        for enemy in self.game.enemies.copy():
+            if self.rect().colliderect(enemy.hitbox):
+                damage = random.randint(0, 1)
+                enemy.health -= damage
+                # self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
+                create_sparks(self.game, enemy.rect().center, shade='white', num_sparks=(1, 5))
 
 
 class Arrow(Projectile):
@@ -206,14 +256,8 @@ class Shuriken(Projectile):
                 self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
 
                 enemy.health -= self.damage
-
-                if enemy.health <= 0:
-                    self.game.player.increase_experience(EXP_POINTS[enemy.e_type])
-                    self.game.enemies.remove(enemy)
-
-                self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
-                shade = enemy.e_type
-                create_particles(self.game, enemy.rect().center, shade)
+                self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
+                create_particles(self.game, enemy.rect().center, enemy.e_type)
 
                 return True
 
@@ -225,6 +269,9 @@ class Shuriken(Projectile):
         rotated_suriken = pygame.transform.rotate(self.image, self.rotation)
         surf.blit(rotated_suriken, (self.pos[0] - offset[0] - rotated_suriken.get_width() / 2,
                                     self.pos[1] - 8 - offset[1] - rotated_suriken.get_height() / 2))
+
+        # self.rect.topleft = (self.rect.left - offset[0], self.rect.top - offset[1])
+        # pygame.draw.rect(surf, (255, 0, 0), self.rect, 2)
 
 
 class RustyShuriken(Shuriken):

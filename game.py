@@ -16,8 +16,8 @@ from ui import UI, SkillsTree, CharacterMenu, InventoryMenu, MerchantWindow
 from support import volume_adjusting
 from settings import *
 
-from projectile import (SkullSmoke, AnimatedFireball, WormFireball, HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
-                        BloodEffect)
+from projectile import (SkullSmoke, AnimatedFireball, WormFireball, HollySpell, SpeedSpell, BloodlustSpell,
+                        InvulnerabilitySpell, BloodEffect)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
                    HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
                    CommonChest, RareChest, UniqueChest, EpicChest, LegendaryChest, MythicalChest,
@@ -366,8 +366,8 @@ class Game:
             # processing animated projectiles
             for projectile in self.animated_projectiles.copy():
                 if self.player.rect().colliderect(projectile.rect()):
-                    projectile_name = projectile.__class__.__name__
-                    damage = PROJECTILE_DAMAGE.get(projectile_name, 10)
+                    projectile_name = projectile.__class__.__name__  # name of the class in str form from class instance
+                    damage = PROJECTILE_DAMAGE.get(projectile_name, 10)  # obtain the damage value for the projectile
 
                     if isinstance(projectile, (AnimatedFireball, WormFireball)):
                         self.sfx['fire_punch'].play()
@@ -472,7 +472,7 @@ class Game:
             for magic_effect in self.magic_effects:
                 magic_effect.update()
                 magic_effect.render(self.display, offset=render_scroll)
-                if magic_effect.animation.done:
+                if magic_effect.animation.done or magic_effect.hit_on_target:
                     self.magic_effects.remove(magic_effect)
 
             # updating and rendering damage info

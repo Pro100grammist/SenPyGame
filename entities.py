@@ -7,7 +7,8 @@ from data import EXP_POINTS
 from particle import Particle, Spark, create_particles
 from projectile import (RustyShuriken, SteelShuriken, IceShuriken, EmeraldShuriken, DoubleBladedShuriken,
                         PoisonedShuriken, StingerShuriken, PiranhaShuriken, SupersonicShuriken, PhantomShuriken,
-                        AnimatedFireball, WormFireball, SkullSmoke, HollySpell, SpeedSpell, FireTotem,
+                        AnimatedFireball, WormFireball, SkullSmoke, HollySpell, SpeedSpell,
+                        FireTotem, WaterGeyser, IceArrow, Tornado,
                         BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
 
 
@@ -146,7 +147,7 @@ class Enemy(PhysicsEntity):
         self.e_type = e_type
         self.health = health
 
-    def handle_player_collision(self):
+    def handle_player_dash_collision(self):
         """Handles collision with the player during dash attack."""
         if 50 <= abs(self.game.player.dashing) >= 40:
             if self.hitbox.colliderect(self.game.player.hitbox):
@@ -168,14 +169,6 @@ class Enemy(PhysicsEntity):
                 self.game.sfx[self.e_type].play()
 
                 create_particles(self.game, self.rect().center, shade)
-
-                if self.health <= 0:
-                    self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
-                    self.game.player.increase_experience(EXP_POINTS[self.e_type])
-                    return True
-                else:
-                    return False
-        return False
 
     def update(self, tilemap, movement=(0, 0)):
         """
@@ -205,8 +198,17 @@ class Enemy(PhysicsEntity):
         super().update(tilemap, movement=movement)
         self.set_action('run' if movement[0] != 0 else 'idle')
 
-        if self.handle_player_collision():
+        self.handle_player_dash_collision()
+
+        if self.health <= 0:
+            self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
+            self.game.sfx[self.e_type].play()
+            self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
+            create_particles(self.game, self.rect().center, self.e_type)
+            self.game.player.increase_experience(EXP_POINTS[self.e_type])
             return True
+        else:
+            return False
 
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)
@@ -449,7 +451,7 @@ class Player(PhysicsEntity):
         self.max_stamina += self.agile * 2
         self.game.sfx['level_up'].play()
 
-    def jump(self):
+    def jump(self, boost=1):
         voice = str(random.randint(1, 3))
         if self.wall_slide:
             if self.flip and self.last_movement[0] < 0:
@@ -468,7 +470,7 @@ class Player(PhysicsEntity):
                 return True
 
         elif self.jumps:
-            self.velocity[1] = -3
+            self.velocity[1] = -3 * boost
             self.jumps -= 1
             self.game.sfx['jump' + voice].play()
             self.air_time = 5
@@ -538,10 +540,6 @@ class Player(PhysicsEntity):
 
                         self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
 
-                        if enemy.health <= 0:
-                            self.increase_experience(EXP_POINTS[enemy.e_type])
-                            self.game.enemies.remove(enemy)
-
     def ranged_attack(self):
         if not self.game.dead and not self.wall_slide and self.shuriken_count > 0 and self.stamina >= self.min_stamina:
             self.stamina -= 20 - (self.agile // 4)
@@ -562,38 +560,77 @@ class Player(PhysicsEntity):
                 spell = available_spells[self.selected_scroll]
                 direction = 0
                 start_point = self.rect().center
+                scroll_used = False
                 if self.flip:
                     start_point = (start_point[0] - 4, start_point[1] - 16)
                 else:
                     start_point = (start_point[0] + 2, start_point[1] - 16)
                 if spell == 'holly_spell' and self.mana >= 50:
                     self.mana -= 50 - self.wisdom // 2
+                    scroll_used = True
                     self.game.spells.append(HollySpell(self.game, start_point, direction))
                 if spell == 'speed_spell':
                     self.mana -= 25 - self.wisdom // 4
+                    scroll_used = True
                     self.game.spells.append(SpeedSpell(self.game, start_point, direction))
                 if spell == 'bloodlust_spell':
                     self.mana -= 25 - self.wisdom // 4
+                    scroll_used = True
                     self.game.spells.append(BloodlustSpell(self.game, start_point, direction))
-                if spell == 'invulnerability_spell':
+                if spell == 'invulnerability_spell' and self.mana >= 40:
                     self.mana -= 40 - self.wisdom // 2
+                    scroll_used = True
                     self.game.spells.append(InvulnerabilitySpell(self.game, start_point, direction))
-                if self.skills["Inscription Mastery"]:
+                if self.skills["Inscription Mastery"] and scroll_used:
                     if random.random() > 0.1 + (self.wisdom / 50):
                         self.scrolls[spell] -= 1
-                else:
-                    self.scrolls[spell] -= 1
+                    else:
+                        self.scrolls[spell] -= 1
 
     def summoning_fire_totem(self):
-        if not self.game.dead and not self.wall_slide and self.mana >= 25:
+        if not self.game.dead and not self.wall_slide and self.mana >= 25 and self.jumps == 2:
             spawn_point = self.rect().center
             if self.flip:
                 spawn_point = (spawn_point[0] - 30, spawn_point[1] - 32)
             else:
                 spawn_point = (spawn_point[0] + 26, spawn_point[1] - 32)
-
             self.mana -= 25 - self.wisdom // 2
             self.game.magic_effects.append(FireTotem(self.game, spawn_point))
+            self.game.sfx['burning'].play()
+
+    def summoning_water_geyser(self):
+        if not self.game.dead and not self.wall_slide and self.mana >= 20 and self.jumps == 2:
+            spawn_point = self.rect().center
+            if self.flip:
+                spawn_point = (spawn_point[0] - 4, spawn_point[1] - 20)
+            else:
+                spawn_point = (spawn_point[0], spawn_point[1] - 20)
+            self.mana -= 20 - self.wisdom // 2
+            self.game.magic_effects.append(WaterGeyser(self.game, spawn_point))
+            self.jump(boost=2)
+            self.game.sfx['water'].play()
+            self.game.sfx['geyser'].play()
+
+    def ice_arrow_throw(self):
+        if not self.game.dead and not self.wall_slide and self.mana >= 20:
+            spawn_point = self.rect().center
+            spawn_point = (spawn_point[0], spawn_point[1] - 10)
+            self.mana -= 20 - self.wisdom // 2
+            direction = 1 if not self.flip else -1
+            self.game.magic_effects.append(IceArrow(self.game, spawn_point, direction))
+            self.game.sfx['ice_arrow'].play()
+
+    def tornado_draft(self):
+        if not self.game.dead and not self.wall_slide and self.mana >= 30 and self.jumps == 2:
+            spawn_point = self.rect().center
+            if self.flip:
+                spawn_point = (spawn_point[0] - 30, spawn_point[1] - 24)
+            else:
+                spawn_point = (spawn_point[0] + 26, spawn_point[1] - 24)
+            self.mana -= 30 - self.wisdom // 2
+            direction = 1 if not self.flip else -1
+            self.game.magic_effects.append(Tornado(self.game, spawn_point, direction))
+            self.game.sfx['tornado'].play()
 
     def use_item(self):
         if self.selected_item == 1 and self.heal_potions:

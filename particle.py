@@ -75,8 +75,8 @@ def create_particles(game, position, shade='red', num_particles=(10, 50), speed_
                                        frame=random.randint(*frame_range)))
 
 
-def create_sparks(game, position, shade='red', num_particles=(1, 5), offset=2):
-    for i in range(random.randint(*num_particles)):
+def create_sparks(game, position, shade='red', num_sparks=(1, 5), offset=2):
+    for i in range(random.randint(*num_sparks)):
         angle = random.random() * math.pi * 2
         spark_color = vary_color(COLOR_SCHEMA[shade])
         game.sparks.append(Spark(position, angle, offset + random.random(), shade, spark_color))

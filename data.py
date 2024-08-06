@@ -40,6 +40,9 @@ def load_assets():
         'invulnerability_spell': load_images('particles/spell/invulnerability_spell'),
         'blood': load_images('particles/spell/blood'),
         'fire_totem': load_images('particles/fire_totem'),
+        'water_geyser': load_images('particles/spell/water_geyser'),
+        'tornado': load_images('particles/spell/tornado'),
+        'ice_arrow': load_images('particles/ice_arrow'),
 
         # tiles
         'background_objects': load_images('tiles/background_objects'),
@@ -59,19 +62,11 @@ def load_assets():
         ],
 
         # enemies
-        'orc_archer/idle': Animation(
-            load_images_entities('entities/enemy/orc_archer/idle', trim_left=0, trim_right=0, scale_factor=1.25),
-            img_dur=6),
-        'orc_archer/run': Animation(
-            load_images_entities('entities/enemy/orc_archer/run', trim_left=0, trim_right=0, scale_factor=1.25),
-            img_dur=4),
+        'orc_archer/idle': Animation(load_images_entities('entities/enemy/orc_archer/idle', scale_factor=1.25), img_dur=6),
+        'orc_archer/run': Animation( load_images_entities('entities/enemy/orc_archer/run', scale_factor=1.25), img_dur=4),
 
-        'big_zombie/idle': Animation(
-            load_images_entities('entities/enemy/big_zombie/idle', trim_left=0, trim_right=0, scale_factor=1),
-            img_dur=6),
-        'big_zombie/run': Animation(
-            load_images_entities('entities/enemy/big_zombie/run', trim_left=0, trim_right=0, scale_factor=1),
-            img_dur=4),
+        'big_zombie/idle': Animation(load_images_entities('entities/enemy/big_zombie/idle', scale_factor=1), img_dur=6),
+        'big_zombie/run': Animation(load_images_entities('entities/enemy/big_zombie/run', scale_factor=1), img_dur=4),
 
         'fire_worm/idle': Animation(load_images_entities('entities/enemy/fire_worm/idle', scale_factor=1), img_dur=6),
         'fire_worm/run': Animation(load_images_entities('entities/enemy/fire_worm/run', scale_factor=1), img_dur=6),
@@ -141,11 +136,11 @@ def load_sfx():
     sound_names = ['jump', 'jump1', 'jump2', 'jump3', 'dash', 'hit', 'shoot', 'arrow_crash', 'ambience',
                    'attack', 'attack1', 'attack2', 'attack3', 'pain', 'damaged1', 'damaged2', 'damaged3', 'running',
                    'orc_archer', 'big_zombie', 'big_daemon', 'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3',
-                   'fireball', 'fire_hit', 'fire_punch',
+                   'fireball', 'fire_hit', 'fire_punch', 'burning', 'ice_arrow', 'ice_hit', 'tornado',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
                    'flipping_scroll1', 'flipping_scroll2', 'flipping_scroll3',
-                   'green_smoke', 'corruption',
+                   'green_smoke', 'corruption', 'water', 'geyser',
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
                    'heal', 'healed', 'cough', 'tired', 'revive',
@@ -223,7 +218,8 @@ COLOR_SCHEMA = {
     'big_zombie': (127, 255, 0),
     'orc_archer': (255, 0, 0),
     'fireball': (255, 140, 0),
-    'toxic': (127, 255, 0, 150)
+    'toxic': (127, 255, 0, 150),
+    'ice': (173, 216, 230)
 }
 
 PROJECTILE_DAMAGE = {

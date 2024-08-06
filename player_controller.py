@@ -111,6 +111,12 @@ class PlayerController:
                     self.player.cast_spell()
                 if event.key == pygame.K_1:
                     self.player.summoning_fire_totem()
+                if event.key == pygame.K_2:
+                    self.player.summoning_water_geyser()
+                if event.key == pygame.K_3:
+                    self.player.ice_arrow_throw()
+                if event.key == pygame.K_4:
+                    self.player.tornado_draft()
                 if event.key == pygame.K_LCTRL:
                     self.player.selected_scroll += 1
                     sound = str(randint(1, 3))

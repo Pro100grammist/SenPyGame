@@ -17,6 +17,7 @@ VOLUME_SETTINGS = {
     'big_zombie': 1,
     'big_daemon': 1,
     'flipping_scroll1': 0.5, 'flipping_scroll2': 0.5, 'flipping_scroll3': 0.5,
+    'ice_arrow': 0.5,
 
 }
 
