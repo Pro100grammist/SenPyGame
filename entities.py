@@ -58,6 +58,10 @@ class PhysicsEntity:
             self.action = action
             self.animation = self.game.assets[self.type + '/' + self.action].copy()
 
+    def is_animation_done(self):
+        """Checks if the current animation is complete."""
+        return self.animation.done
+
     def update_hitbox(self):
         """Updates the hitbox of the entity."""
         self.hitbox = pygame.Rect(self.pos[0] - 16, self.pos[1] - 12, self.size[0] + 32, self.size[1] + 12)
@@ -146,9 +150,12 @@ class Enemy(PhysicsEntity):
         self.walking = 0
         self.e_type = e_type
         self.health = health
+        self.attacking = False
 
     def handle_player_dash_collision(self):
-        """Handles collision with the player during dash attack."""
+        """
+        Handles collision with the player during dash attack.
+        """
         if 50 <= abs(self.game.player.dashing) >= 40:
             if self.hitbox.colliderect(self.game.player.hitbox):
                 self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
@@ -170,6 +177,22 @@ class Enemy(PhysicsEntity):
 
                 create_particles(self.game, self.rect().center, shade)
 
+    def initiate_attack(self):
+        """Initiates an attack by launching an attack animation, if it exists."""
+        if f'{self.e_type}/attack' in self.game.assets:
+            self.attacking = True
+            self.set_action('attack')
+        else:
+            self.shoot()
+
+    def handle_attack(self):
+        """Handles the attack by launching the shoot method after the attack animation is complete."""
+        if self.attacking:
+            if self.is_animation_done():
+                self.attacking = False
+                self.shoot()
+                self.set_action('idle')
+
     def update(self, tilemap, movement=(0, 0)):
         """
         Updates enemy status, including movement and collisions.
@@ -187,17 +210,18 @@ class Enemy(PhysicsEntity):
                 dis = (self.game.player.pos[0] - self.pos[0], self.game.player.pos[1] - self.pos[1])
                 if abs(dis[1]) < 16:
                     if self.flip and dis[0] < 0:
-                        self.game.sfx['shoot'].play()
-                        self.shoot([-7, 0], -1.5)
+                        self.initiate_attack()
                     elif not self.flip and dis[0] > 0:
-                        self.game.sfx['shoot'].play()
-                        self.shoot([7, 0], 1.5)
+                        self.initiate_attack()
         elif random.random() < 0.01:
             self.walking = random.randint(30, 120)
 
         super().update(tilemap, movement=movement)
-        self.set_action('run' if movement[0] != 0 else 'idle')
 
+        if not self.attacking:
+            self.set_action('run' if movement[0] != 0 else 'idle')
+
+        self.handle_attack()
         self.handle_player_dash_collision()
 
         if self.health <= 0:
@@ -213,17 +237,16 @@ class Enemy(PhysicsEntity):
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)
 
-    def shoot(self, offset, direction):
-        pass
-
 
 class OrcArcher(Enemy):
 
     def __init__(self, game, pos, size=(8, 15)):
         super().__init__(game, 'orc_archer', pos, size, e_type='orc_archer', health=100)
 
-    def shoot(self, offset, direction):
-        projectile_pos = [self.rect().centerx + offset[0], self.rect().centery + offset[1]]
+    def shoot(self):
+        direction = 1 if not self.flip else -1
+        self.game.sfx['shoot'].play()
+        projectile_pos = [self.rect().centerx, self.rect().centery]
         self.game.projectiles.append([projectile_pos, direction, 0, 'arrow'])
 
         for i in range(4):
@@ -251,7 +274,7 @@ class BigZombie(Enemy):
     def __init__(self, game, pos, size=(8, 15)):
         super().__init__(game, 'big_zombie', pos, size, e_type='big_zombie', health=200)
 
-    def shoot(self, offset, direction):
+    def shoot(self):
         direction = 1 if not self.flip else -1
         self.game.animated_projectiles.append(SkullSmoke(self.game, self.rect().center, direction))
 
@@ -269,9 +292,21 @@ class FireWorm(Enemy):
     def __init__(self, game, pos, size=(8, 15)):
         super().__init__(game, 'fire_worm', pos, size, e_type='fire_worm', health=600)
 
-    def shoot(self, offset, direction):
+    def shoot(self):
         direction = 1 if not self.flip else -1
-        self.game.animated_projectiles.append(WormFireball(self.game, self.rect().midtop, direction))
+        start_point = (self.rect().midtop[0], self.rect().midtop[1] - 10)
+        self.game.animated_projectiles.append(WormFireball(self.game, start_point, direction))
+        self.game.sfx['fireball'].play()
+
+    def handle_attack(self):
+        """Handles the attack by launching the shoot method at the appropriate animation frame."""
+        if self.attacking:
+            current_frame = self.animation.frame  # for sprites of this class, the creation of a fireball is suitable
+            if current_frame == 16:               # to this particular frame.
+                self.shoot()
+            if self.is_animation_done():
+                self.attacking = False
+                self.set_action('idle')
 
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
@@ -287,9 +322,10 @@ class BigDaemon(Enemy):
     def __init__(self, game, pos, size=(8, 15)):
         super().__init__(game, 'big_daemon', pos, size, e_type='big_daemon', health=300)
 
-    def shoot(self, offset, direction):
+    def shoot(self):
         direction = 1 if not self.flip else -1
         self.game.animated_projectiles.append(AnimatedFireball(self.game, self.rect().center, direction))
+        self.game.sfx['fireball'].play()
 
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),

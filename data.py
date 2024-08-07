@@ -63,13 +63,15 @@ def load_assets():
 
         # enemies
         'orc_archer/idle': Animation(load_images_entities('entities/enemy/orc_archer/idle', scale_factor=1.25), img_dur=6),
-        'orc_archer/run': Animation( load_images_entities('entities/enemy/orc_archer/run', scale_factor=1.25), img_dur=4),
+        'orc_archer/run': Animation(load_images_entities('entities/enemy/orc_archer/run', scale_factor=1.25), img_dur=4),
 
         'big_zombie/idle': Animation(load_images_entities('entities/enemy/big_zombie/idle', scale_factor=1), img_dur=6),
         'big_zombie/run': Animation(load_images_entities('entities/enemy/big_zombie/run', scale_factor=1), img_dur=4),
 
         'fire_worm/idle': Animation(load_images_entities('entities/enemy/fire_worm/idle', scale_factor=1), img_dur=6),
         'fire_worm/run': Animation(load_images_entities('entities/enemy/fire_worm/run', scale_factor=1), img_dur=6),
+        'fire_worm/attack': Animation(load_images_entities('entities/enemy/fire_worm/attack', scale_factor=1), loop=False, img_dur=3),
+        'fire_worm/dead': Animation(load_images_entities('entities/enemy/fire_worm/dead', scale_factor=1), loop=False, img_dur=3),
 
         'big_daemon/idle': Animation(load_images_entities('entities/enemy/big_daemon/idle', scale_factor=1), img_dur=6),
         'big_daemon/run': Animation(load_images_entities('entities/enemy/big_daemon/run', scale_factor=1), img_dur=4),

@@ -63,5 +63,5 @@ def rename_files(directory):
             print(f"No digit found in: {filename}")
 
 
-directory_path = './data/images/particles/fire_totem'
+directory_path = './data/images/entities/enemy/fire_worm/attack'
 rename_files(directory_path)
