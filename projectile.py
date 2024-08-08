@@ -195,6 +195,15 @@ class IceArrow(AnimatedProjectile):
                 create_sparks(self.game, enemy.rect().center, shade='ice')
                 self.hit_on_target = True
 
+        for effect in self.game.magic_effects.copy():
+            if self.rect().colliderect(effect.rect()) and isinstance(effect, Tornado):
+                self.hit_on_target = True
+                effect.hit_on_target = True
+                spawn_point = effect.rect().center
+                spawn_point = (spawn_point[0], spawn_point[1] - 16)
+                self.game.magic_effects.append(WaterTornado(self.game, spawn_point, self.direction))
+                self.game.sfx['geyser'].play()
+
 
 class Tornado(AnimatedProjectile):
     def __init__(self, game, pos, direction):
@@ -212,6 +221,27 @@ class Tornado(AnimatedProjectile):
         for enemy in self.game.enemies.copy():
             if self.rect().colliderect(enemy.hitbox):
                 damage = random.randint(0, 1)
+                enemy.health -= damage
+                # self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
+                create_sparks(self.game, enemy.rect().center, shade='white', num_sparks=(1, 5))
+
+
+class WaterTornado(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['water_tornado']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=8, velocity=1)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+
+    def rect(self):
+        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
+                           self.rect_width, self.rect_height)
+
+    def update(self):
+        super().update()
+        for enemy in self.game.enemies.copy():
+            if self.rect().colliderect(enemy.hitbox):
+                damage = random.randint(1, 3)
                 enemy.health -= damage
                 # self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
                 create_sparks(self.game, enemy.rect().center, shade='white', num_sparks=(1, 5))

@@ -42,6 +42,7 @@ def load_assets():
         'fire_totem': load_images('particles/fire_totem'),
         'water_geyser': load_images('particles/spell/water_geyser'),
         'tornado': load_images('particles/spell/tornado'),
+        'water_tornado': load_images('particles/spell/water_tornado'),
         'ice_arrow': load_images('particles/ice_arrow'),
 
         # tiles
