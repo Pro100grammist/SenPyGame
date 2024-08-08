@@ -71,7 +71,7 @@ def load_assets():
         'fire_worm/idle': Animation(load_images_entities('entities/enemy/fire_worm/idle', scale_factor=1), img_dur=6),
         'fire_worm/run': Animation(load_images_entities('entities/enemy/fire_worm/run', scale_factor=1), img_dur=6),
         'fire_worm/attack': Animation(load_images_entities('entities/enemy/fire_worm/attack', scale_factor=1), loop=False, img_dur=3),
-        'fire_worm/dead': Animation(load_images_entities('entities/enemy/fire_worm/dead', scale_factor=1), loop=False, img_dur=3),
+        'fire_worm/dead': Animation(load_images_entities('entities/enemy/fire_worm/dead', scale_factor=1), loop=False, img_dur=8),
 
         'big_daemon/idle': Animation(load_images_entities('entities/enemy/big_daemon/idle', scale_factor=1), img_dur=6),
         'big_daemon/run': Animation(load_images_entities('entities/enemy/big_daemon/run', scale_factor=1), img_dur=4),

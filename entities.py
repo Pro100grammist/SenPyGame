@@ -55,11 +55,13 @@ class PhysicsEntity:
     def set_action(self, action):
         """Sets the current action (animation) of the entity."""
         if action != self.action:
+            print(f'{self.type}: Changing action from {self.action} to {action}.')
             self.action = action
             self.animation = self.game.assets[self.type + '/' + self.action].copy()
 
     def is_animation_done(self):
         """Checks if the current animation is complete."""
+        print(f'{self.type}: Checking if animation {self.action} is done: {self.animation.done}')
         return self.animation.done
 
     def update_hitbox(self):
@@ -89,6 +91,11 @@ class PhysicsEntity:
 
     def update(self, tilemap, movement=(0, 0)):
         """Updates the entity's position, handles movement and collisions."""
+        if self.dying:
+            self.animation.update()
+            self.update_hitbox()
+            return
+
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
 
         # Apply movement
@@ -151,6 +158,7 @@ class Enemy(PhysicsEntity):
         self.e_type = e_type
         self.health = health
         self.attacking = False
+        self.dying = False
 
     def handle_player_dash_collision(self):
         """
@@ -193,6 +201,12 @@ class Enemy(PhysicsEntity):
                 self.shoot()
                 self.set_action('idle')
 
+    def victory_handler(self):
+        self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
+        self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
+        create_particles(self.game, self.rect().center, self.e_type)
+        self.game.player.increase_experience(EXP_POINTS[self.e_type])
+
     def update(self, tilemap, movement=(0, 0)):
         """
         Updates enemy status, including movement and collisions.
@@ -209,30 +223,36 @@ class Enemy(PhysicsEntity):
             if not self.walking:
                 dis = (self.game.player.pos[0] - self.pos[0], self.game.player.pos[1] - self.pos[1])
                 if abs(dis[1]) < 16:
-                    if self.flip and dis[0] < 0:
+                    if self.flip and dis[0] < 0 and not self.dying:
                         self.initiate_attack()
-                    elif not self.flip and dis[0] > 0:
+                    elif not self.flip and dis[0] > 0 and not self.dying:
                         self.initiate_attack()
         elif random.random() < 0.01:
             self.walking = random.randint(30, 120)
 
         super().update(tilemap, movement=movement)
 
-        if not self.attacking:
+        if not self.attacking and not self.dying:
             self.set_action('run' if movement[0] != 0 else 'idle')
 
         self.handle_attack()
         self.handle_player_dash_collision()
 
-        if self.health <= 0:
-            self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
-            self.game.sfx[self.e_type].play()
-            self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
-            create_particles(self.game, self.rect().center, self.e_type)
-            self.game.player.increase_experience(EXP_POINTS[self.e_type])
-            return True
-        else:
-            return False
+        if self.health <= 0 and not self.dying:
+            self.dying = True
+            if f'{self.e_type}/dead' in self.game.assets:
+                self.set_action('dead')
+            else:
+                self.victory_handler()
+                return True
+
+        if self.dying:
+            if self.is_animation_done():
+                return True
+            else:
+                return False
+
+        return False
 
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)
@@ -359,7 +379,7 @@ class Player(PhysicsEntity):
         self.shuriken_count = 20
         self.shuriken = 0
 
-        self.death_hit = False
+        self.dying = False
 
         self.initial_size = size
         self.current_size = size
@@ -766,7 +786,7 @@ class Player(PhysicsEntity):
                 self.set_action('attack')
             elif movement[0] != 0:
                 self.set_action('run')
-            elif self.death_hit:
+            elif self.dying:
                 self.set_action('death')
             else:
                 self.set_action('idle')

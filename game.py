@@ -257,7 +257,7 @@ class Game:
             self.player.current_health = self.player.max_health
             self.player.stamina = self.player.max_stamina
             self.player.life -= 1
-            self.player.death_hit = False
+            self.player.dying = False
             self.load_level(self.level)
 
         # It processes all events that occur at a level in the game.
@@ -317,16 +317,15 @@ class Game:
                 if not enemy.update(self.map, (0, 0)):
                     enemy.render(self.display, offset=render_scroll)
                 else:
-                    self.sfx[enemy.e_type].play()
                     self.enemies.remove(enemy)
 
             # player status update and rendering
             if self.player.current_health <= 0:
                 if not self.player.skills["Resurrection"]:
-                    self.player.death_hit = True
+                    self.player.dying = True
                 else:
                     if random.random() > 0.2:
-                        self.player.death_hit = True
+                        self.player.dying = True
                     else:
                         self.sfx["revive"].play()
                         self.player.current_health = self.player.max_health
@@ -338,7 +337,7 @@ class Game:
             if not self.dead:
                 self.player.update(self.map, (self.movement[1] - self.movement[0], 0))
                 self.player.render(self.display, offset=render_scroll)
-                if self.player.death_hit:
+                if self.player.dying:
                     self.death_timer -= 1
                     if self.death_timer <= 0:
                         self.dead = True
