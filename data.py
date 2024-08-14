@@ -44,6 +44,7 @@ def load_assets():
         'tornado': load_images('particles/spell/tornado'),
         'water_tornado': load_images('particles/spell/water_tornado'),
         'ice_arrow': load_images('particles/ice_arrow'),
+        'runic_obelisk': load_images('particles/runic_obelisk'),
 
         # tiles
         'background_objects': load_images('tiles/background_objects'),
@@ -139,7 +140,7 @@ def load_sfx():
     sound_names = ['jump', 'jump1', 'jump2', 'jump3', 'dash', 'hit', 'shoot', 'arrow_crash', 'ambience',
                    'attack', 'attack1', 'attack2', 'attack3', 'pain', 'damaged1', 'damaged2', 'damaged3', 'running',
                    'orc_archer', 'big_zombie', 'big_daemon', 'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3',
-                   'fireball', 'fire_hit', 'fire_punch', 'burning', 'ice_arrow', 'ice_hit', 'tornado',
+                   'fireball', 'fire_hit', 'fire_punch', 'burning', 'ice_arrow', 'ice_hit', 'tornado', 'runic_obelisk',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
                    'flipping_scroll1', 'flipping_scroll2', 'flipping_scroll3',

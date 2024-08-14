@@ -247,6 +247,34 @@ class WaterTornado(AnimatedProjectile):
                 create_sparks(self.game, enemy.rect().center, shade='white', num_sparks=(1, 5))
 
 
+class RunicObelisk(AnimatedProjectile):
+    def __init__(self, game, pos, direction=0):
+        sprites = game.assets['runic_obelisk']
+        super().__init__(game, pos, direction, sprites, loop=True, num_cycles=10, image_duration=6)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+        action_range_increase = 50
+        self.action_range = pygame.Rect(
+            self.pos[0] - self.rect_width // 2 - action_range_increase // 2,
+            self.pos[1] - self.rect_height // 2 - action_range_increase // 2,
+            self.rect_width + action_range_increase,
+            self.rect_height + action_range_increase
+        )
+
+    def rect(self):
+        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
+                           self.rect_width, self.rect_height)
+
+    def update(self):
+        super().update()
+        if self.action_range.colliderect(self.game.player.rect()):
+            if random.random() < 5 / 60:  # 10 units per second at 60 FPS
+                if self.game.player.current_health < self.game.player.max_health:
+                    self.game.player.current_health += 1
+                if self.game.player.stamina < self.game.player.max_stamina:
+                    self.game.player.stamina += 1
+
+
 class Arrow(Projectile):
     def __init__(self, game, pos, direction):
         super().__init__(game, pos, direction, **{'image': 'arrow'})

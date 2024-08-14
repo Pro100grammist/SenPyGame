@@ -117,6 +117,8 @@ class PlayerController:
                     self.player.ice_arrow_throw()
                 if event.key == pygame.K_4:
                     self.player.tornado_draft()
+                if event.key == pygame.K_5:
+                    self.player.summoning_runic_obelisk()
                 if event.key == pygame.K_LCTRL:
                     self.player.selected_scroll += 1
                     sound = str(randint(1, 3))

@@ -8,7 +8,7 @@ from particle import Particle, Spark, create_particles
 from projectile import (RustyShuriken, SteelShuriken, IceShuriken, EmeraldShuriken, DoubleBladedShuriken,
                         PoisonedShuriken, StingerShuriken, PiranhaShuriken, SupersonicShuriken, PhantomShuriken,
                         AnimatedFireball, WormFireball, SkullSmoke, HollySpell, SpeedSpell,
-                        FireTotem, WaterGeyser, IceArrow, Tornado,
+                        FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk,
                         BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
 
 
@@ -666,6 +666,21 @@ class Player(PhysicsEntity):
             self.jump(boost=2)
             self.game.sfx['water'].play()
             self.game.sfx['geyser'].play()
+
+    def summoning_runic_obelisk(self):
+        if not self.game.dead and not self.wall_slide and self.mana >= 20 and self.jumps == 2:
+            spawn_point = self.rect().center
+            if self.flip:
+                spawn_point = (spawn_point[0] - 30, spawn_point[1] - 36)
+            else:
+                spawn_point = (spawn_point[0] + 20, spawn_point[1] - 36)
+            # checking is obelisk exists on level now
+            obelisk_exists = any(isinstance(effect, RunicObelisk) for effect in self.game.magic_effects)
+
+            if not obelisk_exists:
+                self.game.magic_effects.append(RunicObelisk(self.game, spawn_point))
+                self.mana -= 20 - self.wisdom // 2
+                self.game.sfx['runic_obelisk'].play()
 
     def ice_arrow_throw(self):
         if not self.game.dead and not self.wall_slide and self.mana >= 20:
