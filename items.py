@@ -32,10 +32,14 @@ class GameLoot:
         self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1]) if self.pos else None
 
     def __eq__(self, other):
-        return self.name == other.name
+        if not isinstance(other, GameLoot):
+            return False
+        return (self.name == other.name and
+                self.i_type == other.i_type and
+                self.pos == other.pos)
 
     def __hash__(self):
-        return hash(self.name)
+        return hash((self.name, self.i_type, tuple(self.pos)))
 
     def update(self):
         self.animation.update()
@@ -83,6 +87,8 @@ class GameLoot:
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
                   (self.pos[0] - offset[0], self.pos[1] - 2 - offset[1]))
+        # pygame.draw.rect(surf, (0, 0, 255), (self.rect.x - offset[0], self.rect.y - offset[1],
+        #                                      self.rect.width, self.rect.height), 1)
 
 
 class Gem(GameLoot):
@@ -367,10 +373,12 @@ class Chest:
             equipment = create_equipment(rareness=self.keys_map[self.lock])  # Create equipment based on chest class
         else:
             equipment = create_equipment()  # Create random equipment
-        additional_item = create_book(self.game)
         self.game.player.inventory.append(equipment)
-        self.game.player.inventory.append(additional_item)
         self.game.inventory_menu.refresh_inventory()
+        if random.random() < 0.2:
+            additional_item = create_book(self.game)
+            self.game.player.inventory.append(additional_item)
+            self.game.inventory_menu.refresh_inventory()
         self.game.sfx['get_item'].play()
 
     def update(self):

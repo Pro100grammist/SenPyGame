@@ -1,6 +1,7 @@
 .idea/
 __pycache__/
 data/
+backup/
 
 *.log
 *.pot
@@ -8,6 +9,6 @@ data/
 
 testing.py
 map_editor.py
-backup.py
+backup/backup.py
 edited_map.json
 updates_and_patches.txt

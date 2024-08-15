@@ -152,6 +152,16 @@ class FireTotem(AnimatedProjectile):
                 enemy.health -= 1
                 create_sparks(self.game, enemy.rect().center, shade='orange')
 
+        for effect in self.game.magic_effects.copy():
+            if self.rect().colliderect(effect.rect()) and isinstance(effect, Tornado):
+                self.hit_on_target = True
+                effect.hit_on_target = True
+                spawn_point = self.rect().center
+                spawn_point = (spawn_point[0], spawn_point[1] - 20)
+                self.game.magic_effects.append(HellStorm(self.game, spawn_point, direction=0))
+                self.game.shaking_screen_effect = max(64, self.game.shaking_screen_effect)
+                self.game.sfx['hell_storm'].play()
+
     # def render(self, surf, offset=(0, 0)):
     #     # temporary technical method for visualization of the totem lesion area
     #     super().render(surf, offset)
@@ -247,13 +257,38 @@ class WaterTornado(AnimatedProjectile):
                 create_sparks(self.game, enemy.rect().center, shade='white', num_sparks=(1, 5))
 
 
+class HellStorm(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['hell_storm']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=2)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+        self.total_damage = 0
+        self.damage = 4
+
+    def rect(self):
+        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
+                           self.rect_width, self.rect_height)
+
+    def update(self):
+        super().update()
+        for enemy in self.game.enemies.copy():
+            if self.rect().colliderect(enemy.hitbox):
+                self.total_damage += self.damage
+                enemy.health -= self.damage
+                if self.animation.done:
+                    self.game.sfx['hell_storm'].play()
+                    self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.total_damage)))
+
+
 class RunicObelisk(AnimatedProjectile):
     def __init__(self, game, pos, direction=0):
         sprites = game.assets['runic_obelisk']
         super().__init__(game, pos, direction, sprites, loop=True, num_cycles=10, image_duration=6)
         self.rect_width = sprites[0].get_width()
         self.rect_height = sprites[0].get_height()
-        action_range_increase = 50
+        self.next_sound_time = pygame.time.get_ticks() + random.uniform(1000, 3000)
+        action_range_increase = 100
         self.action_range = pygame.Rect(
             self.pos[0] - self.rect_width // 2 - action_range_increase // 2,
             self.pos[1] - self.rect_height // 2 - action_range_increase // 2,
@@ -267,12 +302,30 @@ class RunicObelisk(AnimatedProjectile):
 
     def update(self):
         super().update()
+        current_time = pygame.time.get_ticks()
         if self.action_range.colliderect(self.game.player.rect()):
-            if random.random() < 5 / 60:  # 10 units per second at 60 FPS
+            if random.random() < 5 / 60:  # 5 units per second at 60 FPS
                 if self.game.player.current_health < self.game.player.max_health:
                     self.game.player.current_health += 1
                 if self.game.player.stamina < self.game.player.max_stamina:
                     self.game.player.stamina += 1
+                # animation of treatment
+                angle = random.random() * math.pi * 2  # a random angle in radians from 0 to 2π (360 degrees)
+                speed = random.random() * 0.5 + 0.5
+                pvelocity = [math.cos(angle) * speed, math.sin(angle) * speed]
+                self.game.particles.append(
+                    Particle(
+                        game=self.game,
+                        p_type='cross_particle',
+                        pos=self.game.player.rect().midtop,
+                        velocity=pvelocity,
+                        frame=random.randint(0, 7)
+                    )
+                )
+                if current_time >= self.next_sound_time:
+                    voice = str(random.randint(1, 3))
+                    self.game.sfx['heal' + voice].play()
+                    self.next_sound_time = current_time + random.uniform(1000, 3000)
 
 
 class Arrow(Projectile):
@@ -384,7 +437,7 @@ class DoubleBladedShuriken(Shuriken):
 
 class DamageNumber(pygame.sprite.Sprite):
 
-    def __init__(self, position, number, color):
+    def __init__(self, position, number, color=(255, 255, 255)):
         super().__init__()
         self.x_offset = random.randint(-10, 10)
         self.y_offset = random.randint(16, 32)

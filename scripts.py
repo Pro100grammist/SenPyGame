@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import datetime
 
 
 def get_directory_structure(rootdir):
@@ -63,5 +64,29 @@ def rename_files(directory):
             print(f"No digit found in: {filename}")
 
 
-directory_path = './data/images/entities/enemy/fire_worm/attack'
-rename_files(directory_path)
+# directory_path = './data/images/entities/enemy/fire_worm/attack'
+# rename_files(directory_path)
+
+
+def auto_backup(file_list):
+    """ Скрипт для авто копіювання вмісту всіх файлів з робочим кодом проєкту """
+    date_str = datetime.datetime.now().strftime("%d_%m_%Y")  # Поточна дата у форматі **_**_****.
+    backup_filename = f"auto_backup_{date_str}.py"  # назва для файлу
+    backup_filepath = os.path.join('backup', backup_filename)
+
+    with open(backup_filepath, 'w') as backup_file:
+        for filename in file_list:
+            if os.path.exists(filename):
+                with open(filename, 'r') as f:
+                    backup_file.write(f"# {filename}\n")
+                    backup_file.write(f.read())
+                    backup_file.write("\n# ******** end of file *********\n\n")
+        print(f"Backup created at {backup_filepath}")
+
+
+# Список файлів, які потрібно скопіювати.
+files_to_backup = [
+    'game.py', 'map.py', 'entities.py', 'player_controller.py', 'items.py', 'level.py', 'particle.py',
+    'projectile.py', 'support.py', 'ui.py', 'weather.py', 'data.py', 'settings.py', 'scripts.py'
+]
+auto_backup(files_to_backup)

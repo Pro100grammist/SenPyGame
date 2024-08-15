@@ -40,6 +40,7 @@ def load_assets():
         'invulnerability_spell': load_images('particles/spell/invulnerability_spell'),
         'blood': load_images('particles/spell/blood'),
         'fire_totem': load_images('particles/fire_totem'),
+        'hell_storm': load_images('particles/hell_storm'),
         'water_geyser': load_images('particles/spell/water_geyser'),
         'tornado': load_images('particles/spell/tornado'),
         'water_tornado': load_images('particles/spell/water_tornado'),
@@ -86,8 +87,7 @@ def load_assets():
         'player/jump': Animation(load_images_entities('entities/player/jump'), img_dur=3),
         'player/fall': Animation(load_images_entities('entities/player/fall'), img_dur=3),
         'player/slide': Animation(load_images_entities('entities/player/slide'), img_dur=5),
-        'player/wall_slide': Animation(load_images_entities('entities/player/wall_slide', trim_left=0, trim_right=0),
-                                       img_dur=3),
+        'player/wall_slide': Animation(load_images_entities('entities/player/wall_slide', trim_left=0, trim_right=0), img_dur=3),
         'player/death': Animation(load_images_entities('entities/player/death', trim_left=0, trim_right=0), img_dur=6),
 
         # game loot
@@ -129,6 +129,7 @@ def load_assets():
 
         # particle
         'particle/particle': Animation(load_images('particles/particle'), img_dur=6, loop=False),
+        'particle/cross_particle': Animation(load_images('particles/cross_particle'), img_dur=6, loop=False),
 
         # effects
         'kaboom': load_images('particles/kaboom'),
@@ -144,10 +145,10 @@ def load_sfx():
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
                    'flipping_scroll1', 'flipping_scroll2', 'flipping_scroll3',
-                   'green_smoke', 'corruption', 'water', 'geyser',
+                   'green_smoke', 'corruption', 'water', 'geyser', 'hell_storm',
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
-                   'heal', 'healed', 'cough', 'tired', 'revive',
+                   'heal1', 'heal2', 'heal3', 'healed', 'cough', 'tired', 'revive',
                    'move_cursor', 'open_skill', 'rejected', 'chest_open',
                    'steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key',
                    'not_enough_money', 'buy_goods', 'item_equip', 'get_item', 'lock_closed']

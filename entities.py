@@ -381,9 +381,6 @@ class Player(PhysicsEntity):
 
         self.dying = False
 
-        self.initial_size = size
-        self.current_size = size
-
         self.life = 5
         self.experience_points = 0
 
@@ -482,9 +479,6 @@ class Player(PhysicsEntity):
             9: DoubleBladedShuriken,
         }
 
-    def rect(self):
-        return pygame.Rect(self.pos[0], self.pos[1], self.current_size[0], self.current_size[1])
-
     def adjust_position(self, pixels):
         self.pos[1] -= pixels
 
@@ -552,7 +546,6 @@ class Player(PhysicsEntity):
                 self.game.sfx['attack' + voice].play()
                 self.stamina -= 10
                 self.attack_timer = len(self.animation.images) * self.animation.img_duration
-                self.current_size = (self.current_size[0] + 10, self.current_size[1])
 
                 for enemy in self.game.enemies.copy():
                     if self.hitbox.colliderect(enemy.hitbox) and self.attack_pressed:
@@ -834,7 +827,6 @@ class Player(PhysicsEntity):
             self.attack_timer = max(0, self.attack_timer - 1)
             if self.attack_timer == 0:
                 self.attack_pressed = False
-                self.current_size = self.initial_size
 
         if self.selected_item > 5:
             self.selected_item = 1
