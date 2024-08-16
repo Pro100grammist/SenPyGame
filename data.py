@@ -42,9 +42,11 @@ def load_assets():
         'fire_totem': load_images('particles/fire_totem'),
         'hell_storm': load_images('particles/hell_storm'),
         'water_geyser': load_images('particles/spell/water_geyser'),
+        'magic_shield': load_images('particles/magic_shield'),
         'tornado': load_images('particles/spell/tornado'),
         'water_tornado': load_images('particles/spell/water_tornado'),
         'ice_arrow': load_images('particles/ice_arrow'),
+        'thunderbolt': load_images('particles/thunderbolt'),
         'runic_obelisk': load_images('particles/runic_obelisk'),
 
         # tiles
@@ -133,6 +135,7 @@ def load_assets():
 
         # effects
         'kaboom': load_images('particles/kaboom'),
+        'puff_and_stars': load_images('particles/puff_and_stars'),
         'necromancy': load_images('particles/spell/necromancy'),
     }
 
@@ -145,7 +148,7 @@ def load_sfx():
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
                    'flipping_scroll1', 'flipping_scroll2', 'flipping_scroll3',
-                   'green_smoke', 'corruption', 'water', 'geyser', 'hell_storm',
+                   'green_smoke', 'corruption', 'water', 'geyser', 'hell_storm', 'thunder',
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
                    'heal1', 'heal2', 'heal3', 'healed', 'cough', 'tired', 'revive',

@@ -4,7 +4,7 @@ import pygame
 
 from particle import Particle, Spark, create_particles, create_sparks
 from support import Animation
-from data import EXP_POINTS
+from data import EXP_POINTS, PROJECTILE_DAMAGE
 
 
 class Projectile:
@@ -46,6 +46,7 @@ class AnimatedProjectile(Projectile):
         self.hit_on_target = False
         self.reverse = reverse
         self.animation = Animation(sprites, img_dur=image_duration, loop=self.loop, num_cycles=self.num_cycles)
+        self.damage = 0
 
     def update(self):
         self.animation.update()
@@ -67,6 +68,7 @@ class WormFireball(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['worm_fireball']
         super().__init__(game, pos, direction, sprites, True, image_duration=3, velocity=5)
+        self.damage = PROJECTILE_DAMAGE.get('WormFireball', 49)
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], 20, 20)
@@ -76,6 +78,7 @@ class AnimatedFireball(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['fireball']
         super().__init__(game, pos, direction, sprites, False, image_duration=3, velocity=4)
+        self.damage = PROJECTILE_DAMAGE.get('AnimatedFireball', 33)
 
     def rect(self):
         return pygame.Rect(self.pos[0], self.pos[1], 20, 20)
@@ -117,6 +120,12 @@ class InvulnerabilitySpell(AnimatedProjectile):
 class HitEffect(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['kaboom']
+        super().__init__(game, pos, direction, sprites, False, image_duration=1)
+
+
+class HitEffect2(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['puff_and_stars']
         super().__init__(game, pos, direction, sprites, False, image_duration=1)
 
 
@@ -183,6 +192,29 @@ class WaterGeyser(AnimatedProjectile):
                            self.rect_width, self.rect_height)
 
 
+class MagicShield(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['magic_shield']
+        super().__init__(game, pos, direction, sprites, loop=True, num_cycles=10, image_duration=1, velocity=1)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+        self.safety_margin = 200
+
+    def rect(self):
+        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
+                           self.rect_width, self.rect_height)
+
+    def update(self):
+        super().update()
+        if self.safety_margin > 0:
+            for projectile in self.game.animated_projectiles.copy():
+                if self.rect().colliderect(projectile.rect()):
+                    self.safety_margin -= projectile.damage
+                    self.game.animated_projectiles.remove(projectile)
+        else:
+            self.hit_on_target = True
+
+
 class IceArrow(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['ice_arrow']
@@ -205,6 +237,14 @@ class IceArrow(AnimatedProjectile):
                 create_sparks(self.game, enemy.rect().center, shade='ice')
                 self.hit_on_target = True
 
+                # base chance of an additional lightning strike of 10% + 1% for each level of player wisdom (max 25%)
+                if random.random() <= 0.1 + min(0.15, self.game.player.wisdom // 100):
+                    spawn_point = enemy.rect().center
+                    spawn_point = (spawn_point[0], spawn_point[1] - 140)
+                    self.game.magic_effects.append(Thunderbolt(self.game, spawn_point, direction=0))
+                    self.game.shaking_screen_effect = max(32, self.game.shaking_screen_effect)
+                    self.game.sfx['thunder'].play()
+
         for effect in self.game.magic_effects.copy():
             if self.rect().colliderect(effect.rect()) and isinstance(effect, Tornado):
                 self.hit_on_target = True
@@ -213,6 +253,29 @@ class IceArrow(AnimatedProjectile):
                 spawn_point = (spawn_point[0], spawn_point[1] - 16)
                 self.game.magic_effects.append(WaterTornado(self.game, spawn_point, self.direction))
                 self.game.sfx['geyser'].play()
+
+
+class Thunderbolt(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['thunderbolt']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+        self.total_damage = 0
+        self.damage = random.randint(2, 8) * min(1.5, 1 + self.game.player.wisdom // 50)
+
+    def rect(self):
+        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
+                           self.rect_width, self.rect_height)
+
+    def update(self):
+        super().update()
+        for enemy in self.game.enemies.copy():
+            if self.rect().colliderect(enemy.hitbox):
+                self.total_damage += self.damage
+                enemy.health -= self.damage
+                if self.animation.done:
+                    self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.total_damage)))
 
 
 class Tornado(AnimatedProjectile):
@@ -260,11 +323,11 @@ class WaterTornado(AnimatedProjectile):
 class HellStorm(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['hell_storm']
-        super().__init__(game, pos, direction, sprites, loop=False, image_duration=2)
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=6)
         self.rect_width = sprites[0].get_width()
         self.rect_height = sprites[0].get_height()
         self.total_damage = 0
-        self.damage = 4
+        self.damage = random.randint(4, 8)
 
     def rect(self):
         return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
@@ -331,11 +394,13 @@ class RunicObelisk(AnimatedProjectile):
 class Arrow(Projectile):
     def __init__(self, game, pos, direction):
         super().__init__(game, pos, direction, **{'image': 'arrow'})
+        self.damage = 20
 
 
 class Fireball(Projectile):
     def __init__(self, game, pos, direction):
         super().__init__(game, pos, direction, **{'image': 'fireball'})
+        self.damage = 33
 
 
 class Shuriken(Projectile):

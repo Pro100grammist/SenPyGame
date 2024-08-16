@@ -119,6 +119,8 @@ class PlayerController:
                     self.player.tornado_draft()
                 if event.key == pygame.K_5:
                     self.player.summoning_runic_obelisk()
+                if event.key == pygame.K_6:
+                    self.player.shielding()
                 if event.key == pygame.K_LCTRL:
                     self.player.selected_scroll += 1
                     sound = str(randint(1, 3))

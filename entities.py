@@ -8,8 +8,8 @@ from particle import Particle, Spark, create_particles
 from projectile import (RustyShuriken, SteelShuriken, IceShuriken, EmeraldShuriken, DoubleBladedShuriken,
                         PoisonedShuriken, StingerShuriken, PiranhaShuriken, SupersonicShuriken, PhantomShuriken,
                         AnimatedFireball, WormFireball, SkullSmoke, HollySpell, SpeedSpell,
-                        FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk,
-                        BloodlustSpell, InvulnerabilitySpell, HitEffect, DamageNumber)
+                        FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield,
+                        BloodlustSpell, InvulnerabilitySpell, HitEffect, HitEffect2, DamageNumber)
 
 
 class PhysicsEntity:
@@ -55,7 +55,6 @@ class PhysicsEntity:
     def set_action(self, action):
         """Sets the current action (animation) of the entity."""
         if action != self.action:
-            print(f'{self.type}: Changing action from {self.action} to {action}.')
             self.action = action
             self.animation = self.game.assets[self.type + '/' + self.action].copy()
 
@@ -202,8 +201,13 @@ class Enemy(PhysicsEntity):
                 self.set_action('idle')
 
     def victory_handler(self):
-        self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
-        self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
+        probability = random.random()
+        if probability > 0.75:
+            self.game.effects.append(HitEffect(self.game, self.hitbox.midtop, 0))
+            self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
+        elif probability > 0.5:
+            self.game.effects.append(HitEffect2(self.game, self.hitbox.midtop, 0))
+            self.game.shaking_screen_effect = max(24, self.game.shaking_screen_effect)
         create_particles(self.game, self.rect().center, self.e_type)
         self.game.player.increase_experience(EXP_POINTS[self.e_type])
 
@@ -378,6 +382,7 @@ class Player(PhysicsEntity):
 
         self.shuriken_count = 20
         self.shuriken = 0
+        self.shield = None
 
         self.dying = False
 
@@ -615,7 +620,7 @@ class Player(PhysicsEntity):
                 else:
                     start_point = (start_point[0] + 2, start_point[1] - 16)
                 if spell == 'holly_spell' and self.mana >= 50:
-                    self.mana -= 50 - self.wisdom // 2
+                    self.mana -= 50 - self.wisdom // 4
                     scroll_used = True
                     self.game.spells.append(HollySpell(self.game, start_point, direction))
                 if spell == 'speed_spell':
@@ -627,7 +632,7 @@ class Player(PhysicsEntity):
                     scroll_used = True
                     self.game.spells.append(BloodlustSpell(self.game, start_point, direction))
                 if spell == 'invulnerability_spell' and self.mana >= 40:
-                    self.mana -= 40 - self.wisdom // 2
+                    self.mana -= 40 - self.wisdom // 4
                     scroll_used = True
                     self.game.spells.append(InvulnerabilitySpell(self.game, start_point, direction))
                 if self.skills["Inscription Mastery"] and scroll_used:
@@ -643,7 +648,7 @@ class Player(PhysicsEntity):
                 spawn_point = (spawn_point[0] - 30, spawn_point[1] - 32)
             else:
                 spawn_point = (spawn_point[0] + 26, spawn_point[1] - 32)
-            self.mana -= 25 - self.wisdom // 2
+            self.mana -= 25 - self.wisdom // 4
             self.game.magic_effects.append(FireTotem(self.game, spawn_point))
             self.game.sfx['burning'].play()
 
@@ -654,7 +659,7 @@ class Player(PhysicsEntity):
                 spawn_point = (spawn_point[0] - 4, spawn_point[1] - 20)
             else:
                 spawn_point = (spawn_point[0], spawn_point[1] - 20)
-            self.mana -= 20 - self.wisdom // 2
+            self.mana -= 20 - self.wisdom // 4
             self.game.magic_effects.append(WaterGeyser(self.game, spawn_point))
             self.jump(boost=2)
             self.game.sfx['water'].play()
@@ -672,14 +677,14 @@ class Player(PhysicsEntity):
 
             if not obelisk_exists:
                 self.game.magic_effects.append(RunicObelisk(self.game, spawn_point))
-                self.mana -= 20 - self.wisdom // 2
+                self.mana -= 20 - self.wisdom // 4
                 self.game.sfx['runic_obelisk'].play()
 
     def ice_arrow_throw(self):
         if not self.game.dead and not self.wall_slide and self.mana >= 20:
             spawn_point = self.rect().center
             spawn_point = (spawn_point[0], spawn_point[1] - 10)
-            self.mana -= 20 - self.wisdom // 2
+            self.mana -= 20 - self.wisdom // 4
             direction = 1 if not self.flip else -1
             self.game.magic_effects.append(IceArrow(self.game, spawn_point, direction))
             self.game.sfx['ice_arrow'].play()
@@ -691,10 +696,17 @@ class Player(PhysicsEntity):
                 spawn_point = (spawn_point[0] - 30, spawn_point[1] - 24)
             else:
                 spawn_point = (spawn_point[0] + 26, spawn_point[1] - 24)
-            self.mana -= 30 - self.wisdom // 2
+            self.mana -= 30 - self.wisdom // 4
             direction = 1 if not self.flip else -1
             self.game.magic_effects.append(Tornado(self.game, spawn_point, direction))
             self.game.sfx['tornado'].play()
+
+    def shielding(self):
+        if not self.game.dead and not self.wall_slide and self.mana >= 30 and self.jumps == 2:
+            self.mana -= 30 - self.wisdom // 4
+            self.shield = MagicShield(self.game, self.rect().center, direction=1 if not self.flip else -1)
+            self.game.magic_effects.append(self.shield)
+            # self.game.sfx['magic_shield'].play()
 
     def use_item(self):
         if self.selected_item == 1 and self.heal_potions:
@@ -869,6 +881,11 @@ class Player(PhysicsEntity):
         if self.stamina < self.max_stamina:
             if not self.wall_slide and not self.dashing and not self.corruption:
                 self.stamina += 0.1 + (self.skills["Rapid Recovery"] * 0.1)
+
+        if self.shield:
+            self.shield.pos = list(self.rect().center)  # Update shield position
+            if self.shield.animation.done or self.shield.hit_on_target:
+                self.shield = None
 
     def render(self, surf, offset=(0, 0)):
         current_image = self.animation.current_sprite()
