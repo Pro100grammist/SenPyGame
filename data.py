@@ -236,6 +236,32 @@ PROJECTILE_DAMAGE = {
     'SkullSmoke': 0,  # doesn't cause damage directly
 }
 
+SHURIKEN_LEVELS = {
+    0: 'rusty',
+    1: 'steel',
+    2: 'ice',
+    3: 'emerald',
+    4: 'poisoned',
+    5: 'stinger',
+    6: 'piranha',
+    7: 'supersonic',
+    8: 'phantom',
+    9: 'double_bladed',
+}
+
+SHURIKEN_CONFIGS = {
+    'rusty': {'image': 'rusty_shuriken', 'damage': 30, 'speed': 4},
+    'steel': {'image': 'steel_shuriken', 'damage': 40, 'speed': 3, 'max_distance': 400},
+    'ice': {'image': 'ice_shuriken', 'damage': 50, 'speed': 5, 'max_distance': 380},
+    'emerald': {'image': 'emerald_shuriken', 'damage': 60, 'speed': 4, 'max_distance': 380},
+    'poisoned': {'image': 'poisoned_shuriken', 'damage': 75, 'speed': 3, 'max_distance': 380},
+    'stinger': {'image': 'stinger_shuriken', 'damage': 90, 'speed': 6, 'max_distance': 420},
+    'piranha': {'image': 'shuriken_piranha', 'damage': 100, 'speed': 3, 'max_distance': 400},
+    'supersonic': {'image': 'supersonic_shuriken', 'damage': 120, 'speed': 7, 'max_distance': 600},
+    'phantom': {'image': 'phantom_shuriken', 'damage': 150, 'speed': 2, 'max_distance': 500},
+    'double_bladed': {'image': 'double_bladed_shuriken', 'damage': 220, 'speed': 3, 'max_distance': 300},
+}
+
 EXP_POINTS = {
     'big_daemon': 50,
     'big_zombie': 30,

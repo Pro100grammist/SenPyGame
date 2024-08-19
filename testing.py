@@ -232,3 +232,4 @@ class Enemy(PhysicsEntity):
                 self.attacking = False
                 self.set_action('idle')
                 self.shoot()
+

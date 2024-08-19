@@ -4,7 +4,7 @@ import pygame
 
 from particle import Particle, Spark, create_particles, create_sparks
 from support import Animation
-from data import EXP_POINTS, PROJECTILE_DAMAGE
+from data import EXP_POINTS, PROJECTILE_DAMAGE, SHURIKEN_CONFIGS
 
 
 class Projectile:
@@ -17,11 +17,6 @@ class Projectile:
 
     def update(self):
         self.pos[0] += self.speed * self.direction
-        rect = pygame.Rect(self.pos[0], self.pos[1], self.image.get_width(), self.image.get_height())
-
-        for enemy in self.game.enemies.copy():
-            if rect.colliderect(enemy.rect()):
-                self.game.enemies.remove(enemy)
 
         if self.game.map.checking_physical_tiles(self.pos):
             return True
@@ -48,6 +43,14 @@ class AnimatedProjectile(Projectile):
         self.animation = Animation(sprites, img_dur=image_duration, loop=self.loop, num_cycles=self.num_cycles)
         self.damage = 0
 
+    def rect(self):
+        return pygame.Rect(
+            self.pos[0] - self.rect_width // 2,
+            self.pos[1] - self.rect_height // 2,
+            self.rect_width,
+            self.rect_height
+        )
+
     def update(self):
         self.animation.update()
         if self.reverse and self.animation.current_cycle >= self.num_cycles // 2:
@@ -56,12 +59,9 @@ class AnimatedProjectile(Projectile):
         self.pos[0] += self.velocity * self.direction
 
     def render(self, surf, offset=(0, 0)):
-        projectile_pos = (self.pos[0] - offset[0], self.pos[1] - offset[1])
         rotated_frame = pygame.transform.rotate(self.animation.current_sprite(), self.rotation)
-        flipped_frame = pygame.transform.flip(rotated_frame, self.direction < 0, False)
-        flipped_frame.set_alpha(self.transparency)
-        surf.blit(flipped_frame, (projectile_pos[0] - flipped_frame.get_width() / 2,
-                                  projectile_pos[1] - flipped_frame.get_height() / 2))
+        self.image = rotated_frame
+        super().render(surf, offset)
 
 
 class WormFireball(AnimatedProjectile):
@@ -69,9 +69,8 @@ class WormFireball(AnimatedProjectile):
         sprites = game.assets['worm_fireball']
         super().__init__(game, pos, direction, sprites, True, image_duration=3, velocity=5)
         self.damage = PROJECTILE_DAMAGE.get('WormFireball', 49)
-
-    def rect(self):
-        return pygame.Rect(self.pos[0], self.pos[1], 20, 20)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
 
 
 class AnimatedFireball(AnimatedProjectile):
@@ -79,9 +78,8 @@ class AnimatedFireball(AnimatedProjectile):
         sprites = game.assets['fireball']
         super().__init__(game, pos, direction, sprites, False, image_duration=3, velocity=4)
         self.damage = PROJECTILE_DAMAGE.get('AnimatedFireball', 33)
-
-    def rect(self):
-        return pygame.Rect(self.pos[0], self.pos[1], 20, 20)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
 
 
 class SkullSmoke(AnimatedProjectile):
@@ -150,10 +148,6 @@ class FireTotem(AnimatedProjectile):
         self.rect_width = sprites[0].get_width()
         self.rect_height = sprites[0].get_height()
 
-    def rect(self):
-        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
-                           self.rect_width, self.rect_height)
-
     def update(self):
         self.animation.update()
         for enemy in self.game.enemies.copy():
@@ -187,10 +181,6 @@ class WaterGeyser(AnimatedProjectile):
         self.rect_width = sprites[0].get_width()
         self.rect_height = sprites[0].get_height()
 
-    def rect(self):
-        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
-                           self.rect_width, self.rect_height)
-
 
 class MagicShield(AnimatedProjectile):
     def __init__(self, game, pos, direction):
@@ -199,10 +189,6 @@ class MagicShield(AnimatedProjectile):
         self.rect_width = sprites[0].get_width()
         self.rect_height = sprites[0].get_height()
         self.safety_margin = 200
-
-    def rect(self):
-        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
-                           self.rect_width, self.rect_height)
 
     def update(self):
         super().update()
@@ -264,10 +250,6 @@ class Thunderbolt(AnimatedProjectile):
         self.total_damage = 0
         self.damage = random.randint(2, 8) * min(1.5, 1 + self.game.player.wisdom // 50)
 
-    def rect(self):
-        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
-                           self.rect_width, self.rect_height)
-
     def update(self):
         super().update()
         for enemy in self.game.enemies.copy():
@@ -285,10 +267,6 @@ class Tornado(AnimatedProjectile):
         self.rect_width = sprites[0].get_width()
         self.rect_height = sprites[0].get_height()
 
-    def rect(self):
-        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
-                           self.rect_width, self.rect_height)
-
     def update(self):
         super().update()
         for enemy in self.game.enemies.copy():
@@ -305,10 +283,6 @@ class WaterTornado(AnimatedProjectile):
         super().__init__(game, pos, direction, sprites, loop=False, image_duration=8, velocity=1)
         self.rect_width = sprites[0].get_width()
         self.rect_height = sprites[0].get_height()
-
-    def rect(self):
-        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
-                           self.rect_width, self.rect_height)
 
     def update(self):
         super().update()
@@ -328,10 +302,6 @@ class HellStorm(AnimatedProjectile):
         self.rect_height = sprites[0].get_height()
         self.total_damage = 0
         self.damage = random.randint(4, 8)
-
-    def rect(self):
-        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
-                           self.rect_width, self.rect_height)
 
     def update(self):
         super().update()
@@ -358,10 +328,6 @@ class RunicObelisk(AnimatedProjectile):
             self.rect_width + action_range_increase,
             self.rect_height + action_range_increase
         )
-
-    def rect(self):
-        return pygame.Rect(self.pos[0] - self.rect_width // 2, self.pos[1] - self.rect_height // 2,
-                           self.rect_width, self.rect_height)
 
     def update(self):
         super().update()
@@ -404,17 +370,17 @@ class Fireball(Projectile):
 
 
 class Shuriken(Projectile):
-    def __init__(self, game, pos, direction, shooter, image, damage, speed, max_distance=360):
-        super().__init__(game, pos, direction, **{'image': image, 'speed': speed})
-        self.rotation = 0
-        self.direction = direction
-        self.rect = pygame.Rect(self.pos[0] - self.image.get_width() / 2, self.pos[1] - self.image.get_height() / 2,
-                                self.image.get_width(), self.image.get_height())
+    def __init__(self, game, pos, direction, shooter, config):
+        super().__init__(game, pos, direction, **{'image': config['image'], 'speed': config['speed']})
         self.shooter = shooter
-        self.recoil = False
+        self.damage = config['damage']
+        self.max_distance = config.get('max_distance', 360)
         self.distance = 0
-        self.max_distance = max_distance
-        self.damage = damage
+        self.rotation = 0
+        self.recoil = False
+        self.rect = pygame.Rect(self.pos[0] - self.image.get_width() / 2,
+                                self.pos[1] - self.image.get_height() / 2,
+                                self.image.get_width(), self.image.get_height())
 
     def update(self):
         if self.distance >= self.max_distance:
@@ -422,7 +388,8 @@ class Shuriken(Projectile):
 
         super().update()
         self.rotation += -20 if self.direction > 0 else 20
-        self.rect = pygame.Rect(self.pos[0] - self.image.get_width() / 2, self.pos[1] - self.image.get_height() / 2,
+        self.rect = pygame.Rect(self.pos[0] - self.image.get_width() / 2,
+                                self.pos[1] - self.image.get_height() / 2,
                                 self.image.get_width(), self.image.get_height())
 
         for enemy in self.game.enemies.copy():
@@ -438,66 +405,12 @@ class Shuriken(Projectile):
                 return True
 
         self.distance += abs(self.speed * self.direction)
-
         return False
 
     def render(self, surf, offset=(0, 0)):
         rotated_suriken = pygame.transform.rotate(self.image, self.rotation)
         surf.blit(rotated_suriken, (self.pos[0] - offset[0] - rotated_suriken.get_width() / 2,
                                     self.pos[1] - 8 - offset[1] - rotated_suriken.get_height() / 2))
-
-        # self.rect.topleft = (self.rect.left - offset[0], self.rect.top - offset[1])
-        # pygame.draw.rect(surf, (255, 0, 0), self.rect, 2)
-
-
-class RustyShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='rusty_shuriken', damage=30, speed=4)
-
-
-class SteelShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='steel_shuriken', damage=40, speed=3, max_distance=400)
-
-
-class IceShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='ice_shuriken', damage=50, speed=5, max_distance=380)
-
-
-class EmeraldShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='emerald_shuriken', damage=60, speed=4, max_distance=380)
-
-
-class PoisonedShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='poisoned_shuriken', damage=75, speed=3, max_distance=380)
-
-
-class StingerShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='stinger_shuriken', damage=90, speed=6, max_distance=420)
-
-
-class PiranhaShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='shuriken_piranha', damage=100, speed=3, max_distance=400)
-
-
-class SupersonicShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='supersonic_shuriken', damage=120, speed=7, max_distance=600)
-
-
-class PhantomShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='phantom_shuriken', damage=150, speed=2, max_distance=500)
-
-
-class DoubleBladedShuriken(Shuriken):
-    def __init__(self, game, pos, direction, shooter):
-        super().__init__(game, pos, direction, shooter, image='double_bladed_shuriken', damage=220, speed=3, max_distance=300)
 
 
 class DamageNumber(pygame.sprite.Sprite):

@@ -3,10 +3,9 @@ import random
 
 import pygame
 
-from data import EXP_POINTS
+from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS
 from particle import Particle, Spark, create_particles
-from projectile import (RustyShuriken, SteelShuriken, IceShuriken, EmeraldShuriken, DoubleBladedShuriken,
-                        PoisonedShuriken, StingerShuriken, PiranhaShuriken, SupersonicShuriken, PhantomShuriken,
+from projectile import (Shuriken,
                         AnimatedFireball, WormFireball, SkullSmoke, HollySpell, SpeedSpell,
                         FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield,
                         BloodlustSpell, InvulnerabilitySpell, HitEffect, HitEffect2, DamageNumber)
@@ -471,19 +470,6 @@ class Player(PhysicsEntity):
 
         self.equipment = {}
 
-        self.shuriken_levels = {
-            0: RustyShuriken,
-            1: SteelShuriken,
-            2: IceShuriken,
-            3: EmeraldShuriken,
-            4: PoisonedShuriken,
-            5: StingerShuriken,
-            6: PiranhaShuriken,
-            7: SupersonicShuriken,
-            8: PhantomShuriken,
-            9: DoubleBladedShuriken,
-        }
-
     def adjust_position(self, pixels):
         self.pos[1] -= pixels
 
@@ -597,9 +583,17 @@ class Player(PhysicsEntity):
     def ranged_attack(self):
         if not self.game.dead and not self.wall_slide and self.shuriken_count > 0 and self.stamina >= self.min_stamina:
             self.stamina -= 20 - (self.agile // 4)
-            direction = 1 if not self.flip else -1
-            self.game.munition.append(self.shuriken_levels.get(self.shuriken, 0)(self.game, self.rect().center, direction, shooter=self))
             self.shuriken_count -= 1
+            direction = 1 if not self.flip else -1
+            self.game.munition.append(
+                Shuriken(
+                    game=self.game,
+                    pos=self.rect().center,
+                    direction=direction,
+                    shooter=self,
+                    config=SHURIKEN_CONFIGS[SHURIKEN_LEVELS.get(self.shuriken, 0)]
+                )
+            )
 
     def change_shuriken(self):
         if self.shuriken != 9:
