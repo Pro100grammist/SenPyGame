@@ -157,6 +157,8 @@ class Enemy(PhysicsEntity):
         self.health = health
         self.attacking = False
         self.dying = False
+        self.attack_cooldown = random.uniform(90, 150)  # random interval from a to b (in frames)
+        self.time_since_last_attack = 0
 
     def handle_player_dash_collision(self):
         """
@@ -214,6 +216,29 @@ class Enemy(PhysicsEntity):
         """
         Updates enemy status, including movement and collisions.
         """
+
+        # 1 Find distance to the player along the X and Y axes
+        player_distance_x = abs(self.game.player.pos[0] - self.pos[0])
+        player_distance_y = abs(self.game.player.pos[1] - self.pos[1])
+
+        # 2 Chase starts if the player comes into view
+        if player_distance_x < 100 and player_distance_y < 50:  # unit of measurement - pixel
+            if self.game.player.pos[0] < self.pos[0]:
+                self.flip = True
+                movement = (-0.5, 0)
+            else:
+                self.flip = False
+                movement = (0.5, 0)
+
+        # 3 Random attack if the player is in the mob's line of sight
+        player_distance = math.hypot(self.game.player.pos[0] - self.pos[0], self.game.player.pos[1] - self.pos[1])
+        if player_distance < 100:  # unit of measurement - pixel
+            self.attack_cooldown -= 1
+            if self.attack_cooldown <= 0:
+                self.attack_cooldown = random.uniform(90, 150)  # define new random interval
+                self.initiate_attack()
+
+        # 4 Handle motion, collision, and other states
         if self.walking:
             if tilemap.checking_physical_tiles((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
                 if self.collisions['right'] or self.collisions['left']:
