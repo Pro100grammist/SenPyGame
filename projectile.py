@@ -91,6 +91,14 @@ class SkullSmoke(AnimatedProjectile):
         return pygame.Rect(self.pos[0] - 30, self.pos[1] - 40, 64, 74)
 
 
+class ToxicExplosion(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['toxic_explosion']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=4)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+
+
 class HollySpell(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['holly_spell']

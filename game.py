@@ -16,8 +16,8 @@ from ui import UI, SkillsTree, CharacterMenu, InventoryMenu, MerchantWindow
 from support import volume_adjusting
 from settings import *
 
-from projectile import (SkullSmoke, AnimatedFireball, WormFireball, HollySpell, SpeedSpell, BloodlustSpell,
-                        InvulnerabilitySpell, BloodEffect)
+from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion,
+                        HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell, BloodEffect)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
                    HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
                    CommonChest, RareChest, UniqueChest, EpicChest, LegendaryChest, MythicalChest,
@@ -228,6 +228,13 @@ class Game:
         self.sfx['damaged' + voice].play()
         self.player.current_health -= damage - self.player.defence - (self.player.skills["Steel Skin"] * 5)
 
+    def vitality_infusion_effect(self):
+        if (self.player.current_health <= self.player.max_health * 0.3 and
+                self.player.skills["Vitality Infusion"]):
+            if random.random() < 0.1:
+                self.player.current_health += 30
+                return True
+
     def run(self):
         """
         Start the main game cycle.
@@ -371,14 +378,10 @@ class Game:
                     if isinstance(projectile, (AnimatedFireball, WormFireball)):
                         self.sfx['fire_punch'].play()
                         if not self.player.invulnerability:
-                            if (self.player.current_health <= self.player.max_health * 0.3 and
-                                    self.player.skills["Vitality Infusion"]):
-                                if random.random() < 0.1:
-                                    self.player.current_health += 30
-                                else:
-                                    self.handling_player_damage(damage=damage)
-                            else:
+                            if not self.vitality_infusion_effect():
                                 self.handling_player_damage(damage=damage)
+
+                        self.animated_projectiles.remove(projectile)
 
                         for i in range(30):
                             angle = random.random() * math.pi * 2
@@ -391,12 +394,15 @@ class Game:
                                 self.sfx['cough'].play(2)
                                 self.sfx['corruption'].play()
                                 self.player.corruption = True
+                                self.animated_projectiles.remove(projectile)
                                 for i in range(50):
                                     angle = random.random() * math.pi * 4
                                     self.sparks.append(
                                         Spark(self.player.rect().center, angle, 2 + random.random(), 'toxic'))
 
-                    self.animated_projectiles.remove(projectile)
+                    elif isinstance(projectile, ToxicExplosion):
+                        self.handling_player_damage(damage=damage)
+                        self.sfx['cough'].play()
 
                 kill = projectile.update()
                 projectile.render(self.display, offset=render_scroll)

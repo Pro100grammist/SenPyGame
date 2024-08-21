@@ -32,6 +32,7 @@ def load_assets():
         'fireball': load_images('particles/fireball'),
         'worm_fireball': load_images('entities/enemy/fire_worm/fire_ball/move'),
         'skullsmoke': load_images('particles/skullmoke'),
+        'toxic_explosion': load_images('particles/toxic_explosion'),
 
         # spells
         'holly_spell': load_images('particles/spell/holly_spell'),
@@ -148,7 +149,7 @@ def load_sfx():
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
                    'flipping_scroll1', 'flipping_scroll2', 'flipping_scroll3',
-                   'green_smoke', 'corruption', 'water', 'geyser', 'hell_storm', 'thunder',
+                   'green_smoke', 'zombie_fart', 'corruption', 'water', 'geyser', 'hell_storm', 'thunder',
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
                    'heal1', 'heal2', 'heal3', 'healed', 'cough', 'tired', 'revive',
@@ -234,6 +235,7 @@ PROJECTILE_DAMAGE = {
     'AnimatedFireball': 33,
     'WormFireball': 49,
     'SkullSmoke': 0,  # doesn't cause damage directly
+    'ToxicExplosion': 1,
 }
 
 SHURIKEN_LEVELS = {

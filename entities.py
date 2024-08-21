@@ -6,9 +6,11 @@ import pygame
 from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS
 from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
-                        AnimatedFireball, WormFireball, SkullSmoke, HollySpell, SpeedSpell,
+                        AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion,
                         FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield,
-                        BloodlustSpell, InvulnerabilitySpell, HitEffect, HitEffect2, DamageNumber)
+                        HollySpell, SpeedSpell,BloodlustSpell, InvulnerabilitySpell,
+                        HitEffect, HitEffect2, DamageNumber
+                        )
 
 
 class PhysicsEntity:
@@ -272,6 +274,8 @@ class Enemy(PhysicsEntity):
                 self.set_action('dead')
             else:
                 self.victory_handler()
+                if self.e_type == 'big_zombie':
+                    self.blow()
                 return True
 
         if self.dying:
@@ -323,8 +327,13 @@ class BigZombie(Enemy):
         super().__init__(game, 'big_zombie', pos, size, e_type='big_zombie', health=200)
 
     def shoot(self):
-        direction = 1 if not self.flip else -1
-        self.game.animated_projectiles.append(SkullSmoke(self.game, self.rect().center, direction))
+        if random.random() <= 0.3:
+            direction = 1 if not self.flip else -1
+            self.game.animated_projectiles.append(SkullSmoke(self.game, self.rect().center, direction))
+
+    def blow(self):
+        self.game.animated_projectiles.append(ToxicExplosion(self.game, self.rect().midtop, direction=0))
+        self.game.sfx['zombie_fart'].play()
 
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
