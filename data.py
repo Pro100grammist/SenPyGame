@@ -30,6 +30,8 @@ def load_assets():
 
         # animated projectiles
         'fireball': load_images('particles/fireball'),
+        'daemon_breath': load_images('entities/enemy/supreme_daemon/daemon_breath'),
+        'daemon_breath_flip': load_images('entities/enemy/supreme_daemon/daemon_breath_flip'),
         'worm_fireball': load_images('entities/enemy/fire_worm/fire_ball/move'),
         'skullsmoke': load_images('particles/skullmoke'),
         'toxic_explosion': load_images('particles/toxic_explosion'),
@@ -81,6 +83,10 @@ def load_assets():
 
         'big_daemon/idle': Animation(load_images_entities('entities/enemy/big_daemon/idle', scale_factor=1), img_dur=6),
         'big_daemon/run': Animation(load_images_entities('entities/enemy/big_daemon/run', scale_factor=1), img_dur=4),
+
+        'supreme_daemon/idle': Animation(load_images_entities('entities/enemy/supreme_daemon/idle', scale_factor=1), img_dur=6),
+        'supreme_daemon/run': Animation(load_images_entities('entities/enemy/supreme_daemon/run', scale_factor=1), img_dur=8),
+        'supreme_daemon/attack': Animation(load_images_entities('entities/enemy/supreme_daemon/attack', scale_factor=1), loop=False, img_dur=6),
 
         # player
         'player/idle': Animation(load_images_entities('entities/player/idle'), img_dur=6),
@@ -144,7 +150,8 @@ def load_assets():
 def load_sfx():
     sound_names = ['jump', 'jump1', 'jump2', 'jump3', 'dash', 'hit', 'shoot', 'arrow_crash', 'ambience',
                    'attack', 'attack1', 'attack2', 'attack3', 'pain', 'damaged1', 'damaged2', 'damaged3', 'running',
-                   'orc_archer', 'big_zombie', 'big_daemon', 'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3',
+                   'orc_archer', 'big_zombie', 'big_daemon', 'supreme_daemon',
+                   'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3',
                    'fireball', 'fire_hit', 'fire_punch', 'burning', 'ice_arrow', 'ice_hit', 'tornado', 'runic_obelisk',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
@@ -236,6 +243,8 @@ PROJECTILE_DAMAGE = {
     'WormFireball': 49,
     'SkullSmoke': 0,  # doesn't cause damage directly
     'ToxicExplosion': 1,
+    'DaemonBreath': 1,
+    'DaemonBreathFlip': 2,
 }
 
 SHURIKEN_LEVELS = {
@@ -269,6 +278,7 @@ EXP_POINTS = {
     'big_zombie': 30,
     'orc_archer': 10,
     'fire_worm': 100,
+    'supreme_daemon': 400,
 }
 
 

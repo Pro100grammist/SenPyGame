@@ -6,9 +6,9 @@ import pygame
 from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS
 from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
-                        AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion,
+                        AnimatedFireball, DaemonBreath, DaemonBreathFlip, WormFireball, SkullSmoke, ToxicExplosion,
                         FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield,
-                        HollySpell, SpeedSpell,BloodlustSpell, InvulnerabilitySpell,
+                        HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         HitEffect, HitEffect2, DamageNumber
                         )
 
@@ -47,7 +47,7 @@ class PhysicsEntity:
         self.max_fall_speed = 15
 
         self.hitbox = pygame.Rect(self.pos[0], self.pos[1], self.size[0] + 10, self.size[1])
-        self.show_hitboxes = False
+        self.show_hitboxes = True
 
     def rect(self):
         """Returns the rectangular area of the entity."""
@@ -388,6 +388,34 @@ class BigDaemon(Enemy):
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
                   (self.pos[0] - 14 - offset[0] + self.anim_offset[0],
                    self.pos[1] - 20 - offset[1] + self.anim_offset[1]))
+
+        if self.show_hitboxes:
+            pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
+                                                 self.hitbox.width, self.hitbox.height), 1)
+
+
+class SupremeDaemon(Enemy):
+    def __init__(self, game, pos, size=(8, 15)):
+        super().__init__(game, 'supreme_daemon', pos, size, e_type='supreme_daemon', health=1000)
+
+    def shoot(self):
+        spawn_point = self.rect().center
+        if self.flip:
+            spawn_point = (spawn_point[0] - 40, spawn_point[1] - 30)
+            self.game.animated_projectiles.append(DaemonBreathFlip(self.game, spawn_point, direction=0))
+        else:
+            spawn_point = (spawn_point[0] + 180, spawn_point[1] - 30)
+            self.game.animated_projectiles.append(DaemonBreath(self.game, spawn_point, direction=0))
+        self.game.sfx['fireball'].play()
+
+    def update_hitbox(self):
+        """Updates the hitbox of the entity."""
+        self.hitbox = pygame.Rect(self.pos[0] + 20, self.pos[1] - 120, self.size[0] + 100, self.size[1] + 80)
+
+    def render(self, surf, offset=(0, 0)):
+        surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
+                  (self.pos[0] - offset[0] + self.anim_offset[0],
+                   self.pos[1] - 140 - offset[1] + self.anim_offset[1]))
 
         if self.show_hitboxes:
             pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],

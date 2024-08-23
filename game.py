@@ -7,7 +7,7 @@ import random
 import pygame
 
 from data import load_assets, load_sfx, COLOR_SCHEMA, PROJECTILE_DAMAGE
-from entities import Player, OrcArcher, BigZombie, BigDaemon, FireWorm
+from entities import Player, OrcArcher, BigZombie, BigDaemon, SupremeDaemon, FireWorm
 from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
@@ -16,7 +16,7 @@ from ui import UI, SkillsTree, CharacterMenu, InventoryMenu, MerchantWindow
 from support import volume_adjusting
 from settings import *
 
-from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion,
+from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion, DaemonBreath, DaemonBreathFlip,
                         HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell, BloodEffect)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
                    HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
@@ -126,9 +126,10 @@ class Game:
             3: lambda pos: BigDaemon(self, pos),
             # 4 : this is merchant number
             5: lambda pos: FireWorm(self, pos),
+            6: lambda pos: SupremeDaemon(self, pos),
         }
 
-        for spawner in self.map.extract([('spawners', i) for i in range(6)]):
+        for spawner in self.map.extract([('spawners', i) for i in range(7)]):
             variant = spawner['variant']
             if variant == 0:  # player
                 self.player.pos = spawner['pos']
@@ -403,6 +404,9 @@ class Game:
                     elif isinstance(projectile, ToxicExplosion):
                         self.handling_player_damage(damage=damage)
                         self.sfx['cough'].play()
+
+                    elif isinstance(projectile, (DaemonBreath, DaemonBreathFlip)):
+                        self.handling_player_damage(damage=damage)
 
                 kill = projectile.update()
                 projectile.render(self.display, offset=render_scroll)

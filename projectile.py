@@ -42,6 +42,7 @@ class AnimatedProjectile(Projectile):
         self.reverse = reverse
         self.animation = Animation(sprites, img_dur=image_duration, loop=self.loop, num_cycles=self.num_cycles)
         self.damage = 0
+        self.show_hit_boxes = True
 
     def rect(self):
         return pygame.Rect(
@@ -62,6 +63,11 @@ class AnimatedProjectile(Projectile):
         rotated_frame = pygame.transform.rotate(self.animation.current_sprite(), self.rotation)
         self.image = rotated_frame
         super().render(surf, offset)
+        if self.show_hit_boxes:
+            super().render(surf, offset)
+            rect = self.rect()
+            rect.topleft = (rect.left - offset[0], rect.top - offset[1])
+            pygame.draw.rect(surf, (255, 0, 0), rect, 2)
 
 
 class WormFireball(AnimatedProjectile):
@@ -78,6 +84,22 @@ class AnimatedFireball(AnimatedProjectile):
         sprites = game.assets['fireball']
         super().__init__(game, pos, direction, sprites, False, image_duration=3, velocity=4)
         self.damage = PROJECTILE_DAMAGE.get('AnimatedFireball', 33)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+
+
+class DaemonBreath(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['daemon_breath']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
+
+
+class DaemonBreathFlip(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['daemon_breath_flip']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
         self.rect_width = sprites[0].get_width()
         self.rect_height = sprites[0].get_height()
 
@@ -172,14 +194,6 @@ class FireTotem(AnimatedProjectile):
                 self.game.magic_effects.append(HellStorm(self.game, spawn_point, direction=0))
                 self.game.shaking_screen_effect = max(64, self.game.shaking_screen_effect)
                 self.game.sfx['hell_storm'].play()
-
-    # def render(self, surf, offset=(0, 0)):
-    #     # temporary technical method for visualization of the totem lesion area
-    #     super().render(surf, offset)
-    #     rect = self.rect()
-    #     rect.topleft = (rect.left - offset[0], rect.top - offset[1])
-    #     pygame.draw.rect(surf, (255, 0, 0), rect, 2)
-
 
 class WaterGeyser(AnimatedProjectile):
     def __init__(self, game, pos):
