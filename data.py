@@ -30,8 +30,11 @@ def load_assets():
 
         # animated projectiles
         'fireball': load_images('particles/fireball'),
-        'daemon_breath': load_images('entities/enemy/supreme_daemon/daemon_breath'),
-        'daemon_breath_flip': load_images('entities/enemy/supreme_daemon/daemon_breath_flip'),
+        'ground_flame': load_images('particles/ground_flame'),
+        'fire': load_images('entities/enemy/supreme_daemon/daemon_breath/fire'),
+        'fire_flip': load_images('entities/enemy/supreme_daemon/daemon_breath/fire_flip'),
+        'blue_fire': load_images('entities/enemy/supreme_daemon/daemon_breath/blue_fire'),
+        'blue_fire_flip': load_images('entities/enemy/supreme_daemon/daemon_breath/blue_fire_flip'),
         'worm_fireball': load_images('entities/enemy/fire_worm/fire_ball/move'),
         'skullsmoke': load_images('particles/skullmoke'),
         'toxic_explosion': load_images('particles/toxic_explosion'),
@@ -46,6 +49,7 @@ def load_assets():
         'hell_storm': load_images('particles/hell_storm'),
         'water_geyser': load_images('particles/spell/water_geyser'),
         'magic_shield': load_images('particles/magic_shield'),
+        'magic_shield_effect': load_images('particles/magic_shield_effect'),
         'tornado': load_images('particles/spell/tornado'),
         'water_tornado': load_images('particles/spell/water_tornado'),
         'ice_arrow': load_images('particles/ice_arrow'),
@@ -238,13 +242,29 @@ COLOR_SCHEMA = {
     'ice': (173, 216, 230)
 }
 
+HEALTH_BARS = {
+    0: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/0.png'),
+    1: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/1.png'),
+    2: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/2.png'),
+    3: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/3.png'),
+    4: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/4.png'),
+    5: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/5.png'),
+    6: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/6.png'),
+    7: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/7.png'),
+    8: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/8.png'),
+    9: pygame.image.load(BASE_IMG_PATH + 'ui/mob_health_bar/9.png'),
+}
+
 PROJECTILE_DAMAGE = {
     'AnimatedFireball': 33,
     'WormFireball': 49,
     'SkullSmoke': 0,  # doesn't cause damage directly
     'ToxicExplosion': 1,
     'DaemonBreath': 1,
-    'DaemonBreathFlip': 2,
+    'DaemonBreathFlip': 1,
+    'DaemonFireBreath': 1,
+    'DaemonFireBreathFlip': 1,
+    'GroundFlame': 1,
 }
 
 SHURIKEN_LEVELS = {

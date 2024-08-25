@@ -3,10 +3,11 @@ import random
 
 import pygame
 
-from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS
+from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS, HEALTH_BARS
 from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
-                        AnimatedFireball, DaemonBreath, DaemonBreathFlip, WormFireball, SkullSmoke, ToxicExplosion,
+                        AnimatedFireball, DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
+                        WormFireball, SkullSmoke, ToxicExplosion,
                         FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield,
                         HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         HitEffect, HitEffect2, DamageNumber
@@ -47,7 +48,7 @@ class PhysicsEntity:
         self.max_fall_speed = 15
 
         self.hitbox = pygame.Rect(self.pos[0], self.pos[1], self.size[0] + 10, self.size[1])
-        self.show_hitboxes = True
+        self.show_hitboxes = False
 
     def rect(self):
         """Returns the rectangular area of the entity."""
@@ -157,6 +158,8 @@ class Enemy(PhysicsEntity):
         self.walking = 0
         self.e_type = e_type
         self.health = health
+        self.max_health = health
+        self.current_health_bar = None
         self.attacking = False
         self.dying = False
         self.attack_cooldown = random.uniform(90, 150)  # random interval from a to b (in frames)
@@ -180,7 +183,7 @@ class Enemy(PhysicsEntity):
                     self.game.player.stamina = 0
 
                 damage = 20 * self.game.player.double_power
-                self.health -= damage
+                self.take_damage(damage)
 
                 self.game.damage_rates.append(DamageNumber(self.hitbox.center, damage, (255, 255, 255)))
                 self.game.sfx[self.e_type].play()
@@ -203,6 +206,15 @@ class Enemy(PhysicsEntity):
                 self.shoot()
                 self.set_action('idle')
 
+    def take_damage(self, amount):
+        self.health -= amount
+        self.update_health_image()
+        print(f"{self.e_type} take {amount} damage")
+
+    def update_health_image(self):
+        key = math.floor((self.health / self.max_health) * 10)
+        self.current_health_bar = HEALTH_BARS.get(key)
+
     def victory_handler(self):
         probability = random.random()
         if probability > 0.75:
@@ -224,7 +236,7 @@ class Enemy(PhysicsEntity):
         player_distance_y = abs(self.game.player.pos[1] - self.pos[1])
 
         # 2 Chase starts if the player comes into view
-        if player_distance_x < 100 and player_distance_y < 50:  # unit of measurement - pixel
+        if 100 > player_distance_x > 20 and player_distance_y < 50:  # unit of measurement - pixel
             if self.game.player.pos[0] < self.pos[0]:
                 self.flip = True
                 movement = (-0.5, 0)
@@ -289,6 +301,12 @@ class Enemy(PhysicsEntity):
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)
 
+    def render_health_bar(self, surf, offset=(0, 0), calibration=(0, 0)):
+        if self.current_health_bar:
+            pos = (self.rect().centerx - self.current_health_bar.get_width() // 2 - calibration[0], self.rect().top - 40 - calibration[1])
+            pos_with_offset = (pos[0] - offset[0], pos[1] - offset[1])
+            surf.blit(self.current_health_bar, pos_with_offset)
+
 
 class OrcArcher(Enemy):
 
@@ -307,6 +325,8 @@ class OrcArcher(Enemy):
 
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)
+
+        self.render_health_bar(surf, offset=offset)
 
         if self.flip:
             surf.blit(pygame.transform.flip(self.game.assets['bow'], True, False), (
@@ -340,6 +360,8 @@ class BigZombie(Enemy):
                   (self.pos[0] - 14 - offset[0] + self.anim_offset[0],
                    self.pos[1] - 20 - offset[1] + self.anim_offset[1]))
 
+        self.render_health_bar(surf, offset=offset)
+
         if self.show_hitboxes:
             pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
                                                  self.hitbox.width, self.hitbox.height), 1)
@@ -370,6 +392,8 @@ class FireWorm(Enemy):
                   (self.pos[0] - 34 - offset[0] + self.anim_offset[0],
                    self.pos[1] - 42 - offset[1] + self.anim_offset[1]))
 
+        self.render_health_bar(surf, offset=offset)
+
         if self.show_hitboxes:
             pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
                                                  self.hitbox.width, self.hitbox.height), 1)
@@ -389,6 +413,8 @@ class BigDaemon(Enemy):
                   (self.pos[0] - 14 - offset[0] + self.anim_offset[0],
                    self.pos[1] - 20 - offset[1] + self.anim_offset[1]))
 
+        self.render_health_bar(surf, offset=offset)
+
         if self.show_hitboxes:
             pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
                                                  self.hitbox.width, self.hitbox.height), 1)
@@ -399,13 +425,22 @@ class SupremeDaemon(Enemy):
         super().__init__(game, 'supreme_daemon', pos, size, e_type='supreme_daemon', health=1000)
 
     def shoot(self):
+        attack_type = random.randint(0, 1)
         spawn_point = self.rect().center
         if self.flip:
             spawn_point = (spawn_point[0] - 40, spawn_point[1] - 30)
-            self.game.animated_projectiles.append(DaemonBreathFlip(self.game, spawn_point, direction=0))
+            if attack_type:
+                attack = DaemonFireBreathFlip(self.game, spawn_point, direction=0)
+            else:
+                attack = DaemonBreathFlip(self.game, spawn_point, direction=0)
+            self.game.animated_projectiles.append(attack)
         else:
             spawn_point = (spawn_point[0] + 180, spawn_point[1] - 30)
-            self.game.animated_projectiles.append(DaemonBreath(self.game, spawn_point, direction=0))
+            if attack_type:
+                attack = DaemonFireBreath(self.game, spawn_point, direction=0)
+            else:
+                attack = DaemonBreath(self.game, spawn_point, direction=0)
+            self.game.animated_projectiles.append(attack)
         self.game.sfx['fireball'].play()
 
     def update_hitbox(self):
@@ -416,6 +451,8 @@ class SupremeDaemon(Enemy):
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
                   (self.pos[0] - offset[0] + self.anim_offset[0],
                    self.pos[1] - 140 - offset[1] + self.anim_offset[1]))
+
+        self.render_health_bar(surf, offset=offset, calibration=(-50, 100))
 
         if self.show_hitboxes:
             pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
@@ -620,7 +657,7 @@ class Player(PhysicsEntity):
                                 damage *= 0.3
 
                         # enemy damage
-                        enemy.health -= int(damage * self.double_power)
+                        enemy.take_damage(int(damage * self.double_power))
 
                         self.game.sfx[enemy.e_type].play()
                         shade = enemy.e_type
@@ -758,8 +795,9 @@ class Player(PhysicsEntity):
             self.game.sfx['tornado'].play()
 
     def shielding(self):
-        if not self.game.dead and not self.wall_slide and self.mana >= 30 and self.jumps == 2:
+        if not self.game.dead and not self.wall_slide and self.mana >= 30 and not self.shield:
             self.mana -= 30 - self.wisdom // 4
+
             self.shield = MagicShield(self.game, self.rect().center, direction=1 if not self.flip else -1)
             self.game.magic_effects.append(self.shield)
             # self.game.sfx['magic_shield'].play()

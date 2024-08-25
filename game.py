@@ -16,8 +16,9 @@ from ui import UI, SkillsTree, CharacterMenu, InventoryMenu, MerchantWindow
 from support import volume_adjusting
 from settings import *
 
-from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion, DaemonBreath, DaemonBreathFlip,
-                        HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell, BloodEffect)
+from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion, GroundFlame,
+                        DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
+                        HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
                    HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
                    CommonChest, RareChest, UniqueChest, EpicChest, LegendaryChest, MythicalChest,
@@ -220,14 +221,14 @@ class Game:
                 self.sfx['pain'].play()
                 self.shaking_screen_effect = max(16, self.shaking_screen_effect)
                 create_particles(self, self.player.rect(), num_particles=(10, 15))
-                center_x = self.ui.heart_image.get_width() / 2
-                center_y = self.ui.heart_image.get_height() / 2
-                self.effects.append(BloodEffect(self, (center_x, center_y)))
 
-    def handling_player_damage(self, damage=10):
+    def handling_player_damage(self, damage=1, damage_type='physical'):
         voice = str(random.randint(1, 3))
         self.sfx['damaged' + voice].play()
-        self.player.current_health -= damage - self.player.defence - (self.player.skills["Steel Skin"] * 5)
+        if damage_type == 'physical':
+            self.player.current_health -= damage - self.player.defence - (self.player.skills["Steel Skin"] * 5)
+        elif damage_type == 'magical':
+            self.player.mana -= damage
 
     def vitality_infusion_effect(self):
         if (self.player.current_health <= self.player.max_health * 0.3 and
@@ -374,7 +375,7 @@ class Game:
             for projectile in self.animated_projectiles.copy():
                 if self.player.rect().colliderect(projectile.rect()):
                     projectile_name = projectile.__class__.__name__  # name of the class in str form from class instance
-                    damage = PROJECTILE_DAMAGE.get(projectile_name, 10)  # obtain the damage value for the projectile
+                    damage = PROJECTILE_DAMAGE.get(projectile_name, 1)  # obtain the damage value for the projectile
 
                     if isinstance(projectile, (AnimatedFireball, WormFireball)):
                         self.sfx['fire_punch'].play()
@@ -405,8 +406,13 @@ class Game:
                         self.handling_player_damage(damage=damage)
                         self.sfx['cough'].play()
 
+                    elif isinstance(projectile, (DaemonFireBreath, DaemonFireBreathFlip, GroundFlame)):
+                        if not self.player.shield:
+                            self.handling_player_damage(damage=damage)
+
                     elif isinstance(projectile, (DaemonBreath, DaemonBreathFlip)):
-                        self.handling_player_damage(damage=damage)
+                        if not self.player.shield:
+                            self.handling_player_damage(damage=damage, damage_type='magical')
 
                 kill = projectile.update()
                 projectile.render(self.display, offset=render_scroll)

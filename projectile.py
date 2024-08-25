@@ -41,8 +41,10 @@ class AnimatedProjectile(Projectile):
         self.hit_on_target = False
         self.reverse = reverse
         self.animation = Animation(sprites, img_dur=image_duration, loop=self.loop, num_cycles=self.num_cycles)
+        self.rect_width = sprites[0].get_width()
+        self.rect_height = sprites[0].get_height()
         self.damage = 0
-        self.show_hit_boxes = True
+        self.show_hit_boxes = False
 
     def rect(self):
         return pygame.Rect(
@@ -73,35 +75,66 @@ class AnimatedProjectile(Projectile):
 class WormFireball(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['worm_fireball']
-        super().__init__(game, pos, direction, sprites, True, image_duration=3, velocity=5)
+        super().__init__(game, pos, direction, sprites, loop=True, image_duration=3, velocity=5)
         self.damage = PROJECTILE_DAMAGE.get('WormFireball', 49)
-        self.rect_width = sprites[0].get_width()
-        self.rect_height = sprites[0].get_height()
 
 
 class AnimatedFireball(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['fireball']
-        super().__init__(game, pos, direction, sprites, False, image_duration=3, velocity=4)
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=3, velocity=4)
         self.damage = PROJECTILE_DAMAGE.get('AnimatedFireball', 33)
-        self.rect_width = sprites[0].get_width()
-        self.rect_height = sprites[0].get_height()
+
+
+class GroundFlame(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['ground_flame']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=8, velocity=2)
+        self.damage = PROJECTILE_DAMAGE.get('GroundFlame', 1)
 
 
 class DaemonBreath(AnimatedProjectile):
     def __init__(self, game, pos, direction):
-        sprites = game.assets['daemon_breath']
+        sprites = game.assets['blue_fire']
         super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
-        self.rect_width = sprites[0].get_width()
-        self.rect_height = sprites[0].get_height()
 
 
 class DaemonBreathFlip(AnimatedProjectile):
     def __init__(self, game, pos, direction):
-        sprites = game.assets['daemon_breath_flip']
+        sprites = game.assets['blue_fire_flip']
         super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
-        self.rect_width = sprites[0].get_width()
-        self.rect_height = sprites[0].get_height()
+
+
+class DaemonFireBreath(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['fire']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
+
+    def update(self):
+        self.animation.update()
+        if self.animation.done:
+            x_offset = 0
+            for blaze in range(10):
+                spawn_point = self.rect().midbottom
+                spawn_point = (spawn_point[0] - 32 - x_offset, spawn_point[1] - 16)
+                self.game.animated_projectiles.append(GroundFlame(self.game, spawn_point, direction=1))
+                x_offset -= 16
+
+
+class DaemonFireBreathFlip(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['fire_flip']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
+
+    def update(self):
+        self.animation.update()
+        if self.animation.done:
+            x_offset = 0
+            for blaze in range(10):
+                spawn_point = self.rect().midbottom
+                spawn_point = (spawn_point[0] + 32 - x_offset, spawn_point[1] - 16)
+                self.game.animated_projectiles.append(GroundFlame(self.game, spawn_point, direction=-1))
+                x_offset += 16
 
 
 class SkullSmoke(AnimatedProjectile):
@@ -117,8 +150,6 @@ class ToxicExplosion(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['toxic_explosion']
         super().__init__(game, pos, direction, sprites, loop=False, image_duration=4)
-        self.rect_width = sprites[0].get_width()
-        self.rect_height = sprites[0].get_height()
 
 
 class HollySpell(AnimatedProjectile):
@@ -182,7 +213,7 @@ class FireTotem(AnimatedProjectile):
         self.animation.update()
         for enemy in self.game.enemies.copy():
             if self.rect().colliderect(enemy.hitbox):
-                enemy.health -= 1
+                enemy.take_damage(1)
                 create_sparks(self.game, enemy.rect().center, shade='orange')
 
         for effect in self.game.magic_effects.copy():
@@ -194,6 +225,7 @@ class FireTotem(AnimatedProjectile):
                 self.game.magic_effects.append(HellStorm(self.game, spawn_point, direction=0))
                 self.game.shaking_screen_effect = max(64, self.game.shaking_screen_effect)
                 self.game.sfx['hell_storm'].play()
+
 
 class WaterGeyser(AnimatedProjectile):
     def __init__(self, game, pos):
@@ -208,9 +240,8 @@ class MagicShield(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['magic_shield']
         super().__init__(game, pos, direction, sprites, loop=True, num_cycles=10, image_duration=1, velocity=1)
-        self.rect_width = sprites[0].get_width()
-        self.rect_height = sprites[0].get_height()
         self.safety_margin = 200
+        self.shield_is_active = False
 
     def update(self):
         super().update()
@@ -218,9 +249,25 @@ class MagicShield(AnimatedProjectile):
             for projectile in self.game.animated_projectiles.copy():
                 if self.rect().colliderect(projectile.rect()):
                     self.safety_margin -= projectile.damage
-                    self.game.animated_projectiles.remove(projectile)
+                    if not any(isinstance(effect, MagicShieldEffect) for effect in self.game.magic_effects):
+                        spawn_point = self.rect().center
+                        direction = 1 if projectile.direction == 1 else -1
+                        self.game.magic_effects.append(
+                            MagicShieldEffect(self.game, spawn_point, direction=direction))
+
+                    if not isinstance(projectile, (DaemonBreath, DaemonBreathFlip,
+                                                   DaemonFireBreath, DaemonFireBreathFlip)):
+                        self.game.animated_projectiles.remove(projectile)
+
         else:
             self.hit_on_target = True
+            self.game.player.shield = None
+
+
+class MagicShieldEffect(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['magic_shield_effect']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=3)
 
 
 class IceArrow(AnimatedProjectile):
@@ -240,7 +287,7 @@ class IceArrow(AnimatedProjectile):
                 self.game.sfx['ice_hit'].play()
                 sound = str(random.randint(1, 3))
                 self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
-                enemy.health -= self.damage
+                enemy.take_damage(self.damage)
                 self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
                 create_sparks(self.game, enemy.rect().center, shade='ice')
                 self.hit_on_target = True
@@ -277,7 +324,7 @@ class Thunderbolt(AnimatedProjectile):
         for enemy in self.game.enemies.copy():
             if self.rect().colliderect(enemy.hitbox):
                 self.total_damage += self.damage
-                enemy.health -= self.damage
+                enemy.take_damage(self.damage)
                 if self.animation.done:
                     self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.total_damage)))
 
@@ -294,7 +341,7 @@ class Tornado(AnimatedProjectile):
         for enemy in self.game.enemies.copy():
             if self.rect().colliderect(enemy.hitbox):
                 damage = random.randint(0, 1)
-                enemy.health -= damage
+                enemy.take_damage(damage)
                 # self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
                 create_sparks(self.game, enemy.rect().center, shade='white', num_sparks=(1, 5))
 
@@ -311,7 +358,7 @@ class WaterTornado(AnimatedProjectile):
         for enemy in self.game.enemies.copy():
             if self.rect().colliderect(enemy.hitbox):
                 damage = random.randint(1, 3)
-                enemy.health -= damage
+                enemy.take_damage(damage)
                 # self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
                 create_sparks(self.game, enemy.rect().center, shade='white', num_sparks=(1, 5))
 
@@ -330,7 +377,7 @@ class HellStorm(AnimatedProjectile):
         for enemy in self.game.enemies.copy():
             if self.rect().colliderect(enemy.hitbox):
                 self.total_damage += self.damage
-                enemy.health -= self.damage
+                enemy.take_damage(self.damage)
                 if self.animation.done:
                     self.game.sfx['hell_storm'].play()
                     self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.total_damage)))
@@ -419,8 +466,7 @@ class Shuriken(Projectile):
                 self.game.sfx['hit'].play()
                 sound = str(random.randint(1, 3))
                 self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
-
-                enemy.health -= self.damage
+                enemy.take_damage(self.damage)
                 self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
                 create_particles(self.game, enemy.rect().center, enemy.e_type)
 
