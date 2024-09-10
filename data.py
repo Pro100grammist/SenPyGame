@@ -137,6 +137,9 @@ def load_assets():
         'chest/mythical': Animation(load_images('tiles/chest/mythical'), img_dur=6, loop=False),
         'chest_spawn': load_images('tiles/chest/chest_spawn/'),
 
+        # portals
+        'portals/inter_level': Animation(load_images('tiles/portals/inter_level'), img_dur=6, loop=False),
+
         # traders
         'merchant': Animation(load_images_entities('entities/merchant', scale_factor=0.80), img_dur=8),
 

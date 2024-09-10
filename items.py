@@ -510,3 +510,53 @@ class Merchant:
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
                   (self.pos[0] - offset[0], self.pos[1] - offset[1]))
+
+
+class Portal:
+    def __init__(self, game, pos, size, portal_type='inter_level'):
+        self.game = game
+        self.pos = list(pos)
+        self.size = size
+        self.is_opened = False
+        self.passage_activated = False
+        self.animation = self.game.assets['portals/' + portal_type].copy()
+        self.portal_close = self.animation.images[0]
+        self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
+        self.message_panel = pygame.image.load(BASE_IMG_PATH + 'tiles/chest/panel/msg_panel.png')
+        self.font = pygame.font.Font('data/fonts/simple.ttf', 14)
+
+    def update(self):
+        if not self.is_opened and not self.game.artifacts_remaining:
+            if self.rect.colliderect(self.game.player.rect()):
+                self.is_opened = True
+        if self.is_opened and not self.animation.done:
+            self.animation.update()
+        if self.passage_activated and self.rect.colliderect(self.game.player.rect()):
+            self.game.level_done = True
+
+    def render(self, surf, offset=(0, 0)):
+        window_offset_x = 40
+        window_offset_y = 40
+        msg_offset_x = 28
+        msg_offset_y = 30
+        if not self.is_opened:
+            # Render closed portal
+            surf.blit(self.portal_close, (self.pos[0] - offset[0], self.pos[1] - offset[1]))
+
+            if self.rect.colliderect(self.game.player.rect()):
+                surf.blit(self.message_panel, (self.pos[0] - window_offset_x - offset[0], self.pos[1] - window_offset_y - offset[1]))
+                message = self.font.render("To open the portal, you need more teleportation crystals", True, (189, 165, 139))
+                surf.blit(message, (self.pos[0] - msg_offset_x - offset[0], self.pos[1] - msg_offset_y - offset[1]))
+
+        else:
+            # Render open portal
+            if self.animation.done:
+                self.animation.images = self.animation.images[-5::]
+                self.animation.loop = True
+                self.animation.done = False
+                self.animation.frame = 0
+                self.animation.num_frames = self.animation.img_duration * len(self.animation.images)
+                self.passage_activated = True
+
+            else:
+                surf.blit(self.animation.current_sprite(), (self.pos[0] - offset[0], self.pos[1] - offset[1]))

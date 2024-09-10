@@ -23,7 +23,7 @@ from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoi
                    HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
                    CommonChest, RareChest, UniqueChest, EpicChest, LegendaryChest, MythicalChest,
                    SteelKey, RedKey, BronzeKey, PurpleKey, GoldKey,
-                   Merchant)
+                   Merchant, Portal)
 
 
 pygame.init()
@@ -75,6 +75,7 @@ class Game:
         self.loot = []
         self.chests = []
         self.merchants = []
+        self.portals = []
         self.enemies = []
 
         self.shaking_screen_effect = 0
@@ -85,6 +86,7 @@ class Game:
         self.artifacts_remaining = None
 
         self.level = 0
+        self.level_done = False
         self.game_over = False
         self.load_level(self.level)
 
@@ -97,7 +99,7 @@ class Game:
             self.projectiles, self.animated_projectiles,
             self.particles, self.sparks, self.munition,
             self.spells, self.effects, self.magic_effects,
-            self.damage_rates
+            self.damage_rates, self.portals
         ]
         for lst in lists_to_clear:
             lst.clear()
@@ -180,6 +182,15 @@ class Game:
 
         self.artifacts_remaining = len([item for item in self.loot if isinstance(item, Gem)])
 
+        portal_id = {
+            0: Portal,
+        }
+
+        for portal in self.map.extract([('portal_spawn', i) for i in range(1)]):
+            portal_type = portal_id.get(portal['variant'])
+            if portal_type:
+                self.portals.append(portal_type(self, portal['pos'], (128, 160)))
+
         # rain effect
         if self.level in rain_on_levels:
             wind_strength = random.randint(1, 4)
@@ -257,6 +268,7 @@ class Game:
             self.player.stamina = self.player.max_stamina
             self.player.mana = self.player.max_mana
             self.player.stamina = 100
+            self.level_done = False
             self.load_level(self.level)
 
         def level_restart():
@@ -277,7 +289,7 @@ class Game:
             self.shaking_screen_effect = max(0, self.shaking_screen_effect - 1)
 
             # checking the level completion
-            if not self.artifacts_remaining:
+            if self.level_done:
                 self.transition += 1
                 if self.transition > 30:
                     transition_to_next_level()
@@ -315,6 +327,11 @@ class Game:
             for chest in self.chests:
                 chest.update()
                 chest.render(self.display, offset=render_scroll)
+
+            # updating and rendering portals on map
+            for portal in self.portals:
+                portal.update()
+                portal.render(self.display, offset=render_scroll)
 
             # updating and rendering traders on map
             for merchant in self.merchants:
