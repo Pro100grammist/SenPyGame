@@ -38,6 +38,7 @@ def load_assets():
         'worm_fireball': load_images('entities/enemy/fire_worm/fire_ball/move'),
         'skullsmoke': load_images('particles/skullmoke'),
         'toxic_explosion': load_images('particles/toxic_explosion'),
+        'earth_strike': load_images('particles/earth_strike'),
 
         # spells
         'holly_spell': load_images('particles/spell/holly_spell'),
@@ -92,6 +93,10 @@ def load_assets():
         'supreme_daemon/run': Animation(load_images_entities('entities/enemy/supreme_daemon/run', scale_factor=1), img_dur=8),
         'supreme_daemon/attack': Animation(load_images_entities('entities/enemy/supreme_daemon/attack', scale_factor=1), loop=False, img_dur=6),
 
+        'golem/idle': Animation(load_images_entities('entities/enemy/golem/idle', scale_factor=1), img_dur=7),
+        'golem/run': Animation(load_images_entities('entities/enemy/golem/run', scale_factor=1), img_dur=6),
+        'golem/attack': Animation(load_images_entities('entities/enemy/golem/attack', scale_factor=1), loop=False, img_dur=6),
+        'golem/dead': Animation(load_images_entities('entities/enemy/golem/dead', scale_factor=1), loop=False, img_dur=8),
         # player
         'player/idle': Animation(load_images_entities('entities/player/idle'), img_dur=6),
         'player/run': Animation(load_images_entities('entities/player/run'), img_dur=4),
@@ -157,11 +162,11 @@ def load_assets():
 def load_sfx():
     sound_names = ['jump', 'jump1', 'jump2', 'jump3', 'dash', 'hit', 'shoot', 'arrow_crash', 'ambience',
                    'attack', 'attack1', 'attack2', 'attack3', 'pain', 'damaged1', 'damaged2', 'damaged3', 'running',
-                   'orc_archer', 'big_zombie', 'big_daemon', 'supreme_daemon',
+                   'orc_archer', 'big_zombie', 'big_daemon', 'supreme_daemon', 'golem', 'golem_attack', 'golem_fall',
                    'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3',
                    'fireball', 'fire_hit', 'fire_punch', 'burning', 'ice_arrow', 'ice_hit', 'tornado', 'runic_obelisk',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
-                   'switch', 'select', 'use_potion', 'suriken_rebound', 'locked',
+                   'switch', 'select', 'use_potion', 'suriken_rebound', 'locked', 'portal_rock_break',
                    'flipping_scroll1', 'flipping_scroll2', 'flipping_scroll3',
                    'green_smoke', 'zombie_fart', 'corruption', 'water', 'geyser', 'hell_storm', 'thunder',
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
@@ -268,6 +273,7 @@ PROJECTILE_DAMAGE = {
     'DaemonFireBreath': 1,
     'DaemonFireBreathFlip': 1,
     'GroundFlame': 1,
+    'EarthStrike': 1,
 }
 
 SHURIKEN_LEVELS = {

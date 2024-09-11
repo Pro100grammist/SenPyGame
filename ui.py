@@ -104,7 +104,7 @@ class UI:
 
         # health & blood screen overlays
         heart_images = {
-            range(80, 101): self.heart_full,
+            range(80, 1001): self.heart_full,
             range(60, 80): self.heart_tq,
             range(40, 60): self.heart_half,
             range(20, 40): self.heart_quarter,

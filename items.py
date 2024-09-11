@@ -522,8 +522,8 @@ class Portal:
         self.animation = self.game.assets['portals/' + portal_type].copy()
         self.portal_close = self.animation.images[0]
         self.rect = pygame.Rect(self.pos[0], self.pos[1], self.size[0], self.size[1])
-        self.message_panel = pygame.image.load(BASE_IMG_PATH + 'tiles/chest/panel/msg_panel.png')
-        self.font = pygame.font.Font('data/fonts/simple.ttf', 14)
+        self.message_panel = pygame.image.load(BASE_IMG_PATH + 'tiles/portals/panel/msg_long_panel.png')
+        self.font = pygame.font.Font('data/fonts/simple.ttf', 16)
 
     def update(self):
         if not self.is_opened and not self.game.artifacts_remaining:
@@ -531,21 +531,23 @@ class Portal:
                 self.is_opened = True
         if self.is_opened and not self.animation.done:
             self.animation.update()
+            if self.animation.frame == 120:
+                self.game.sfx['portal_rock_break'].play()
         if self.passage_activated and self.rect.colliderect(self.game.player.rect()):
             self.game.level_done = True
 
     def render(self, surf, offset=(0, 0)):
-        window_offset_x = 40
-        window_offset_y = 40
-        msg_offset_x = 28
-        msg_offset_y = 30
+        window_offset_x = 80
+        window_offset_y = 28
+        msg_offset_x = 72
+        msg_offset_y = 24
         if not self.is_opened:
             # Render closed portal
             surf.blit(self.portal_close, (self.pos[0] - offset[0], self.pos[1] - offset[1]))
 
             if self.rect.colliderect(self.game.player.rect()):
                 surf.blit(self.message_panel, (self.pos[0] - window_offset_x - offset[0], self.pos[1] - window_offset_y - offset[1]))
-                message = self.font.render("To open the portal, you need more teleportation crystals", True, (189, 165, 139))
+                message = self.font.render("To open the portal, you need all teleportation crystals", True, (189, 165, 139))
                 surf.blit(message, (self.pos[0] - msg_offset_x - offset[0], self.pos[1] - msg_offset_y - offset[1]))
 
         else:

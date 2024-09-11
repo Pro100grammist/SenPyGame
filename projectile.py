@@ -86,6 +86,13 @@ class AnimatedFireball(AnimatedProjectile):
         self.damage = PROJECTILE_DAMAGE.get('AnimatedFireball', 33)
 
 
+class EarthStrike(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['earth_strike']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
+        self.damage = 30
+
+
 class GroundFlame(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['ground_flame']
@@ -214,7 +221,7 @@ class FireTotem(AnimatedProjectile):
         for enemy in self.game.enemies.copy():
             if self.rect().colliderect(enemy.hitbox):
                 enemy.take_damage(1)
-                create_sparks(self.game, enemy.rect().center, shade='orange')
+                create_sparks(self.game, enemy.hitbox.center, shade='orange')
 
         for effect in self.game.magic_effects.copy():
             if self.rect().colliderect(effect.rect()) and isinstance(effect, Tornado):
@@ -239,7 +246,7 @@ class WaterGeyser(AnimatedProjectile):
 class MagicShield(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['magic_shield']
-        super().__init__(game, pos, direction, sprites, loop=True, num_cycles=10, image_duration=1, velocity=1)
+        super().__init__(game, pos, direction, sprites, loop=True, num_cycles=10, image_duration=6, velocity=1)
         self.safety_margin = 200
         self.shield_is_active = False
 
@@ -289,7 +296,7 @@ class IceArrow(AnimatedProjectile):
                 self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
                 enemy.take_damage(self.damage)
                 self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
-                create_sparks(self.game, enemy.rect().center, shade='ice')
+                create_sparks(self.game, enemy.hitbox.center, shade='ice')
                 self.hit_on_target = True
 
                 # base chance of an additional lightning strike of 10% + 1% for each level of player wisdom (max 25%)
@@ -343,7 +350,7 @@ class Tornado(AnimatedProjectile):
                 damage = random.randint(0, 1)
                 enemy.take_damage(damage)
                 # self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
-                create_sparks(self.game, enemy.rect().center, shade='white', num_sparks=(1, 5))
+                create_sparks(self.game, enemy.hitbox.center, shade='white', num_sparks=(1, 5))
 
 
 class WaterTornado(AnimatedProjectile):
@@ -463,14 +470,23 @@ class Shuriken(Projectile):
 
         for enemy in self.game.enemies.copy():
             if self.rect.colliderect(enemy.hitbox):
-                self.game.sfx['hit'].play()
-                sound = str(random.randint(1, 3))
-                self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
-                enemy.take_damage(self.damage)
-                self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
-                create_particles(self.game, enemy.rect().center, enemy.e_type)
+                if enemy.e_type == 'golem':
+                    self.game.sfx['suriken_rebound'].play()
+                    for i in range(4):
+                        self.game.sparks.append(
+                            Spark(self.pos, random.random() - 0.5 + (math.pi if self.direction > 0 else 0),
+                                  2 + random.random(), 'white'))
+                    self.direction *= -1
+                    self.recoil = True
+                else:
+                    self.game.sfx['hit'].play()
+                    sound = str(random.randint(1, 3))
+                    self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
+                    enemy.take_damage(self.damage)
+                    self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
+                    create_particles(self.game, enemy.hitbox.center, enemy.e_type)
 
-                return True
+                    return True
 
         self.distance += abs(self.speed * self.direction)
         return False

@@ -7,7 +7,7 @@ from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS, HEALTH_BARS
 from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
                         AnimatedFireball, DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
-                        WormFireball, SkullSmoke, ToxicExplosion,
+                        WormFireball, SkullSmoke, ToxicExplosion, EarthStrike,
                         FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield,
                         HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         HitEffect, HitEffect2, DamageNumber
@@ -188,7 +188,7 @@ class Enemy(PhysicsEntity):
                 self.game.damage_rates.append(DamageNumber(self.hitbox.center, damage, (255, 255, 255)))
                 self.game.sfx[self.e_type].play()
 
-                create_particles(self.game, self.rect().center, shade)
+                create_particles(self.game, self.hitbox.center, shade)
 
     def initiate_attack(self):
         """Initiates an attack by launching an attack animation, if it exists."""
@@ -284,6 +284,8 @@ class Enemy(PhysicsEntity):
             self.dying = True
             if f'{self.e_type}/dead' in self.game.assets:
                 self.set_action('dead')
+                if self.e_type == 'golem':
+                    self.game.sfx['golem_fall'].play()
             else:
                 self.victory_handler()
                 if self.e_type == 'big_zombie':
@@ -378,7 +380,11 @@ class FireWorm(Enemy):
         self.game.sfx['fireball'].play()
 
     def handle_attack(self):
-        """Handles the attack by launching the shoot method at the appropriate animation frame."""
+        """
+        Handles the attack by launching the shoot method at the appropriate animation frame.
+        (handle_attack method from class Enemy overridden for synchronize fireball throwing with worm attack animation)
+        """
+
         if self.attacking:
             current_frame = self.animation.frame  # for sprites of this class, the creation of a fireball is suitable
             if current_frame == 16:               # to this particular frame.
@@ -422,7 +428,7 @@ class BigDaemon(Enemy):
 
 class SupremeDaemon(Enemy):
     def __init__(self, game, pos, size=(8, 15)):
-        super().__init__(game, 'supreme_daemon', pos, size, e_type='supreme_daemon', health=1000)
+        super().__init__(game, 'supreme_daemon', pos, size, e_type='supreme_daemon', health=2000)
 
     def shoot(self):
         attack_type = random.randint(0, 1)
@@ -453,6 +459,38 @@ class SupremeDaemon(Enemy):
                    self.pos[1] - 140 - offset[1] + self.anim_offset[1]))
 
         self.render_health_bar(surf, offset=offset, calibration=(-50, 100))
+
+        if self.show_hitboxes:
+            pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
+                                                 self.hitbox.width, self.hitbox.height), 1)
+
+
+class Golem(Enemy):
+    def __init__(self, game, pos, size=(8, 15)):
+        super().__init__(game, 'golem', pos, size, e_type='golem', health=800)
+
+    def shoot(self):
+        self.game.shaking_screen_effect = max(24, self.game.shaking_screen_effect)
+        self.game.sfx['golem_attack'].play()
+        spawn_point = self.rect().midbottom
+        distance = random.randint(80, 160)
+        if self.flip:
+            spawn_point = (spawn_point[0] - distance, spawn_point[1] - 32)
+        else:
+            spawn_point = (spawn_point[0] + distance, spawn_point[1] - 32)
+        attack = EarthStrike(self.game, spawn_point, direction=0)
+        self.game.animated_projectiles.append(attack)
+
+    def update_hitbox(self):
+        """Updates the hitbox of the entity."""
+        self.hitbox = pygame.Rect(self.pos[0] + 16, self.pos[1] - 16, self.size[0] + 36, self.size[1] + 18)
+
+    def render(self, surf, offset=(0, 0)):
+        surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
+                  (self.pos[0] - offset[0] + self.anim_offset[0],
+                   self.pos[1] - 46 - offset[1] + self.anim_offset[1]))
+
+        self.render_health_bar(surf, offset=offset)
 
         if self.show_hitboxes:
             pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
@@ -675,7 +713,7 @@ class Player(PhysicsEntity):
 
                         self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
 
-                        create_particles(self.game, enemy.rect().center, shade)
+                        create_particles(self.game, enemy.hitbox.center, shade)
 
                         self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
 
@@ -798,7 +836,7 @@ class Player(PhysicsEntity):
         if not self.game.dead and not self.wall_slide and self.mana >= 30 and not self.shield:
             self.mana -= 30 - self.wisdom // 4
 
-            self.shield = MagicShield(self.game, self.rect().center, direction=1 if not self.flip else -1)
+            self.shield = MagicShield(self.game, self.rect().midtop, direction=1 if not self.flip else -1)
             self.game.magic_effects.append(self.shield)
             # self.game.sfx['magic_shield'].play()
 
@@ -977,7 +1015,7 @@ class Player(PhysicsEntity):
                 self.stamina += 0.1 + (self.skills["Rapid Recovery"] * 0.1)
 
         if self.shield:
-            self.shield.pos = list(self.rect().center)  # Update shield position
+            self.shield.pos = list(self.rect().midtop)  # Update shield position
             if self.shield.animation.done or self.shield.hit_on_target:
                 self.shield = None
 

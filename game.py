@@ -7,7 +7,7 @@ import random
 import pygame
 
 from data import load_assets, load_sfx, COLOR_SCHEMA, PROJECTILE_DAMAGE
-from entities import Player, OrcArcher, BigZombie, BigDaemon, SupremeDaemon, FireWorm
+from entities import Player, OrcArcher, BigZombie, BigDaemon, SupremeDaemon, FireWorm, Golem
 from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
@@ -16,7 +16,7 @@ from ui import UI, SkillsTree, CharacterMenu, InventoryMenu, MerchantWindow
 from support import volume_adjusting
 from settings import *
 
-from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion, GroundFlame,
+from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion, GroundFlame, EarthStrike,
                         DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
                         HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
@@ -130,9 +130,10 @@ class Game:
             # 4 : this is merchant number
             5: lambda pos: FireWorm(self, pos),
             6: lambda pos: SupremeDaemon(self, pos),
+            7: lambda pos: Golem(self, pos),
         }
 
-        for spawner in self.map.extract([('spawners', i) for i in range(7)]):
+        for spawner in self.map.extract([('spawners', i) for i in range(8)]):
             variant = spawner['variant']
             if variant == 0:  # player
                 self.player.pos = spawner['pos']
@@ -430,6 +431,12 @@ class Game:
                     elif isinstance(projectile, (DaemonBreath, DaemonBreathFlip)):
                         if not self.player.shield:
                             self.handling_player_damage(damage=damage, damage_type='magical')
+
+                    elif isinstance(projectile, EarthStrike):
+                        if not self.player.shield:
+                            if projectile.damage > 0:
+                                self.handling_player_damage(damage=projectile.damage)
+                                projectile.damage = 0
 
                 kill = projectile.update()
                 projectile.render(self.display, offset=render_scroll)
