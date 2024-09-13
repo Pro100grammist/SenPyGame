@@ -56,6 +56,7 @@ def load_assets():
         'ice_arrow': load_images('particles/ice_arrow'),
         'thunderbolt': load_images('particles/thunderbolt'),
         'runic_obelisk': load_images('particles/runic_obelisk'),
+        'dashing': load_images('particles/dashing'),
 
         # tiles
         'background_objects': load_images('tiles/background_objects'),

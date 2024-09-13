@@ -8,7 +8,7 @@ from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
                         AnimatedFireball, DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
                         WormFireball, SkullSmoke, ToxicExplosion, EarthStrike,
-                        FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield,
+                        FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield, Dashing,
                         HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         HitEffect, HitEffect2, DamageNumber
                         )
@@ -513,6 +513,7 @@ class Player(PhysicsEntity):
         self.jumps = 2
         self.wall_slide = False
         self.dashing = 0
+        self.dash_animation = None
         self.attack_pressed = False
         self.attack_timer = 0
 
@@ -658,6 +659,8 @@ class Player(PhysicsEntity):
         if not self.dashing and self.stamina >= self.min_stamina:
             self.stamina -= 20 - (self.agile // 4)
             self.game.sfx['dash'].play()
+            self.dash_animation = Dashing(self.game, self.rect().midtop, direction=1 if not self.flip else -1)
+            self.game.magic_effects.append(self.dash_animation)
             if self.flip:
                 self.dashing = -65
             else:
@@ -1018,6 +1021,11 @@ class Player(PhysicsEntity):
             self.shield.pos = list(self.rect().midtop)  # Update shield position
             if self.shield.animation.done or self.shield.hit_on_target:
                 self.shield = None
+
+        if self.dash_animation:
+            self.dash_animation.pos = list(self.rect().midtop)  # Update shield position
+            if self.dash_animation.animation.done:
+                self.dash_animation = None
 
     def render(self, surf, offset=(0, 0)):
         current_image = self.animation.current_sprite()

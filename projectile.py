@@ -277,6 +277,15 @@ class MagicShieldEffect(AnimatedProjectile):
         super().__init__(game, pos, direction, sprites, loop=False, image_duration=3)
 
 
+class Dashing(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['dashing']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=6, velocity=1)
+
+    def update(self):
+        super().update()
+
+
 class IceArrow(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['ice_arrow']
