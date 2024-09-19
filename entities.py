@@ -3,6 +3,9 @@ import random
 
 import pygame
 
+import logging
+
+
 from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS, HEALTH_BARS
 from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
@@ -12,6 +15,8 @@ from projectile import (Shuriken,
                         HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         HitEffect, HitEffect2, DamageNumber
                         )
+
+logging.basicConfig(level=logging.DEBUG)
 
 
 class PhysicsEntity:
@@ -62,8 +67,10 @@ class PhysicsEntity:
 
     def is_animation_done(self):
         """Checks if the current animation is complete."""
-        print(f'{self.type}: Checking if animation {self.action} is done: {self.animation.done}')
-        return self.animation.done
+        if hasattr(self.animation, 'done'):
+            print(f'{self.type}: Checking if animation {self.action} is done: {self.animation.done}')
+            return self.animation.done
+        return False
 
     def update_hitbox(self):
         """Updates the hitbox of the entity."""
@@ -120,7 +127,6 @@ class PhysicsEntity:
         # Handle flipping
         if movement[0] != 0:
             self.flip = False if movement[0] > 0 else True
-
         self.last_movement = movement
         # self.velocity[1] = min(5, self.velocity[1] + 0.1)
         self.animation.update()
@@ -161,7 +167,9 @@ class Enemy(PhysicsEntity):
         self.max_health = health
         self.current_health_bar = None
         self.attacking = False
+        self.hitting = False
         self.dying = False
+        self.dead = False
         self.attack_cooldown = random.uniform(90, 150)  # random interval from a to b (in frames)
         self.time_since_last_attack = 0
 
@@ -170,7 +178,7 @@ class Enemy(PhysicsEntity):
         Handles collision with the player during dash attack.
         """
         if 50 <= abs(self.game.player.dashing) >= 40:
-            if self.hitbox.colliderect(self.game.player.hitbox):
+            if self.hitbox.colliderect(self.game.player.hitbox) and not self.dying:
                 self.game.shaking_screen_effect = max(16, self.game.shaking_screen_effect)
                 self.game.sfx['hit'].play()
                 self.game.sfx[self.e_type].play()
@@ -196,22 +204,36 @@ class Enemy(PhysicsEntity):
             self.attacking = True
             self.set_action('attack')
         else:
-            self.shoot()
+            if not self.dying:
+                self.shoot()
 
     def handle_attack(self):
         """Handles the attack by launching the shoot method after the attack animation is complete."""
         if self.attacking:
             if self.is_animation_done():
                 self.attacking = False
-                self.shoot()
+                if not self.dying:
+                    self.shoot()
                 self.set_action('idle')
 
     def take_damage(self, amount):
+        if self.dying:
+            return
         self.health -= amount
         self.update_health_image()
         print(f"{self.e_type} take {amount} damage")
+        if f'{self.e_type}/hurt' in self.game.assets:
+            self.set_action('hurt')
+            self.hitting = True
+
+    def handle_hit(self):
+        if self.hitting:
+            if self.is_animation_done():
+                self.hitting = False
+                self.set_action('idle')
 
     def update_health_image(self):
+        self.health = max(0, self.health)
         key = math.floor((self.health / self.max_health) * 10)
         self.current_health_bar = HEALTH_BARS.get(key)
 
@@ -250,7 +272,8 @@ class Enemy(PhysicsEntity):
             self.attack_cooldown -= 1
             if self.attack_cooldown <= 0:
                 self.attack_cooldown = random.uniform(90, 150)  # define new random interval
-                self.initiate_attack()
+                if not self.dying:
+                    self.initiate_attack()
 
         # 4 Handle motion, collision, and other states
         if self.walking:
@@ -274,11 +297,13 @@ class Enemy(PhysicsEntity):
 
         super().update(tilemap, movement=movement)
 
-        if not self.attacking and not self.dying:
+        if not self.attacking and self.health > 0:
             self.set_action('run' if movement[0] != 0 else 'idle')
 
-        self.handle_attack()
-        self.handle_player_dash_collision()
+        if self.health > 0:
+            self.handle_attack()
+            self.handle_hit()
+            self.handle_player_dash_collision()
 
         if self.health <= 0 and not self.dying:
             self.dying = True
@@ -293,14 +318,23 @@ class Enemy(PhysicsEntity):
                 return True
 
         if self.dying:
+            logging.debug(f"Enemy {self} is dying.")
             if self.is_animation_done():
+                logging.debug(f"Enemy {self} animation is done.")
+                self.dead = True
+                self.game.remove_enemy(self)
                 return True
+
             else:
                 return False
+
+        if self.dead:
+            return True
 
         return False
 
     def render(self, surf, offset=(0, 0)):
+        logging.debug(f"Rendering enemy {self}.")
         super().render(surf, offset=offset)
 
     def render_health_bar(self, surf, offset=(0, 0), calibration=(0, 0)):
@@ -522,6 +556,7 @@ class Player(PhysicsEntity):
         self.shield = None
 
         self.dying = False
+        self.dead = False
 
         self.life = 5
         self.experience_points = 0
@@ -679,7 +714,7 @@ class Player(PhysicsEntity):
                 self.attack_timer = len(self.animation.images) * self.animation.img_duration
 
                 for enemy in self.game.enemies.copy():
-                    if self.hitbox.colliderect(enemy.hitbox) and self.attack_pressed:
+                    if self.hitbox.colliderect(enemy.hitbox) and self.attack_pressed and not enemy.dying:
                         self.game.sfx['hit'].play()
 
                         # standard damage

@@ -6,6 +6,8 @@ import random
 
 import pygame
 
+import logging
+
 from data import load_assets, load_sfx, COLOR_SCHEMA, PROJECTILE_DAMAGE
 from entities import Player, OrcArcher, BigZombie, BigDaemon, SupremeDaemon, FireWorm, Golem
 from map import Map
@@ -25,6 +27,7 @@ from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoi
                    SteelKey, RedKey, BronzeKey, PurpleKey, GoldKey,
                    Merchant, Portal)
 
+logging.basicConfig(level=logging.DEBUG)
 
 pygame.init()
 pygame.display.set_caption('Some Simple Game')
@@ -99,7 +102,7 @@ class Game:
             self.projectiles, self.animated_projectiles,
             self.particles, self.sparks, self.munition,
             self.spells, self.effects, self.magic_effects,
-            self.damage_rates, self.portals
+            self.damage_rates, self.merchants, self.portals
         ]
         for lst in lists_to_clear:
             lst.clear()
@@ -249,6 +252,14 @@ class Game:
                 self.player.current_health += 30
                 return True
 
+    def remove_enemy(self, enemy):
+
+        if enemy in self.enemies:
+            self.enemies.remove(enemy)
+            logging.debug(f"Enemy {enemy} has been removed from the game.")
+        else:
+            logging.debug(f"Enemy {enemy} not found in the game.")
+
     def run(self):
         """
         Start the main game cycle.
@@ -340,11 +351,14 @@ class Game:
                 merchant.render(self.display, offset=render_scroll)
 
             # updating state and rendering enemies
-            for enemy in self.enemies.copy():
+            for enemy in self.enemies[:]:
                 if not enemy.update(self.map, (0, 0)):
+                    logging.debug(f"Rendering enemy {enemy}.")
                     enemy.render(self.display, offset=render_scroll)
                 else:
-                    self.enemies.remove(enemy)
+                    logging.debug(f"Removing enemy {enemy}.")
+                    if enemy in self.enemies:
+                        self.enemies.remove(enemy)
 
             # player status update and rendering
             if self.player.current_health <= 0:

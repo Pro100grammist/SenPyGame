@@ -219,7 +219,7 @@ class FireTotem(AnimatedProjectile):
     def update(self):
         self.animation.update()
         for enemy in self.game.enemies.copy():
-            if self.rect().colliderect(enemy.hitbox):
+            if self.rect().colliderect(enemy.hitbox) and not enemy.dying:
                 enemy.take_damage(1)
                 create_sparks(self.game, enemy.hitbox.center, shade='orange')
 
@@ -299,22 +299,23 @@ class IceArrow(AnimatedProjectile):
     def update(self):
         super().update()
         for enemy in self.game.enemies.copy():
-            if self.rect().colliderect(enemy.hitbox):
-                self.game.sfx['ice_hit'].play()
-                sound = str(random.randint(1, 3))
-                self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
-                enemy.take_damage(self.damage)
-                self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
-                create_sparks(self.game, enemy.hitbox.center, shade='ice')
-                self.hit_on_target = True
+            if not enemy.dying:
+                if self.rect().colliderect(enemy.hitbox) and not enemy.dying:
+                    self.game.sfx['ice_hit'].play()
+                    sound = str(random.randint(1, 3))
+                    self.game.sfx.get(enemy.e_type + sound, self.game.sfx[enemy.e_type]).play()
+                    enemy.take_damage(self.damage)
+                    self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.damage), (255, 255, 255)))
+                    create_sparks(self.game, enemy.hitbox.center, shade='ice')
+                    self.hit_on_target = True
 
-                # base chance of an additional lightning strike of 10% + 1% for each level of player wisdom (max 25%)
-                if random.random() <= 0.1 + min(0.15, self.game.player.wisdom // 100):
-                    spawn_point = enemy.rect().center
-                    spawn_point = (spawn_point[0], spawn_point[1] - 140)
-                    self.game.magic_effects.append(Thunderbolt(self.game, spawn_point, direction=0))
-                    self.game.shaking_screen_effect = max(32, self.game.shaking_screen_effect)
-                    self.game.sfx['thunder'].play()
+                    # base chance of an additional lightning strike of 10%+1% for each level of player wisdom (max 25%)
+                    if random.random() <= 0.1 + min(0.15, self.game.player.wisdom // 100):
+                        spawn_point = enemy.rect().center
+                        spawn_point = (spawn_point[0], spawn_point[1] - 140)
+                        self.game.magic_effects.append(Thunderbolt(self.game, spawn_point, direction=0))
+                        self.game.shaking_screen_effect = max(32, self.game.shaking_screen_effect)
+                        self.game.sfx['thunder'].play()
 
         for effect in self.game.magic_effects.copy():
             if self.rect().colliderect(effect.rect()) and isinstance(effect, Tornado):
@@ -338,7 +339,7 @@ class Thunderbolt(AnimatedProjectile):
     def update(self):
         super().update()
         for enemy in self.game.enemies.copy():
-            if self.rect().colliderect(enemy.hitbox):
+            if self.rect().colliderect(enemy.hitbox) and not enemy.dying:
                 self.total_damage += self.damage
                 enemy.take_damage(self.damage)
                 if self.animation.done:
@@ -355,7 +356,7 @@ class Tornado(AnimatedProjectile):
     def update(self):
         super().update()
         for enemy in self.game.enemies.copy():
-            if self.rect().colliderect(enemy.hitbox):
+            if self.rect().colliderect(enemy.hitbox) and not enemy.dying:
                 damage = random.randint(0, 1)
                 enemy.take_damage(damage)
                 # self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
@@ -372,7 +373,7 @@ class WaterTornado(AnimatedProjectile):
     def update(self):
         super().update()
         for enemy in self.game.enemies.copy():
-            if self.rect().colliderect(enemy.hitbox):
+            if self.rect().colliderect(enemy.hitbox) and not enemy.dying:
                 damage = random.randint(1, 3)
                 enemy.take_damage(damage)
                 # self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(damage), (255, 255, 255)))
@@ -391,7 +392,7 @@ class HellStorm(AnimatedProjectile):
     def update(self):
         super().update()
         for enemy in self.game.enemies.copy():
-            if self.rect().colliderect(enemy.hitbox):
+            if self.rect().colliderect(enemy.hitbox) and not enemy.dying:
                 self.total_damage += self.damage
                 enemy.take_damage(self.damage)
                 if self.animation.done:
@@ -478,7 +479,7 @@ class Shuriken(Projectile):
                                 self.image.get_width(), self.image.get_height())
 
         for enemy in self.game.enemies.copy():
-            if self.rect.colliderect(enemy.hitbox):
+            if self.rect.colliderect(enemy.hitbox) and not enemy.dying:
                 if enemy.e_type == 'golem':
                     self.game.sfx['suriken_rebound'].play()
                     for i in range(4):

@@ -97,7 +97,9 @@ def load_assets():
         'golem/idle': Animation(load_images_entities('entities/enemy/golem/idle', scale_factor=1), img_dur=7),
         'golem/run': Animation(load_images_entities('entities/enemy/golem/run', scale_factor=1), img_dur=6),
         'golem/attack': Animation(load_images_entities('entities/enemy/golem/attack', scale_factor=1), loop=False, img_dur=6),
+        'golem/hurt': Animation(load_images_entities('entities/enemy/golem/hurt', scale_factor=1), loop=False, img_dur=12),
         'golem/dead': Animation(load_images_entities('entities/enemy/golem/dead', scale_factor=1), loop=False, img_dur=8),
+
         # player
         'player/idle': Animation(load_images_entities('entities/player/idle'), img_dur=6),
         'player/run': Animation(load_images_entities('entities/player/run'), img_dur=4),
