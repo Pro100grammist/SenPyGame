@@ -170,6 +170,8 @@ class Enemy(PhysicsEntity):
         self.hitting = False
         self.dying = False
         self.dead = False
+        self.freeze = False
+        self.freeze_timer = 0
         self.attack_cooldown = random.uniform(90, 150)  # random interval from a to b (in frames)
         self.time_since_last_attack = 0
 
@@ -232,6 +234,14 @@ class Enemy(PhysicsEntity):
                 self.hitting = False
                 self.set_action('idle')
 
+    def freeze_enemy(self, duration):
+        """
+        Freezes the enemy for a certain number of frames.
+        """
+        self.freeze = True
+        self.freeze_timer = duration * 60  # frames to seconds
+        self.animation.freeze()
+
     def update_health_image(self):
         self.health = max(0, self.health)
         key = math.floor((self.health / self.max_health) * 10)
@@ -252,6 +262,13 @@ class Enemy(PhysicsEntity):
         """
         Updates enemy status, including movement and collisions.
         """
+
+        if self.freeze:
+            self.freeze_timer -= 1
+            if self.freeze_timer <= 0:
+                self.freeze = False
+                self.animation.unfreeze()
+            return
 
         # 1 Find distance to the player along the X and Y axes
         player_distance_x = abs(self.game.player.pos[0] - self.pos[0])

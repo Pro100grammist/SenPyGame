@@ -14,6 +14,7 @@ class Animation:
         self.loop = loop
         self.img_duration = img_dur
         self.done = False
+        self.frozen = False
         self.frame = 0
         self.num_frames = self.img_duration * len(self.images)
         self.num_cycles = num_cycles
@@ -26,20 +27,27 @@ class Animation:
         return Animation(self.images, self.img_duration, self.loop, self.num_cycles)
 
     def update(self):
-        self.frame += 1
+        if not self.frozen:
+            self.frame += 1
 
-        if self.frame >= self.num_frames:
-            self.current_cycle += 1
-            if self.loop and (self.num_cycles is None or self.current_cycle < self.num_cycles):
-                self.frame = 0
-            else:
-                if self.num_cycles is not None and self.current_cycle >= self.num_cycles:
-                    self.loop = False
-                self.done = not self.loop
-                self.frame = self.num_frames - 1 if not self.loop else 0
+            if self.frame >= self.num_frames:
+                self.current_cycle += 1
+                if self.loop and (self.num_cycles is None or self.current_cycle < self.num_cycles):
+                    self.frame = 0
+                else:
+                    if self.num_cycles is not None and self.current_cycle >= self.num_cycles:
+                        self.loop = False
+                    self.done = not self.loop
+                    self.frame = self.num_frames - 1 if not self.loop else 0
 
     def current_sprite(self):
         return self.images[int(self.frame / self.img_duration)]
+
+    def freeze(self):
+        self.frozen = True
+
+    def unfreeze(self):
+        self.frozen = False
 
 
 def load_image(path):

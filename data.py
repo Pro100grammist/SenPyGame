@@ -57,6 +57,7 @@ def load_assets():
         'thunderbolt': load_images('particles/thunderbolt'),
         'runic_obelisk': load_images('particles/runic_obelisk'),
         'dashing': load_images('particles/dashing'),
+        'freezing': load_images('particles/freezing'),
 
         # tiles
         'background_objects': load_images('tiles/background_objects'),
@@ -166,7 +167,7 @@ def load_sfx():
     sound_names = ['jump', 'jump1', 'jump2', 'jump3', 'dash', 'hit', 'shoot', 'arrow_crash', 'ambience',
                    'attack', 'attack1', 'attack2', 'attack3', 'pain', 'damaged1', 'damaged2', 'damaged3', 'running',
                    'orc_archer', 'big_zombie', 'big_daemon', 'supreme_daemon', 'golem', 'golem_attack', 'golem_fall',
-                   'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3',
+                   'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3', 'freezing',
                    'fireball', 'fire_hit', 'fire_punch', 'burning', 'ice_arrow', 'ice_hit', 'tornado', 'runic_obelisk',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked', 'portal_rock_break',

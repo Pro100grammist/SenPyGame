@@ -309,13 +309,20 @@ class IceArrow(AnimatedProjectile):
                     create_sparks(self.game, enemy.hitbox.center, shade='ice')
                     self.hit_on_target = True
 
-                    # base chance of an additional lightning strike of 10%+1% for each level of player wisdom (max 25%)
-                    if random.random() <= 0.1 + min(0.15, self.game.player.wisdom // 100):
+                    # base chance of an additional magic strike of 10%+1% for each level of player wisdom (max 25%)
+                    chance = random.random()
+                    if chance <= 0.5 + min(0.15, self.game.player.wisdom // 100):
                         spawn_point = enemy.rect().center
-                        spawn_point = (spawn_point[0], spawn_point[1] - 140)
-                        self.game.magic_effects.append(Thunderbolt(self.game, spawn_point, direction=0))
-                        self.game.shaking_screen_effect = max(32, self.game.shaking_screen_effect)
-                        self.game.sfx['thunder'].play()
+                        if chance <= 0.25:
+                            spawn_point = (spawn_point[0], spawn_point[1] - 140)
+                            self.game.magic_effects.append(Thunderbolt(self.game, spawn_point, direction=0))
+                            self.game.shaking_screen_effect = max(32, self.game.shaking_screen_effect)
+                            self.game.sfx['thunder'].play()
+                        else:
+                            if enemy.e_type not in ('supreme_daemon', 'golem'):
+                                self.game.magic_effects.append(Freezing(self.game, spawn_point, direction=0))
+                                self.game.sfx['freezing'].play()
+                                enemy.freeze_enemy(duration=6)  # the duration of one cycle is 1 second
 
         for effect in self.game.magic_effects.copy():
             if self.rect().colliderect(effect.rect()) and isinstance(effect, Tornado):
@@ -331,8 +338,6 @@ class Thunderbolt(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['thunderbolt']
         super().__init__(game, pos, direction, sprites, loop=False, image_duration=8)
-        self.rect_width = sprites[0].get_width()
-        self.rect_height = sprites[0].get_height()
         self.total_damage = 0
         self.damage = random.randint(2, 8) * min(1.5, 1 + self.game.player.wisdom // 50)
 
@@ -344,6 +349,15 @@ class Thunderbolt(AnimatedProjectile):
                 enemy.take_damage(self.damage)
                 if self.animation.done:
                     self.game.damage_rates.append(DamageNumber(enemy.hitbox.center, int(self.total_damage)))
+
+
+class Freezing(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['freezing']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=4)
+
+    def update(self):
+        super().update()
 
 
 class Tornado(AnimatedProjectile):
