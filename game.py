@@ -10,6 +10,7 @@ import logging
 
 from data import load_assets, load_sfx, COLOR_SCHEMA, PROJECTILE_DAMAGE
 from entities import Player, OrcArcher, BigZombie, BigDaemon, SupremeDaemon, FireWorm, Golem
+from quests import OldMan, Blacksmith
 from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
@@ -58,12 +59,13 @@ class Game:
         self.character_menu = CharacterMenu(self)
         self.inventory_menu = InventoryMenu(self)
         self.merchant_window = MerchantWindow(self)
+        self.active_dialog = None
 
         self.movement = [False, False]
         self.player = Player(self)
         self.player_controller = PlayerController(
             self.player, self.sfx, self.movement, self.skills_tree, self.character_menu, self.inventory_menu,
-            self.merchant_window,
+            self.merchant_window
         )
 
         self.projectiles = []
@@ -80,6 +82,7 @@ class Game:
         self.merchants = []
         self.portals = []
         self.enemies = []
+        self.npc_list = []
 
         self.shaking_screen_effect = 0
         self.scroll = [0, 0]
@@ -194,6 +197,16 @@ class Game:
             portal_type = portal_id.get(portal['variant'])
             if portal_type:
                 self.portals.append(portal_type(self, portal['pos'], (128, 160)))
+
+        npc_id = {
+            0: OldMan,
+            1: Blacksmith,
+        }
+
+        for npc in self.map.extract([('npc_spawn', i) for i in range(2)]):
+            npc_type = npc_id.get(npc['variant'])
+            if npc_type:
+                self.npc_list.append(npc_type(self, npc['pos']))
 
         # rain effect
         if self.level in rain_on_levels:
@@ -349,6 +362,11 @@ class Game:
             for merchant in self.merchants:
                 merchant.update()
                 merchant.render(self.display, offset=render_scroll)
+
+            # updating and rendering non-player characters on map
+            for npc in self.npc_list:
+                npc.update()
+                npc.render(self.display, offset=render_scroll)
 
             # updating state and rendering enemies
             for enemy in self.enemies[:]:
@@ -559,6 +577,9 @@ class Game:
                 self.inventory_menu.render()
             elif self.player.trading:
                 self.merchant_window.render()
+            elif self.player.talks:
+                if self.active_dialog:
+                    self.active_dialog.render()
 
             #  handling of controller events
             keys = pygame.key.get_pressed()

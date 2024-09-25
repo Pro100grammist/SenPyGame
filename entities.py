@@ -10,7 +10,7 @@ from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS, HEALTH_BARS
 from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
                         AnimatedFireball, DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
-                        WormFireball, SkullSmoke, ToxicExplosion, EarthStrike,
+                        WormFireball, SkullSmoke, ToxicExplosion, EarthStrike, RockWave,
                         FireTotem, WaterGeyser, IceArrow, Tornado, RunicObelisk, MagicShield, Dashing,
                         HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell,
                         HitEffect, HitEffect2, DamageNumber
@@ -521,16 +521,29 @@ class Golem(Enemy):
         super().__init__(game, 'golem', pos, size, e_type='golem', health=800)
 
     def shoot(self):
+        attack_type = random.randint(0, 1)
         self.game.shaking_screen_effect = max(24, self.game.shaking_screen_effect)
-        self.game.sfx['golem_attack'].play()
-        spawn_point = self.rect().midbottom
-        distance = random.randint(80, 160)
-        if self.flip:
-            spawn_point = (spawn_point[0] - distance, spawn_point[1] - 32)
+        if attack_type:
+            spawn_point = self.rect().midbottom
+            distance = random.randint(80, 160)
+            if self.flip:
+                spawn_point = (spawn_point[0] - distance, spawn_point[1] - 32)
+            else:
+                spawn_point = (spawn_point[0] + distance, spawn_point[1] - 32)
+            attack = EarthStrike(self.game, spawn_point, direction=0)
+            self.game.animated_projectiles.append(attack)
+            self.game.sfx['golem_attack'].play()
         else:
-            spawn_point = (spawn_point[0] + distance, spawn_point[1] - 32)
-        attack = EarthStrike(self.game, spawn_point, direction=0)
-        self.game.animated_projectiles.append(attack)
+            spawn_point = self.rect().center
+            if self.flip:
+                spawn_point = (spawn_point[0], spawn_point[1] - 24)
+                direction = -1
+            else:
+                spawn_point = (spawn_point[0] + 48, spawn_point[1] - 24)
+                direction = 1
+            attack = RockWave(self.game, spawn_point, direction=direction)
+            self.game.animated_projectiles.append(attack)
+            self.game.sfx['rock_wave'].play()
 
     def update_hitbox(self):
         """Updates the hitbox of the entity."""
@@ -625,6 +638,7 @@ class Player(PhysicsEntity):
         self.character_menu_is_active = False
         self.inventory_menu_is_active = False
         self.trading = False
+        self.talks = False
 
         self.skills = {
             # health and vitality
@@ -930,6 +944,11 @@ class Player(PhysicsEntity):
         for merchant in self.game.merchants:
             if merchant.rect.colliderect(self.rect()):
                 return merchant
+
+    def check_npc_collision(self):
+        for npc in self.game.npc_list:
+            if npc.rect.colliderect(self.rect()):
+                return npc
 
     @staticmethod
     def wave_value():

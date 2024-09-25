@@ -93,6 +93,13 @@ class EarthStrike(AnimatedProjectile):
         self.damage = 30
 
 
+class RockWave(AnimatedProjectile):
+    def __init__(self, game, pos, direction):
+        sprites = game.assets['rock_wave']
+        super().__init__(game, pos, direction, sprites, loop=False, image_duration=4, velocity=3)
+        self.damage = 20
+
+
 class GroundFlame(AnimatedProjectile):
     def __init__(self, game, pos, direction):
         sprites = game.assets['ground_flame']

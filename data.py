@@ -39,6 +39,7 @@ def load_assets():
         'skullsmoke': load_images('particles/skullmoke'),
         'toxic_explosion': load_images('particles/toxic_explosion'),
         'earth_strike': load_images('particles/earth_strike'),
+        'rock_wave': load_images('particles/rock_wave'),
 
         # spells
         'holly_spell': load_images('particles/spell/holly_spell'),
@@ -152,6 +153,10 @@ def load_assets():
         # traders
         'merchant': Animation(load_images_entities('entities/merchant', scale_factor=0.80), img_dur=8),
 
+        # npc
+        'old_man': Animation(load_images_entities('npc/old_man', scale_factor=1), img_dur=8),
+        'blacksmith': Animation(load_images_entities('npc/blacksmith', scale_factor=1), img_dur=8),
+
         # particle
         'particle/particle': Animation(load_images('particles/particle'), img_dur=6, loop=False),
         'particle/cross_particle': Animation(load_images('particles/cross_particle'), img_dur=6, loop=False),
@@ -167,7 +172,7 @@ def load_sfx():
     sound_names = ['jump', 'jump1', 'jump2', 'jump3', 'dash', 'hit', 'shoot', 'arrow_crash', 'ambience',
                    'attack', 'attack1', 'attack2', 'attack3', 'pain', 'damaged1', 'damaged2', 'damaged3', 'running',
                    'orc_archer', 'big_zombie', 'big_daemon', 'supreme_daemon', 'golem', 'golem_attack', 'golem_fall',
-                   'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3', 'freezing',
+                   'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3', 'freezing', 'rock_wave',
                    'fireball', 'fire_hit', 'fire_punch', 'burning', 'ice_arrow', 'ice_hit', 'tornado', 'runic_obelisk',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked', 'portal_rock_break',
@@ -215,6 +220,10 @@ UI_PATH = {
     'blood_overlay_hard': pygame.image.load(BASE_IMG_PATH + 'ui/screen_overlay_effect/blood_overlay_hard.png'),
     'blood_overlay_critical': pygame.image.load(BASE_IMG_PATH + 'ui/screen_overlay_effect/blood_overlay_critical.png'),
     'blood_overlay_fatally': pygame.image.load(BASE_IMG_PATH + 'ui/screen_overlay_effect/blood_overlay_fatally.png'),
+
+    'dialogue_box': pygame.image.load(BASE_IMG_PATH + 'ui/dialog/dialogue_box.png'),
+    'dialogue_box_npc': pygame.image.load(BASE_IMG_PATH + 'ui/dialog/dialogue_box_npc.png'),
+    'dialogue_box_player': pygame.image.load(BASE_IMG_PATH + 'ui/dialog/dialogue_box_player.png'),
 
 }
 
@@ -328,3 +337,5 @@ EQUIPMENT = load_data('data/objects/equipment.json')
 BOOKS = load_data('data/objects/books.json')
 
 SKILLS = load_data('data/objects/skills.json')
+
+NPC_DATA = load_data('data/objects/npc_data.json')

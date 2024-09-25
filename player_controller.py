@@ -15,10 +15,20 @@ class PlayerController:
         self.inventory = inventory
         self.merchant = merchant
 
+    @property
+    def dialog(self):
+        return self.player.game.active_dialog
+
     def handle_events(self, event, keys):
         # cheat_mod
         if keys[K_g] and keys[K_o] and keys[K_d]:
             self.player.cheat_mode_on()
+
+        # dialog box
+        if self.player.talks:
+            if event.type == pygame.KEYDOWN:
+                if event.key in (pygame.K_x, pygame.K_ESCAPE):
+                    self.player.talks = False
 
         # skills tree
         if self.player.skills_menu_is_active:
@@ -133,10 +143,15 @@ class PlayerController:
                 if event.key == pygame.K_x:
                     chest = self.player.check_chest_collision()
                     merchant = self.player.check_merchant_collision()
+                    npc = self.player.check_npc_collision()
                     if chest:
                         chest.open()
                     elif merchant:
                         merchant.look_stuff()
+                    elif npc:
+                        npc.create_dialog()
+                        if self.dialog:
+                            self.dialog.display_dialogue()
                 if event.key == pygame.K_b:
                     if not self.player.skills_menu_is_active:
                         self.player.skills_menu_is_active = True
@@ -152,6 +167,7 @@ class PlayerController:
                         self.player.inventory_menu_is_active = True
                     else:
                         self.player.inventory_menu_is_active = False
+
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
                     self.movement[0] = False
