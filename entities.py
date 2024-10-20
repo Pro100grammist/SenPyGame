@@ -6,7 +6,7 @@ import pygame
 import logging
 
 
-from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS, HEALTH_BARS
+from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS, HEALTH_BARS, UI_PATH
 from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
                         AnimatedFireball, DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
@@ -16,7 +16,7 @@ from projectile import (Shuriken,
                         HitEffect, HitEffect2, DamageNumber
                         )
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 
 class PhysicsEntity:
@@ -561,6 +561,29 @@ class Golem(Enemy):
                                                  self.hitbox.width, self.hitbox.height), 1)
 
 
+class HellsWatchdog(Enemy):
+    def __init__(self, game, pos, size=(8, 15)):
+        super().__init__(game, 'hells_watchdog', pos, size, e_type='hells_watchdog', health=250)
+
+    def shoot(self):
+        self.game.sfx['hells_watchdog'].play()
+
+    def update_hitbox(self):
+        """Updates the hitbox of the entity."""
+        self.hitbox = pygame.Rect(self.pos[0] + 16, self.pos[1] - 16, self.size[0] + 36, self.size[1] + 18)
+
+    def render(self, surf, offset=(0, 0)):
+        surf.blit(pygame.transform.flip(self.animation.current_sprite(), self.flip, False),
+                  (self.pos[0] - offset[0] + self.anim_offset[0],
+                   self.pos[1] - 46 - offset[1] + self.anim_offset[1]))
+
+        self.render_health_bar(surf, offset=offset)
+
+        if self.show_hitboxes:
+            pygame.draw.rect(surf, (255, 0, 0), (self.hitbox.x - offset[0], self.hitbox.y - offset[1],
+                                                 self.hitbox.width, self.hitbox.height), 1)
+
+
 class Player(PhysicsEntity):
     def __init__(self, game, pos=(50, 50), size=(9, 17)):
         super().__init__(game, 'player', pos, size)
@@ -572,6 +595,7 @@ class Player(PhysicsEntity):
 
         self.name = 'Valkyrie'
         self.class_name = 'Warlock'
+        self.avatar = UI_PATH.get('valkiria')
 
         self.air_time = 0
         self.jumps = 2

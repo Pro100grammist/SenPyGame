@@ -102,6 +102,11 @@ def load_assets():
         'golem/hurt': Animation(load_images_entities('entities/enemy/golem/hurt', scale_factor=1), loop=False, img_dur=12),
         'golem/dead': Animation(load_images_entities('entities/enemy/golem/dead', scale_factor=1), loop=False, img_dur=8),
 
+        'hells_watchdog/idle': Animation(load_images_entities('entities/enemy/hells_watchdog/idle', scale_factor=1), img_dur=8),
+        'hells_watchdog/run': Animation(load_images_entities('entities/enemy/hells_watchdog/run', scale_factor=1), img_dur=8),
+        'hells_watchdog/attack': Animation(load_images_entities('entities/enemy/hells_watchdog/attack', scale_factor=1), loop=False, img_dur=12),
+        'hells_watchdog/hurt': Animation(load_images_entities('entities/enemy/hells_watchdog/hurt', scale_factor=1), loop=False, img_dur=12),
+        'hells_watchdog/dead': Animation(load_images_entities('entities/enemy/hells_watchdog/dead', scale_factor=1), loop=False, img_dur=10),
         # player
         'player/idle': Animation(load_images_entities('entities/player/idle'), img_dur=6),
         'player/run': Animation(load_images_entities('entities/player/run'), img_dur=4),
@@ -172,7 +177,7 @@ def load_sfx():
     sound_names = ['jump', 'jump1', 'jump2', 'jump3', 'dash', 'hit', 'shoot', 'arrow_crash', 'ambience',
                    'attack', 'attack1', 'attack2', 'attack3', 'pain', 'damaged1', 'damaged2', 'damaged3', 'running',
                    'orc_archer', 'big_zombie', 'big_daemon', 'supreme_daemon', 'golem', 'golem_attack', 'golem_fall',
-                   'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3', 'freezing', 'rock_wave',
+                   'fire_worm', 'fire_worm1', 'fire_worm2', 'fire_worm3', 'freezing', 'rock_wave', 'hells_watchdog',
                    'fireball', 'fire_hit', 'fire_punch', 'burning', 'ice_arrow', 'ice_hit', 'tornado', 'runic_obelisk',
                    'coin', 'gem', 'glass_red', 'glass_blue', 'glass_green', 'glass_yellow', 'level_up',
                    'switch', 'select', 'use_potion', 'suriken_rebound', 'locked', 'portal_rock_break',
@@ -181,11 +186,21 @@ def load_sfx():
                    'holly_spell', 'speed_spell', 'bloodlust_spell', 'invulnerability_spell',
                    'holly_scroll', 'bloodlust_scroll', 'speed_scroll', 'invulnerability_scroll',
                    'heal1', 'heal2', 'heal3', 'healed', 'cough', 'tired', 'revive',
-                   'move_cursor', 'open_skill', 'rejected', 'chest_open',
+                   'cursor_up', 'cursor_down', 'cursor_select', 'move_cursor', 'open_skill', 'rejected', 'chest_open',
                    'steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key',
-                   'not_enough_money', 'buy_goods', 'item_equip', 'get_item', 'lock_closed']
+                   'not_enough_money', 'buy_goods', 'item_equip', 'get_item', 'lock_closed',
+                   'new_journal_entry',
+                   ]
 
     return {name: pygame.mixer.Sound(f'data/sfx/{name}.wav') for name in sound_names}
+
+
+def load_voices():
+    voice_names = [
+        'old_man_greetings', 'old_man_response_001', 'old_man_response_002', 'old_man_response_003', 'old_man_response_004',
+        'old_man_response_012', 'old_man_response_014', 'old_man_response_022', 'old_man_response_112', 'old_man_response_212'
+    ]
+    return {name: pygame.mixer.Sound(f'data/voices/{name}.wav') for name in voice_names}
 
 
 POTIONS = {
@@ -224,6 +239,14 @@ UI_PATH = {
     'dialogue_box': pygame.image.load(BASE_IMG_PATH + 'ui/dialog/dialogue_box.png'),
     'dialogue_box_npc': pygame.image.load(BASE_IMG_PATH + 'ui/dialog/dialogue_box_npc.png'),
     'dialogue_box_player': pygame.image.load(BASE_IMG_PATH + 'ui/dialog/dialogue_box_player.png'),
+    'cursor': pygame.image.load(BASE_IMG_PATH + 'ui/dialog/cursor.png'),
+
+    # npc
+    'old_man': pygame.image.load(BASE_IMG_PATH + 'ui/avatars/old_man.png'),
+    'blacksmith': pygame.image.load(BASE_IMG_PATH + 'ui/avatars/blacksmith.png'),
+
+    # characters
+    'valkiria': pygame.image.load(BASE_IMG_PATH + 'ui/avatars/valkiria.png'),
 
 }
 

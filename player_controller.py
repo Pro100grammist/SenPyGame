@@ -27,11 +27,17 @@ class PlayerController:
         # dialog box
         if self.player.talks:
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    self.player.game.active_dialog.move_selection("up")
+                elif event.key == pygame.K_DOWN:
+                    self.player.game.active_dialog.move_selection("down")
+                elif event.key == pygame.K_SPACE:
+                    self.player.game.active_dialog.select_option()
                 if event.key in (pygame.K_x, pygame.K_ESCAPE):
                     self.player.talks = False
 
         # skills tree
-        if self.player.skills_menu_is_active:
+        elif self.player.skills_menu_is_active:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP:
                     self.skills_tree.move_cursor('up')

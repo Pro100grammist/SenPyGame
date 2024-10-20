@@ -8,8 +8,8 @@ import pygame
 
 import logging
 
-from data import load_assets, load_sfx, COLOR_SCHEMA, PROJECTILE_DAMAGE
-from entities import Player, OrcArcher, BigZombie, BigDaemon, SupremeDaemon, FireWorm, Golem
+from data import load_assets, load_sfx, load_voices, COLOR_SCHEMA, PROJECTILE_DAMAGE
+from entities import Player, OrcArcher, BigZombie, BigDaemon, SupremeDaemon, FireWorm, Golem, HellsWatchdog
 from quests import OldMan, Blacksmith
 from map import Map
 from weather import Clouds, Raindrop
@@ -28,7 +28,7 @@ from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoi
                    SteelKey, RedKey, BronzeKey, PurpleKey, GoldKey,
                    Merchant, Portal)
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 pygame.init()
 pygame.display.set_caption('Some Simple Game')
@@ -47,7 +47,9 @@ class Game:
         self.display_2 = pygame.Surface((DISPLAY_WIDTH, DISPLAY_HEIGTH))
         self.clock = pygame.time.Clock()
         self.sfx = load_sfx()
+        self.voices = load_voices()
         self.volume_settings = VOLUME_SETTINGS
+        self.notifications = []
 
         self.assets = load_assets()
         self.clouds = Clouds(self.assets['clouds'])
@@ -101,7 +103,7 @@ class Game:
         Method for cleaning the list of objects on the map before loading a new level
         """
         lists_to_clear = [
-            self.enemies, self.loot, self.chests,
+            self.enemies, self.loot, self.chests, self.npc_list,
             self.projectiles, self.animated_projectiles,
             self.particles, self.sparks, self.munition,
             self.spells, self.effects, self.magic_effects,
@@ -120,7 +122,7 @@ class Game:
         self.clear_lists()
         self.map.load('data/maps/' + str(map_id) + '.json')
         pygame.mixer.music.load(f'data/music/level{str(self.level)}.wav')
-        pygame.mixer.music.set_volume(0.25)
+        pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play(-1)
         pygame.mixer.Sound(f'data/ambiance/{str(self.level)}.wav').play(-1)
 
@@ -137,9 +139,10 @@ class Game:
             5: lambda pos: FireWorm(self, pos),
             6: lambda pos: SupremeDaemon(self, pos),
             7: lambda pos: Golem(self, pos),
+            8: lambda pos: HellsWatchdog(self, pos)
         }
 
-        for spawner in self.map.extract([('spawners', i) for i in range(8)]):
+        for spawner in self.map.extract([('spawners', i) for i in range(9)]):
             variant = spawner['variant']
             if variant == 0:  # player
                 self.player.pos = spawner['pos']
@@ -280,7 +283,7 @@ class Game:
 
         # download music and background sound effects
         pygame.mixer.music.load(f'data/music/level{str(self.level)}.wav')
-        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.set_volume(0.1)
         pygame.mixer.music.play(-1)
         pygame.mixer.Sound(f'data/ambiance/{str(self.level)}.wav').play(-1)
 
@@ -581,6 +584,10 @@ class Game:
                 if self.active_dialog:
                     self.active_dialog.render()
 
+            # rendering screen notifications
+            for notification in self.notifications:
+                notification.render()
+
             #  handling of controller events
             keys = pygame.key.get_pressed()
             for event in pygame.event.get():
@@ -786,8 +793,8 @@ def main():
     screen.blit(restart_text, restart_rect)
     pygame.display.update()
 
+    pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.load(f'data/music/game_over.mp3')
-    pygame.mixer.music.set_volume(1)
     pygame.mixer.music.play()
 
     while game.game_over:

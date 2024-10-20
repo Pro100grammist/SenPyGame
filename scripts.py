@@ -55,7 +55,7 @@ def rename_files(directory):
         print(f"Processing file: {filename}")
         match = re.search(r'\d', filename)
         if match:
-            new_filename = '0' + filename[match.start():]
+            new_filename = filename[match.start():]
             old_file = os.path.join(directory, filename)
             new_file = os.path.join(directory, new_filename)
             os.rename(old_file, new_file)
@@ -64,8 +64,26 @@ def rename_files(directory):
             print(f"No digit found in: {filename}")
 
 
-# directory_path = './data/images/entities/enemy/fire_worm/attack'
+# directory_path = './data/images/entities/enemy/hells_watchdog'
 # rename_files(directory_path)
+
+def rename_files_2(directory):
+    """leave only the last 6 characters in the file name"""
+    print(f"Target directory: {directory}")
+    for filename in os.listdir(directory):
+        print(f"Processing file: {filename}")
+        if len(filename) > 6:
+            new_filename = filename[-6:]
+            old_file = os.path.join(directory, filename)
+            new_file = os.path.join(directory, new_filename)
+            os.rename(old_file, new_file)
+            print(f"Renamed: {filename} -> {new_filename}")
+        else:
+            print(f"Filename {filename} is too short to rename")
+
+
+directory_path = './data/images/entities/enemy/hells_watchdog'
+rename_files_2(directory_path)
 
 
 def auto_backup(file_list):
@@ -89,4 +107,4 @@ files_to_backup = [
     'game.py', 'map.py', 'entities.py', 'player_controller.py', 'items.py', 'level.py', 'particle.py',
     'projectile.py', 'support.py', 'ui.py', 'weather.py', 'data.py', 'settings.py', 'scripts.py'
 ]
-auto_backup(files_to_backup)
+# auto_backup(files_to_backup)
