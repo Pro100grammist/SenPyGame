@@ -82,8 +82,8 @@ def rename_files_2(directory):
             print(f"Filename {filename} is too short to rename")
 
 
-directory_path = './data/images/entities/enemy/hells_watchdog'
-rename_files_2(directory_path)
+# directory_path = './data/images/entities/enemy/hells_watchdog'
+# rename_files_2(directory_path)
 
 
 def auto_backup(file_list):
@@ -105,6 +105,9 @@ def auto_backup(file_list):
 # Список файлів, які потрібно скопіювати.
 files_to_backup = [
     'game.py', 'map.py', 'entities.py', 'player_controller.py', 'items.py', 'level.py', 'particle.py',
-    'projectile.py', 'support.py', 'ui.py', 'weather.py', 'data.py', 'settings.py', 'scripts.py'
+    'projectile.py', 'support.py', 'ui.py', 'weather.py', 'data.py', 'settings.py', 'scripts.py',
+    'quests.py'
 ]
-# auto_backup(files_to_backup)
+
+
+auto_backup(files_to_backup)

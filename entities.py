@@ -6,7 +6,7 @@ import pygame
 import logging
 
 
-from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS, HEALTH_BARS, UI_PATH
+from data import EXP_POINTS, SHURIKEN_LEVELS, SHURIKEN_CONFIGS, HEALTH_BARS, UI_PATH, SPELL_COOLDOWN, COOLDOWN_DURATIONS
 from particle import Particle, Spark, create_particles
 from projectile import (Shuriken,
                         AnimatedFireball, DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
@@ -698,6 +698,11 @@ class Player(PhysicsEntity):
 
         self.equipment = {}
 
+        self.spells = []
+
+        self.spell_cooldowns = SPELL_COOLDOWN
+        self.cooldown_durations = COOLDOWN_DURATIONS
+
     def adjust_position(self, pixels):
         self.pos[1] -= pixels
 
@@ -933,6 +938,30 @@ class Player(PhysicsEntity):
             self.game.magic_effects.append(self.shield)
             # self.game.sfx['magic_shield'].play()
 
+    def use_magic(self, spell_key):
+        spell_bind = {
+            'fire_totem': self.summoning_fire_totem,
+            'water_geyser': self.summoning_water_geyser,
+            'ice_arrow': self.ice_arrow_throw,
+            'tornado': self.tornado_draft,
+            'runic_obelisk': self.summoning_runic_obelisk,
+            'magic_shield': self.shielding,
+        }
+        if 0 <= spell_key < len(self.spells):
+            spell = self.spells[spell_key]
+            if spell in spell_bind:
+                current_time = pygame.time.get_ticks()
+                if current_time - self.spell_cooldowns[spell] >= self.cooldown_durations[spell]:
+                    spell_bind[spell]()
+                    self.spell_cooldowns[spell] = current_time
+                else:
+                    rem_time = (self.cooldown_durations[spell] - (current_time - self.spell_cooldowns[spell])) / 1000
+                    print(f"Заклинання '{spell}' ще перезаряджається. Залишилось {rem_time:.1f} секунд.")
+            else:
+                print(f"Spell '{spell}' не знайдено у spell_bind.")
+        else:
+            print(f"Неправильний індекс заклинання: {spell_key}")
+
     def use_item(self):
         if self.selected_item == 1 and self.heal_potions:
             self.current_health += 50 + (self.skills["Healing Mastery"] * 50)
@@ -998,6 +1027,7 @@ class Player(PhysicsEntity):
         self.magic_potions += 9
         self.stamina_potions += 9
         self.power_potions += 9
+        self.spells = ['fire_totem', 'water_geyser', 'ice_arrow', 'tornado', 'runic_obelisk', 'magic_shield']
 
     def update(self, tilemap, movement=(0, 0)):
         speed = (movement[0] * 1.5 * self.super_speed, movement[1])

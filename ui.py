@@ -54,7 +54,13 @@ class UI:
             'holly_spell': self.holly_scroll_icon,
             'speed_spell': self.speed_scroll_icon,
             'bloodlust_spell': self.bloodlust_scroll_icon,
-            'invulnerability_spell': self.invulnerability_scroll_icon
+            'invulnerability_spell': self.invulnerability_scroll_icon,
+            'fire_totem': self.fire_totem_icon,
+            'water_geyser': self.watergeyser_icon,
+            'ice_arrow': self.ice_arrow_icon,
+            'tornado': self.tornado_icon,
+            'runic_obelisk': self.runic_obelisk_icon,
+            'magic_shield': self.magic_shield_icon,
         }
 
         self.blood_overlay_hard = UI_PATH.get('blood_overlay_hard')
@@ -222,8 +228,8 @@ class UI:
         self.game.display.blit(level_render, (8, 420))
 
         # inventory
-        inventory_x = panel_x + 260
-        inventory_y = panel_y + 10
+        inventory_x = 260
+        inventory_y = 8
         self.game.display.blit(self.inventory_bar, (inventory_x, inventory_y))
 
         # potions
@@ -249,6 +255,33 @@ class UI:
         active_frame = self.game.player.selected_item
         if 1 <= active_frame <= len(frame_positions):
             self.game.display.blit(self.inventory_frame, (frame_positions[active_frame - 1], y - 9))
+
+        # spells
+        sb_x = self.display_width // 2 - 186
+        sb_y = self.display_height - 74
+        self.game.display.blit(self.spell_bar, (sb_x, sb_y))
+
+        spells = self.game.player.spells
+        spell_cooldowns = self.game.player.spell_cooldowns
+        cooldown_durations = self.game.player.cooldown_durations
+        current_time = pygame.time.get_ticks()
+
+        if spells:
+            x, y = sb_x, sb_y
+            icon_offset = 28
+            for spell in spells:
+                self.game.display.blit(self.spellbook[spell], (x + 64, y + 28))
+
+                remaining_time = (cooldown_durations[spell] - (current_time - spell_cooldowns[spell])) / 1000
+                if remaining_time > 0:
+                    # spell inactive until recharge
+                    overlay = pygame.Surface((24, 24), pygame.SRCALPHA)
+                    overlay.fill((0, 0, 0, 150))
+                    self.game.display.blit(overlay, (x + 64, y + 28))
+                    text = self.font.render(f"{int(remaining_time)}", True, (255, 255, 255))
+                    text_rect = text.get_rect(center=(x + 76, y + 40))
+                    self.game.display.blit(text, text_rect)
+                x += icon_offset
 
         # scrolls
         self.game.display.blit(self.scroll_slot, (self.display_width - 80, 2))

@@ -217,6 +217,24 @@ SCROLLS = {
     'Invulnerability Scroll': 'invulnerability_spell'
 }
 
+SPELL_COOLDOWN = {
+    'fire_totem': 0,
+    'water_geyser': 0,
+    'ice_arrow': 0,
+    'tornado': 0,
+    'runic_obelisk': 0,
+    'magic_shield': 0,
+}
+
+COOLDOWN_DURATIONS = {
+    'fire_totem': 10000,
+    'water_geyser': 2000,
+    'ice_arrow': 3000,
+    'tornado': 20000,
+    'runic_obelisk': 15000,
+    'magic_shield': 12000,
+}
+
 UI_PATH = {
 
     'skills_tree': pygame.image.load(BASE_IMG_PATH + 'ui/skills/skills_tree.png'),
@@ -256,7 +274,8 @@ UI_SET = [
     'diamond_icon', 'panel', 'shuriken_icon', 'player_icon', 'inventory_bar', 'coin_icon',
     'heal_potion_icon', 'mana_potion_icon', 'stamina_potion_icon', 'power_potion_icon', 'inventory_frame',
     'corrupted_icon', 'double_power_icon', 'super_speed_icon', 'bloodlust_icon', 'invulnerability_icon',
-    'scroll_slot', 'hud_bg', 'xp_bar'
+    'scroll_slot', 'hud_bg', 'xp_bar', 'spell_bar',
+    'fire_totem_icon', 'watergeyser_icon', 'ice_arrow_icon', 'tornado_icon', 'runic_obelisk_icon', 'magic_shield_icon',
 ]
 
 MERCHANT_ITEM_POS = {

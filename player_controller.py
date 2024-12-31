@@ -126,17 +126,17 @@ class PlayerController:
                 if event.key == pygame.K_q:
                     self.player.cast_spell()
                 if event.key == pygame.K_1:
-                    self.player.summoning_fire_totem()
+                    self.player.use_magic(0)
                 if event.key == pygame.K_2:
-                    self.player.summoning_water_geyser()
+                    self.player.use_magic(1)
                 if event.key == pygame.K_3:
-                    self.player.ice_arrow_throw()
+                    self.player.use_magic(2)
                 if event.key == pygame.K_4:
-                    self.player.tornado_draft()
+                    self.player.use_magic(3)
                 if event.key == pygame.K_5:
-                    self.player.summoning_runic_obelisk()
+                    self.player.use_magic(4)
                 if event.key == pygame.K_6:
-                    self.player.shielding()
+                    self.player.use_magic(5)
                 if event.key == pygame.K_LCTRL:
                     self.player.selected_scroll += 1
                     sound = str(randint(1, 3))
