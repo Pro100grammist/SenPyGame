@@ -20,7 +20,7 @@ from support import volume_adjusting
 from settings import *
 
 from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosion, GroundFlame, EarthStrike,
-                        DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip,
+                        DaemonBreath, DaemonBreathFlip, DaemonFireBreath, DaemonFireBreathFlip, RockWave,
                         HollySpell, SpeedSpell, BloodlustSpell, InvulnerabilitySpell)
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
                    HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
@@ -33,6 +33,10 @@ from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoi
 pygame.init()
 pygame.display.set_caption('Some Simple Game')
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGTH))
+
+# Set the full screen mode with the screen resolution
+# screen_width, screen_height = pygame.display.Info().current_w, pygame.display.Info().current_h
+# screen = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
 
 
 class Game:
@@ -467,10 +471,12 @@ class Game:
                         if not self.player.shield:
                             self.handling_player_damage(damage=damage, damage_type='magical')
 
-                    elif isinstance(projectile, EarthStrike):
+                    elif isinstance(projectile, (EarthStrike, RockWave)):
                         if not self.player.shield:
                             if projectile.damage > 0:
                                 self.handling_player_damage(damage=projectile.damage)
+                                if hasattr(projectile, 'apply_effect'):
+                                    projectile.apply_effect(self.player)
                                 projectile.damage = 0
 
                 kill = projectile.update()

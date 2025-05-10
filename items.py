@@ -51,6 +51,8 @@ class GameLoot:
             'glass_blue': 'magic_potions',
             'glass_green': 'stamina_potions',
             'glass_yellow': 'power_potions',
+            'glass_acid': 'antidotes',
+            'glass_shield': 'defense_potion',
         }
 
         scrolls = {
@@ -134,9 +136,27 @@ class StaminaPoison(GameLoot):
 class PowerPoison(GameLoot):
     def __init__(self, game=None, pos=None, size=None):
         super().__init__(game, pos, size, 'glass_yellow')
-        self.name = 'PowerPoison'
+        self.name = 'Power Poison'
         self.price = 6
         self.pic = BASE_IMG_PATH + 'ui/merchant/power_potion.png'
+        self.description = ''
+
+
+class Antidote(GameLoot):
+    def __init__(self, game=None, pos=None, size=None):
+        super().__init__(game, pos, size, 'glass_acid')
+        self.name = 'Antidote'
+        self.price = 6
+        self.pic = BASE_IMG_PATH + 'ui/merchant/antidote.png'
+        self.description = ''
+
+
+class DefencePoison(GameLoot):
+    def __init__(self, game=None, pos=None, size=None):
+        super().__init__(game, pos, size, 'glass_shield')
+        self.name = 'Defence Poison'
+        self.price = 8
+        self.pic = BASE_IMG_PATH + 'ui/merchant/defence_potion.png'
         self.description = ''
 
 

@@ -49,6 +49,7 @@ class UI:
         self.super_speed_timer_max = 720
         self.critical_hit_timer_max = 1200
         self.invulnerability_timer_max = 1000
+        self.enhanced_protection_timer_max = 1200
 
         self.spellbook = {
             'holly_spell': self.holly_scroll_icon,
@@ -103,10 +104,15 @@ class UI:
 
     def render(self):
 
-        # panel
-        panel_x = 2
-        panel_y = self.display_height - self.panel.get_height() - 2
+        # hero panel
+        panel_x = - 6
+        panel_y = self.display_height - self.panel.get_height() + 20
         self.game.display.blit(self.panel, (panel_x, panel_y))
+
+        # hero icon
+        hero_icon_x = panel_x + 15
+        hero_icon_y = panel_y + 25
+        self.game.display.blit(self.player_icon, (hero_icon_x, hero_icon_y))
 
         # health & blood screen overlays
         heart_images = {
@@ -157,21 +163,6 @@ class UI:
         # hud_bg
         self.game.display.blit(self.hud_bg, (10, 10))
 
-        # experience
-        xp_x = 62
-        xp_y = self.display_height - 20
-        self.game.display.blit(self.xp_bar, (xp_x, xp_y))
-        xp_line = int(self.game.player.experience / self.game.player.next_level_experience * self.xp_bar.get_width())
-        rect = pygame.Rect(xp_x + 2, xp_y + 1, xp_line, 6)
-        pygame.draw.rect(self.game.display, (0, 191, 255), rect)
-
-        text = f"{self.game.player.experience} / {self.game.player.next_level_experience}"
-        text_render = self.font_ui.render(text, True, (255, 255, 255))
-        text_width, text_height = self.font.size(text)
-        text_x = xp_x + (self.xp_bar.get_width() - text_width) / 2
-        text_y = xp_y + (self.xp_bar.get_height() - text_height) / 2
-        self.game.display.blit(text_render, (text_x, text_y))
-
         # life
         for i in range(6):
             life_heart_x = 50 + i * 15
@@ -182,26 +173,26 @@ class UI:
                 self.game.display.blit(self.life_empty, (life_heart_x, life_heart_y))
 
         # diamonds
-        diamond_x = panel_x + 76
-        diamond_y = panel_y + 16
-        self.game.display.blit(self.diamond_icon, (diamond_x, diamond_y))
-        artifacts_text = self.font.render(f" {self.game.artifacts_remaining}", True, (148, 0, 211))
-        self.game.display.blit(artifacts_text, (diamond_x + 16, diamond_y + 1))
+        # diamond_x = panel_x + 76
+        # diamond_y = panel_y + 16
+        # self.game.display.blit(self.diamond_icon, (diamond_x, diamond_y))
+        # artifacts_text = self.font.render(f" {self.game.artifacts_remaining}", True, (148, 0, 211))
+        # self.game.display.blit(artifacts_text, (diamond_x + 16, diamond_y + 1))
 
         # coins
-        coins_x = panel_x + 110
-        coins_y = panel_y + 16
-        self.game.display.blit(self.coin_icon, (coins_x, coins_y))
-        coins_count = self.font.render(f" {self.game.player.money}", True, self.text_color)
-        self.game.display.blit(coins_count, (coins_x + 16, coins_y + 1))
+        # coins_x = panel_x + 110
+        # coins_y = panel_y + 16
+        # self.game.display.blit(self.coin_icon, (coins_x, coins_y))
+        # coins_count = self.font.render(f" {self.game.player.money}", True, self.text_color)
+        # self.game.display.blit(coins_count, (coins_x + 16, coins_y + 1))
 
         # shuriken
-        shuriken_count = self.game.player.shuriken_count
-        shuriken_count_x = panel_x + 162
-        shuriken_count_y = panel_y + 16
-        self.game.display.blit(self.shuriken_icon, (shuriken_count_x, shuriken_count_y))
-        shuriken_remaining = self.font.render(f" {shuriken_count}", True, (176, 196, 222))
-        self.game.display.blit(shuriken_remaining, (shuriken_count_x + 16, shuriken_count_y + 1))
+        # shuriken_count = self.game.player.shuriken_count
+        # shuriken_count_x = panel_x + 162
+        # shuriken_count_y = panel_y + 16
+        # self.game.display.blit(self.shuriken_icon, (shuriken_count_x, shuriken_count_y))
+        # shuriken_remaining = self.font.render(f" {shuriken_count}", True, (176, 196, 222))
+        # self.game.display.blit(shuriken_remaining, (shuriken_count_x + 16, shuriken_count_y + 1))
 
         # stamina
         st_x = 54
@@ -217,47 +208,45 @@ class UI:
             pygame.draw.line(self.game.display, gradient_color, (st_x + i, st_y),
                              (st_x + i, st_y + stamina_rect.height), 0)
 
-        # hero icon
-        hero_icon_x = panel_x + 6
-        hero_icon_y = panel_y + 14
-        self.game.display.blit(self.player_icon, (hero_icon_x, hero_icon_y))
-
         # player_level
-        player_level = f" Level {self.game.player.level}"
+        l_x, l_y = panel_x + 78, panel_y + 22
+        player_level = f"{self.game.player.level}"
         level_render = self.font_lvl.render(player_level, True, (255, 255, 255))
-        self.game.display.blit(level_render, (8, 420))
+        self.game.display.blit(level_render, (l_x, l_y))
 
-        # inventory
-        inventory_x = 260
+        # potion_bar
+        inventory_x = self.display_width // 2 - self.big_inventory_bar.get_width() // 2 + 24
         inventory_y = 8
-        self.game.display.blit(self.inventory_bar, (inventory_x, inventory_y))
+        self.game.display.blit(self.big_inventory_bar, (inventory_x, inventory_y))
 
         # potions
-        x, y = inventory_x + 10, inventory_y + 10
+        x, y = inventory_x + 6, inventory_y + 8
         icon_offset = 36
 
         potions = [
             (self.heal_potion_icon, self.game.player.heal_potions),
             (self.mana_potion_icon, self.game.player.magic_potions),
             (self.stamina_potion_icon, self.game.player.stamina_potions),
-            (self.power_potion_icon, self.game.player.power_potions)
+            (self.power_potion_icon, self.game.player.power_potions),
+            (self.antidote_icon, self.game.player.antidotes),
+            (self.defense_potion_icon, self.game.player.defense_potions),
         ]
 
         for potion_icon, potion_count in potions:
             if potion_count > 0:
                 self.game.display.blit(potion_icon, (x, y))
                 potion_count_text = self.font.render(f" {potion_count}", True, self.text_color)
-                self.game.display.blit(potion_count_text, (x + 16, y + 16))
+                self.game.display.blit(potion_count_text, (x + 18, y + 18))
             x += icon_offset
 
         # frame
-        frame_positions = [x - 147 + i * 36 for i in range(5)]
+        frame_positions = [x - 217 + i * 36 for i in range(7)]
         active_frame = self.game.player.selected_item
         if 1 <= active_frame <= len(frame_positions):
-            self.game.display.blit(self.inventory_frame, (frame_positions[active_frame - 1], y - 9))
+            self.game.display.blit(self.potion_bar_frame, (frame_positions[active_frame - 1], y - 9))
 
         # spells
-        sb_x = self.display_width // 2 - 186
+        sb_x = self.display_width // 2 - 172
         sb_y = self.display_height - 74
         self.game.display.blit(self.spell_bar, (sb_x, sb_y))
 
@@ -296,13 +285,29 @@ class UI:
             scroll_count = self.font2.render(f" {count}", True, self.text_color)
             self.game.display.blit(scroll_count, (x + 44, y + 46))
 
+        # experience
+        xp_x = 208
+        xp_y = self.display_height - 58
+        # self.game.display.blit(self.xp_bar, (xp_x, xp_y))
+        xp_line = int(self.game.player.experience / self.game.player.next_level_experience * 100)
+        rect = pygame.Rect(xp_x, xp_y, xp_line, 4)
+        pygame.draw.rect(self.game.display, (0, 191, 255), rect)
+
+        text = f"XP {self.game.player.experience} / {self.game.player.next_level_experience}"
+        text_render = self.font_ui.render(text, True, (255, 255, 255))
+        text_width, text_height = self.font.size(text)
+        text_x = xp_x - 90 - text_width / 2
+        text_y = xp_y + 10 - text_height / 2
+        self.game.display.blit(text_render, (text_x, text_y))
+
         # status
         status_updates = [
             (self.corrupted_icon, 'corruption', self.game.player.corruption),
             (self.double_power_icon, 'double_power', self.game.player.double_power == 2),
             (self.super_speed_icon, 'super_speed', self.game.player.super_speed == 2),
             (self.bloodlust_icon, 'critical_hit', self.game.player.critical_hit_chance),
-            (self.invulnerability_icon, 'invulnerability', self.game.player.invulnerability)
+            (self.invulnerability_icon, 'invulnerability', self.game.player.invulnerability),
+            (self.enhanced_protection_icon, 'enhanced_protection', self.game.player.enhanced_protection),
         ]
 
         for icon, status, condition in status_updates:
@@ -316,12 +321,13 @@ class UI:
             'corruption': ('corruption_timer', 'corruption_timer_max'),
             'super_speed': ('super_speed_timer', 'super_speed_timer_max'),
             'critical_hit': ('critical_hit_timer', 'critical_hit_timer_max'),
-            'invulnerability': ('invulnerability_timer', 'invulnerability_timer_max')
+            'invulnerability': ('invulnerability_timer', 'invulnerability_timer_max'),
+            'enhanced_protection': ('enhanced_protection_timer', 'enhanced_protection_timer_max')
         }
 
         for pos, (icon, status) in enumerate(self.status_bar):
-            x = panel_x + 50 + 22 * pos
-            y = panel_y - 12
+            x = sb_x + 60 + (22 * pos)
+            y = sb_y - 12
             color = (255, 255, 255)
 
             if status in timer_attributes:

@@ -271,9 +271,11 @@ UI_PATH = {
 UI_SET = [
     'life_full', 'life_empty', 'heart_full', 'heart_tq', 'heart_half', 'heart_quarter', 'heart_empty',
     'globe_full', 'globe_tq', 'globe_half', 'globe_quarter', 'globe_empty', 'corner_set', 'vignette',
-    'diamond_icon', 'panel', 'shuriken_icon', 'player_icon', 'inventory_bar', 'coin_icon',
-    'heal_potion_icon', 'mana_potion_icon', 'stamina_potion_icon', 'power_potion_icon', 'inventory_frame',
+    'diamond_icon', 'panel', 'shuriken_icon', 'player_icon', 'big_inventory_bar', 'coin_icon', 'potion_bar_frame',
+    'heal_potion_icon', 'mana_potion_icon', 'stamina_potion_icon', 'power_potion_icon', 'antidote_icon',
+    'defense_potion_icon',
     'corrupted_icon', 'double_power_icon', 'super_speed_icon', 'bloodlust_icon', 'invulnerability_icon',
+    'enhanced_protection_icon',
     'scroll_slot', 'hud_bg', 'xp_bar', 'spell_bar',
     'fire_totem_icon', 'watergeyser_icon', 'ice_arrow_icon', 'tornado_icon', 'runic_obelisk_icon', 'magic_shield_icon',
 ]
@@ -358,10 +360,11 @@ SHURIKEN_CONFIGS = {
 }
 
 EXP_POINTS = {
-    'big_daemon': 50,
-    'big_zombie': 30,
     'orc_archer': 10,
+    'big_zombie': 30,
+    'big_daemon': 50,
     'fire_worm': 100,
+    'golem': 150,
     'supreme_daemon': 400,
 }
 

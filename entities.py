@@ -633,13 +633,19 @@ class Player(PhysicsEntity):
         self.stamina = self.max_stamina
 
         self.money = 0
+
         self.heal_potions = 0
         self.magic_potions = 0
         self.stamina_potions = 0
         self.power_potions = 0
+        self.antidotes = 0
+        self.defense_potions = 0
+
+        self.enhanced_protection = False
+        self.enhanced_protection_timer = 1200
         self.power_potion_timer = 600
         self.corruption = False
-        self.corruption_timer = 601
+        self.corruption_timer = 1201
         self.super_speed = 1
         self.super_speed_timer = 720
         self.critical_hit_chance = False
@@ -986,6 +992,15 @@ class Player(PhysicsEntity):
             self.double_power += 1
             self.game.sfx['use_potion'].play()
             self.power_potions -= 1
+        elif self.selected_item == 5 and self.antidotes and self.corruption:
+            self.game.sfx['use_potion'].play()
+            self.corruption = False
+            self.corruption_timer = 1201
+            self.antidotes -= 1
+        elif self.selected_item == 6 and self.defense_potions and not self.enhanced_protection:
+            self.game.sfx['use_potion'].play()
+            self.enhanced_protection = True
+            self.defense_potions -= 1
 
     def check_chest_collision(self):
         for chest in self.game.chests:
@@ -1027,6 +1042,8 @@ class Player(PhysicsEntity):
         self.magic_potions += 9
         self.stamina_potions += 9
         self.power_potions += 9
+        self.antidotes += 9
+        self.defense_potions += 9
         self.spells = ['fire_totem', 'water_geyser', 'ice_arrow', 'tornado', 'runic_obelisk', 'magic_shield']
 
     def update(self, tilemap, movement=(0, 0)):
@@ -1100,7 +1117,7 @@ class Player(PhysicsEntity):
             if self.attack_timer == 0:
                 self.attack_pressed = False
 
-        if self.selected_item > 5:
+        if self.selected_item > 6:
             self.selected_item = 1
 
         if self.selected_scroll > sum(1 for value in self.scrolls.values() if value > 0) - 1:
@@ -1120,17 +1137,23 @@ class Player(PhysicsEntity):
 
         if self.corruption:
             self.corruption_timer -= 1
-            if self.corruption_timer % 15 == 0:
+            if self.corruption_timer % 30 == 0:
                 self.current_health -= 1
             if self.corruption_timer <= 0:
                 self.corruption = False
-                self.corruption_timer = 601
+                self.corruption_timer = 1201
 
         if self.invulnerability:
             self.invulnerability_timer -= 1
             if self.invulnerability_timer <= 0:
                 self.invulnerability = False
                 self.invulnerability_timer = 1000
+
+        if self.enhanced_protection:
+            self.enhanced_protection_timer -= 1
+            if self.enhanced_protection_timer <= 0:
+                self.enhanced_protection = False
+                self.enhanced_protection_timer = 1200
 
         if self.critical_hit_chance:
             self.critical_hit_timer -= 1

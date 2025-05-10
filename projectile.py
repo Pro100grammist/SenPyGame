@@ -99,6 +99,11 @@ class RockWave(AnimatedProjectile):
         super().__init__(game, pos, direction, sprites, loop=False, image_duration=4, velocity=3)
         self.damage = 20
 
+    def apply_effect(self, target):
+        if hasattr(target, 'velocity'):
+            knockback_force = 6
+            target.velocity[0] += knockback_force * self.direction
+
 
 class GroundFlame(AnimatedProjectile):
     def __init__(self, game, pos, direction):
