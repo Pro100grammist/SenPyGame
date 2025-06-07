@@ -64,9 +64,13 @@ class GameLoot:
 
         keys = ['steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key']
 
+        quest_items = ['magic_crystal', 'blood_vial', 'lost_artifact']
+
         for loot_item in self.game.loot.copy():
             if loot_item.rect.colliderect(self.game.player.rect()):
-                self.game.sfx[loot_item.i_type].play()
+                print(f"Collided with loot: {loot_item}, i_type={loot_item.i_type}, name={loot_item.name}")
+                sound = self.game.sfx.get(loot_item.i_type, self.game.sfx['default_item_equip'])
+                sound.play()
                 if loot_item.i_type in player_stuff:
                     if loot_item.i_type == 'gem':
                         self.game.artifacts_remaining -= 1
@@ -75,14 +79,28 @@ class GameLoot:
                     else:
                         player_thing = player_stuff[loot_item.i_type]
                         setattr(self.game.player, player_thing, getattr(self.game.player, player_thing) + 1)
+
                 elif loot_item.i_type in scrolls:
                     scroll_name = scrolls[loot_item.i_type]
                     if scroll_name in self.game.player.scrolls:
                         self.game.player.scrolls[scroll_name] += 1
                     else:
                         self.game.player.scrolls[scroll_name] = 1
+
                 elif loot_item.i_type in keys:
                     self.game.player.keys[loot_item.i_type] += 1
+
+                elif loot_item.i_type in quest_items:
+                    self.game.player.inventory.append(loot_item)
+                    self.game.inventory_menu.refresh_inventory()
+
+                    # Update the quest, if active
+                    for quest in self.game.quest_journal.active_quests:
+                        for obj in quest.objectives:
+                            if obj.obj_type == "find" and obj.target == loot_item.i_type:
+                                obj.update(1)
+                                if quest.is_completed():
+                                    self.game.quest_journal.complete_quest(quest)
 
                 self.game.loot.remove(loot_item)
 
@@ -215,6 +233,47 @@ def create_poison():
         poisons.append(poison())
 
     return poisons
+
+
+class QuestItem(GameLoot):
+    def __init__(self, game, pos, size, i_type, name=None, description=""):
+        super().__init__(game, pos, size, i_type, name)
+        self.is_quest_item = True
+        self.description = description
+        self.pic = BASE_IMG_PATH + f"ui/quest_items/{i_type}.png"
+
+
+class MagicCrystal(QuestItem):
+    def __init__(self, game=None, pos=None, size=None):
+        super().__init__(game, pos, size,
+                         i_type='magic_crystal',
+                         name='Magic Crystal',
+                         description='A strange glowing crystal. The Old Man said it was important.'
+                         )
+
+
+class BloodVial(QuestItem):
+    def __init__(self, game=None, pos=None, size=None):
+        super().__init__(
+            game,
+            pos,
+            size,
+            i_type='blood_vial',
+            name='Blood Vial',
+            description='A vial filled with thick crimson liquid. Smells like trouble.'
+        )
+
+
+class LostArtifact(QuestItem):
+    def __init__(self, game=None, pos=None, size=None):
+        super().__init__(
+            game,
+            pos,
+            size,
+            i_type='lost_artifact',
+            name='Lost Artifact',
+            description='A broken piece of an ancient mechanism. Its surface pulses faintly.'
+        )
 
 
 class Book:

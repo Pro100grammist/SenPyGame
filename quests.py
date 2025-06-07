@@ -1,6 +1,7 @@
 import pygame
 
 from data import NPC_DATA, UI_PATH
+from items import create_equipment
 
 
 class NPC:
@@ -63,16 +64,27 @@ class NPC:
             except (IndexError, TypeError) as e:
                 print(f"Error accessing player choice: {e}")
 
-    def start_quest(self, quest):
-        """Run the quest."""
-        new_quest = self.quests.get(quest)
+    def start_quest(self, quest_id):
+        new_quest = self.quests.get(quest_id)
         if new_quest not in self.active_quests:
             self.active_quests.append(new_quest)
+            self.game.quest_journal.add_quest(new_quest, self)
             self.game.sfx['new_journal_entry'].play()
-            quest_message = f"Quest '{new_quest.name}' started!"
-            notification = QuestNotification(self.game, quest_message, duration=7)  # Visible for 7 seconds.
+
+            # Перевірка: чи вже є предмет у гравця
+            for obj in new_quest.objectives:
+                if obj.obj_type == "find":
+                    for item in self.game.player.inventory:
+                        if getattr(item, "i_type", None) == obj.target:
+                            obj.update(1)
+            if new_quest.is_completed():
+                self.game.quest_journal.complete_quest(new_quest)
+
+            message = f"Quest '{new_quest.name}' started!"
+            notification = QuestNotification(self.game, message, duration=7)
             self.game.notifications.append(notification)
-            print(f"Quest '{new_quest.name}' started!")
+
+            print(message)
         else:
             print(f"Quest '{new_quest.name}' is already active.")
 
@@ -90,6 +102,36 @@ class NPC:
                   (self.pos[0] - offset[0], self.pos[1] - offset[1] + 6))
 
 
+def build_objectives(objectives_data):
+    objectives = []
+    for obj in objectives_data:
+        objectives.append(Objective(
+            name=obj.get("name"),
+            description=obj.get("description", ""),
+            objective_type=obj.get("obj_type", "find"),
+            target=obj.get("target"),
+            quantity=obj.get("quantity", 1),
+            completed=obj.get("completed", False)
+        ))
+    return objectives
+
+
+def build_reward(reward_data):
+    if not reward_data:
+        return Reward()
+
+    exp = reward_data.get("exp", 0)
+    gold = reward_data.get("gold", 0)
+
+    items = []
+    for item in reward_data.get("items", []):
+        items.append(create_equipment(name=item))
+
+    spells = reward_data.get("spells", [])
+
+    return Reward(exp=exp, gold=gold, items=items, spells=spells)
+
+
 class OldMan(NPC):
     def __init__(self, game, pos):
         data = NPC_DATA['OldMan']
@@ -98,8 +140,8 @@ class OldMan(NPC):
             quest_id: Quest(
                 name=quest_data['name'],
                 description=quest_data['description'],
-                objectives=quest_data['objectives'],
-                rewards=quest_data['rewards'],
+                objectives=build_objectives(quest_data['objectives']),
+                rewards=build_reward(quest_data.get('rewards')),
                 dialogs=quest_data['dialogs']
             ) for quest_id, quest_data in data.get('quests', {}).items()
         }
@@ -112,40 +154,13 @@ class Blacksmith(NPC):
         data = NPC_DATA['Blacksmith']
         avatar = UI_PATH.get('blacksmith')
         quests = {
-            'quest1': Quest(
-                name="Bring Iron Ore",
-                description="Bring 5 iron ores to the blacksmith.",
-                objectives=[{'name': 'Collect 5 Iron Ores', 'completed': False}],
-                rewards=None,
-                dialogs=[
-                    {"text": "Regarding your task ...",
-                     "response": "So, how is it going?",
-                     "next_choices": [
-                         {
-                             "text": "Where should I look for that forest and crystal?",
-                             "response": "Head west (right) until you come across giant trees blocking the sun. "
-                                         "This is a dormant forest. "
-                                         "The magic ball should be hidden somewhere near the tree house.",
-                             "status": 'dialogue_incomplete'
-                         },
-                         {
-                             "text": "I have fulfilled your task (finish)",
-                             "response": "Great, here's your reward!",
-                             "status": 'dialogue_completed'
-                         },
-                         {
-                             "text": "So far, nothing",
-                             "response": "Come back when everything's done ...",
-                             "status": 'dialogue_incomplete'
-                         },
-                         {
-                             "text": "Never mind",
-                             "action": "exit"
-                         }
-                     ],
-                     },
-                ]
-            )
+            quest_id: Quest(
+                name=quest_data['name'],
+                description=quest_data['description'],
+                objectives=quest_data['objectives'],
+                rewards=quest_data['rewards'],
+                dialogs=quest_data['dialogs']
+            ) for quest_id, quest_data in data.get('quests', {}).items()
         }
 
         super().__init__(game, pos, data['size'], data['animation'], data['name'], data['dialogues'], quests, avatar, flip=True)
@@ -159,20 +174,55 @@ class Quest:
         self.rewards = rewards  # Remuneration for performance
         self.completed = completed
         self.dialogs = dialogs
+        self.giver = None
 
     def is_completed(self):
         """Check if all quest goals have been completed."""
-        return all(obj['completed'] for obj in self.objectives)
+        return all(obj.completed for obj in self.objectives)
 
     def complete_objective(self, objective_name):
         """Mark the goal as completed."""
         for obj in self.objectives:
-            if obj['name'] == objective_name:
-                obj['completed'] = True
+            if obj.name == objective_name:
+                obj.completed = True
 
     def complete(self):
         """Mark quest as complete."""
         self.completed = True
+
+
+class Objective:
+    def __init__(self, name, objective_type="generic", description="", target=None, quantity=1, completed=False):
+        self.name = name
+        self.description = description
+        self.obj_type = objective_type  # "find", "kill", "talk_to", "deliver", etc.
+        self.target = target
+        self.quantity = quantity
+        self.completed = completed
+        self.progress = 0
+
+    def update(self, amount=1):
+        if not self.completed:
+            self.progress += amount
+            if self.progress >= self.quantity:
+                self.completed = True
+
+
+class Reward:
+    def __init__(self, exp=0, gold=0, items=None, spells=None):
+        self.exp = exp
+        self.gold = gold
+        self.items = items or []  # Equipment, Scrolls, GameLoot
+        self.spells = spells or []
+
+    def give_to(self, player):
+        player.increase_experience(self.exp)
+        player.money += self.gold
+        for item in self.items:
+            player.inventory.append(item)
+        for spell in self.spells:
+            if spell not in player.spells:
+                player.spells.append(spell)
 
 
 class DialogueWindow:
@@ -227,6 +277,58 @@ class DialogueWindow:
         if selected_option.get('id'):
             if selected_option['id'] in self.inactive_options:
                 return
+
+        # QUEST STATUS UPDATE
+        if selected_option.get("status") == "dialogue_completed":
+            print("-> Selected option is dialogue_completed")
+
+            for quest in self.npc.quests.values():
+                print(f"Checking quest: {quest.name}")
+                print(f"Is active: {quest in self.npc.game.quest_journal.active_quests}")
+
+                if quest in self.npc.game.quest_journal.active_quests:
+                    # Complete objects of type "deliver" for this NPC
+                    for obj in quest.objectives:
+                        print(f"Objective type: {obj.obj_type}, target: {obj.target}")
+                        print(f"NPC name: {self.npc.name}")
+                        print(f"Comparison result: {obj.target == self.npc.name}")
+
+                        if obj.obj_type == "deliver" and obj.target == self.npc.name:
+                            print(f"Found deliver objective: {obj.name} for target: {obj.target}")
+                            print(f"NPC name: {self.npc.name}")
+
+                            related_find = next((f for f in quest.objectives if f.obj_type == "find"), None)
+                            if related_find:
+                                for item in self.npc.game.player.inventory:
+                                    if getattr(item, "is_quest_item", False) and getattr(item, "i_type", None) == related_find.target:
+                                        print(f"Found item in inventory: {item.name}, i_type: {item.i_type}")
+                                        obj.completed = True
+                                        break
+
+                    if quest.is_completed():
+
+                        quest.rewards.give_to(self.npc.game.player)
+                        self.npc.game.quest_journal.complete_quest(quest)
+                        print(f"Quest completed: {quest.name}")
+
+                        # Remove only items that were used in the 'find' objectives of this quest
+                        quest_targets = [obj.target for obj in quest.objectives if obj.obj_type == "find"]
+
+                        print(f"Removed quest items: {quest_targets}")
+
+                        self.npc.game.player.inventory = [
+                            item for item in self.npc.game.player.inventory
+                            if not (getattr(item, 'i_type', None) in quest_targets)
+                        ]
+
+                        self.npc.game.inventory_menu.refresh_inventory()
+
+                        # Show notifications and sound
+                        notification = QuestNotification(self.npc.game, f"Quest '{quest.name}' completed!",
+                                                         duration=5)
+                        self.npc.game.notifications.append(notification)
+                        self.npc.game.sfx['quest_completed'].play()
+                    break  # complete the quest cycle
 
         # work with dialog actions
         if 'action' in selected_option:
@@ -385,15 +487,26 @@ class QuestJournal:
         self.active_quests = []
         self.completed_quests = []
 
-    def add_quest(self, quest):
+    def add_quest(self, quest, giver_npc):
         """Adding a new quest to the log."""
+        quest.giver = giver_npc
         self.active_quests.append(quest)
 
     def complete_quest(self, quest):
         """Marks the quest as completed and moves it to the list of completed quests."""
         quest.complete()
-        self.active_quests.remove(quest)
-        self.completed_quests.append(quest)
+        if quest in self.active_quests:
+            self.active_quests.remove(quest)
+            self.completed_quests.append(quest)
+            self.game.sfx['new_journal_entry'].play()
+            message = f"Quest '{quest.name}' completed!"
+            self.game.notifications.append(QuestNotification(self.game, message, duration=6))
+
+    def get_quest_by_name(self, name):
+        for quest in self.active_quests:
+            if quest.name == name:
+                return
+        return None
 
     def display_journal(self):
         """Displays all active and completed quests."""
@@ -401,8 +514,8 @@ class QuestJournal:
         for quest in self.active_quests:
             print(f"{quest.name}: {quest.description}")
             for obj in quest.objectives:
-                status = "Completed" if obj['completed'] else "Not completed"
-                print(f"- {obj['name']} [{status}]")
+                status = "Completed" if obj.completed else "Not completed"
+                print(f"- {obj.name} [{status}]")
 
         print("\nCompleted quests:")
         for quest in self.completed_quests:

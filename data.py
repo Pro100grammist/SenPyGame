@@ -129,6 +129,7 @@ def load_assets():
         'loot/bloodlust_scroll': Animation(load_images('tiles/loot/bloodlust_scroll')),
         'loot/speed_scroll': Animation(load_images('tiles/loot/speed_scroll')),
         'loot/invulnerability_scroll': Animation(load_images('tiles/loot/invulnerability_scroll')),
+        'loot/magic_crystal': Animation(load_images('tiles/loot/magic_crystal')),
         'loot/dungeon_shadows': load_image('ui/books/books_icons/dungeon_shadows.png'),
         'loot/forgotten_souls': load_image('ui/books/books_icons/forgotten_souls.png'),
         'loot/bridge_to_eternity': load_image('ui/books/books_icons/bridge_to_eternity.png'),
@@ -188,8 +189,8 @@ def load_sfx():
                    'heal1', 'heal2', 'heal3', 'healed', 'cough', 'tired', 'revive',
                    'cursor_up', 'cursor_down', 'cursor_select', 'move_cursor', 'open_skill', 'rejected', 'chest_open',
                    'steel_key', 'red_key', 'bronze_key', 'purple_key', 'gold_key',
-                   'not_enough_money', 'buy_goods', 'item_equip', 'get_item', 'lock_closed',
-                   'new_journal_entry',
+                   'not_enough_money', 'buy_goods', 'item_equip', 'get_item', 'lock_closed', 'default_item_equip',
+                   'new_journal_entry', 'quest_completed',
                    ]
 
     return {name: pygame.mixer.Sound(f'data/sfx/{name}.wav') for name in sound_names}

@@ -10,7 +10,7 @@ import logging
 
 from data import load_assets, load_sfx, load_voices, COLOR_SCHEMA, PROJECTILE_DAMAGE
 from entities import Player, OrcArcher, BigZombie, BigDaemon, SupremeDaemon, FireWorm, Golem, HellsWatchdog
-from quests import OldMan, Blacksmith
+from quests import OldMan, Blacksmith,QuestJournal
 from map import Map
 from weather import Clouds, Raindrop
 from particle import Particle, Spark, create_particles
@@ -25,7 +25,7 @@ from projectile import (AnimatedFireball, WormFireball, SkullSmoke, ToxicExplosi
 from items import (Coin, Gem, HealthPoison, MagicPoison, StaminaPoison, PowerPoison,
                    HollyScroll, SpeedScroll, BloodlustScroll, InvulnerabilityScroll,
                    CommonChest, RareChest, UniqueChest, EpicChest, LegendaryChest, MythicalChest,
-                   SteelKey, RedKey, BronzeKey, PurpleKey, GoldKey,
+                   SteelKey, RedKey, BronzeKey, PurpleKey, GoldKey, MagicCrystal,
                    Merchant, Portal)
 
 # logging.basicConfig(level=logging.DEBUG)
@@ -89,6 +89,7 @@ class Game:
         self.portals = []
         self.enemies = []
         self.npc_list = []
+        self.quest_journal = QuestJournal(self)
 
         self.shaking_screen_effect = 0
         self.scroll = [0, 0]
@@ -117,6 +118,26 @@ class Game:
             lst.clear()
 
         self.raindrops.empty()
+
+    def should_spawn_quest_item(self, i_type):
+        print(f"[Check] Spawning quest item {i_type}? Completed quests: {[q.name for q in self.quest_journal.completed_quests]}")
+
+        # If the item is already in inventory, do not spawn
+        for item in self.player.inventory:
+            if getattr(item, "i_type", None) == i_type:
+                print(f"[BLOCKED] {i_type} is already in player inventory.")
+                return False
+
+        # If the quest is completed, do not spawn
+        for quest in self.quest_journal.completed_quests:
+            for obj in quest.objectives:
+                if obj.obj_type == "find" and obj.target == i_type:
+                    print(f"[BLOCKED] {i_type} already collected and quest completed.")
+                    return False
+
+        # In all other cases - spawn
+        print(f"[ALLOWED] {i_type} will be spawned.")
+        return True
 
     def load_level(self, map_id):
         """
@@ -172,13 +193,33 @@ class Game:
             11: RedKey,
             12: BronzeKey,
             13: PurpleKey,
-            14: GoldKey
+            14: GoldKey,
+            15: MagicCrystal
         }
 
-        for item in self.map.extract([('loot_spawn', i) for i in range(15)]):
+        for item in self.map.extract([('loot_spawn', i) for i in loot_id.keys()]):
             loot_class = loot_id.get(item['variant'])
             if loot_class:
-                self.loot.append(loot_class(self, item['pos'], (16, 32)))
+                # checking if it is a quest item
+                i_type = None
+                if loot_class == MagicCrystal:
+                    i_type = "magic_crystal"
+
+                # elif loot_class == BloodVial:
+                #     i_type = "blood_vial"
+
+                if i_type:
+                    print(f"Trying to spawn: {loot_class.__name__}, i_type={i_type}")
+
+                    # це quest item → check if it needs to be spawned
+                    if self.should_spawn_quest_item(i_type):
+                        print(f"--> SPAWN ALLOWED for {i_type}")
+                        self.loot.append(loot_class(self, item['pos'], (16, 32)))
+                    else:
+                        print(f"--> BLOCKED spawn of {i_type}")
+                else:
+                    # an ordinary item is always a spawn
+                    self.loot.append(loot_class(self, item['pos'], (16, 32)))
 
         chest_id = {
             0: CommonChest,
@@ -311,6 +352,8 @@ class Game:
             self.player.stamina = self.player.max_stamina
             self.player.life -= 1
             self.player.dying = False
+
+            print("Completed quests before level reload:", [q.name for q in self.quest_journal.completed_quests])
             self.load_level(self.level)
 
         # It processes all events that occur at a level in the game.
@@ -378,12 +421,19 @@ class Game:
             # updating state and rendering enemies
             for enemy in self.enemies[:]:
                 if not enemy.update(self.map, (0, 0)):
-                    logging.debug(f"Rendering enemy {enemy}.")
+                    # logging.debug(f"Rendering enemy {enemy}.")
                     enemy.render(self.display, offset=render_scroll)
                 else:
-                    logging.debug(f"Removing enemy {enemy}.")
+                    # logging.debug(f"Removing enemy {enemy}.")
                     if enemy in self.enemies:
                         self.enemies.remove(enemy)
+                        # Update progress for all active quests to eliminate the quest mob
+                        for quest in self.quest_journal.active_quests:
+                            for obj in quest.objectives:
+                                if obj.obj_type == "kill" and obj.target == enemy.e_type:
+                                    obj.update(1)
+                                    if quest.is_completed():
+                                        self.quest_journal.complete_quest(quest)
 
             # player status update and rendering
             if self.player.current_health <= 0:

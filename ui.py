@@ -3,7 +3,7 @@ import math
 import pygame
 
 from support import BASE_IMG_PATH
-from items import Equipment, Book
+from items import Equipment, Book, QuestItem
 from data import POTIONS, SCROLLS, SKILLS, MERCHANT_ITEM_POS, UI_PATH, UI_SET
 
 
@@ -877,6 +877,15 @@ class InventoryMenu:
                 self.game.display.blit(image, (x + 52, y + 116))
                 hint = self.font.render('To read more, press E', True, (255, 255, 255))
                 self.game.display.blit(hint, (x + 48, y + 240))
+
+            elif isinstance(current_equipment, QuestItem):
+                name_render = self.font.render(current_equipment.name, True, (255, 255, 255))
+                self.game.display.blit(name_render, (x + 42, y + 92))
+
+                lines = current_equipment.description.split('\n')
+                for i, line in enumerate(lines):
+                    desc_render = self.font.render(line, True, (200, 200, 200))
+                    self.game.display.blit(desc_render, (x + 42, y + 110 + i * 16))
 
         # Magic scrolls rendering
         x_offset = 92

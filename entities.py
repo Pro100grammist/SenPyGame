@@ -68,7 +68,7 @@ class PhysicsEntity:
     def is_animation_done(self):
         """Checks if the current animation is complete."""
         if hasattr(self.animation, 'done'):
-            print(f'{self.type}: Checking if animation {self.action} is done: {self.animation.done}')
+            # print(f'{self.type}: Checking if animation {self.action} is done: {self.animation.done}')
             return self.animation.done
         return False
 
