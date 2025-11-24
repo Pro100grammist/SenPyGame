@@ -82,3 +82,7 @@ explode and if the player is in the area of the poisonous gas cloud, he will be 
 
 \\\ 20.10.2024 ///
 - added voice acting (playback aloud) of dialogues with npc;
+
+
+\\\ 24.11.2025 ///
+ - come back 
