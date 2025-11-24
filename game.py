@@ -69,10 +69,6 @@ class Game:
 
         self.movement = [False, False]
         self.player = Player(self)
-        self.player_controller = PlayerController(
-            self.player, self.sfx, self.movement, self.skills_tree, self.character_menu, self.inventory_menu,
-            self.merchant_window
-        )
 
         self.projectiles = []
         self.animated_projectiles = []
@@ -90,6 +86,11 @@ class Game:
         self.enemies = []
         self.npc_list = []
         self.quest_journal = QuestJournal(self)
+
+        self.player_controller = PlayerController(
+            self.player, self.sfx, self.movement, self.skills_tree, self.character_menu, self.inventory_menu,
+            self.merchant_window, self.quest_journal
+        )
 
         self.shaking_screen_effect = 0
         self.scroll = [0, 0]

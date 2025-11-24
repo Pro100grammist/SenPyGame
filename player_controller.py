@@ -6,7 +6,7 @@ from pygame.locals import K_g, K_o, K_d
 
 
 class PlayerController:
-    def __init__(self, player, sfx, movement, skills_tree, character_menu, inventory, merchant):
+    def __init__(self, player, sfx, movement, skills_tree, character_menu, inventory, merchant, journal):
         self.player = player
         self.sfx = sfx
         self.movement = movement
@@ -14,6 +14,7 @@ class PlayerController:
         self.character_menu = character_menu
         self.inventory = inventory
         self.merchant = merchant
+        self.jornal = journal
 
     @property
     def dialog(self):
