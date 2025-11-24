@@ -1,0 +1,161 @@
+{
+  "OldMan": {
+    "name": "Old Man",
+    "size": [64, 64],
+    "animation": "old_man",
+    "dialogues": [
+      {
+        "npc_text": "Aha! A new face... What brings you to this forsaken place?",
+        "npc_voice":  "old_man_greetings",
+        "player_choices": [
+          {
+            "text": "Who are you?",
+            "response": "I am just an old man with many stories to tell.",
+            "npc_voice": "old_man_response_001",
+            "id": "001"
+          },
+          {
+            "text": "Any tasks for me?",
+            "response": "I have a quest for you, if you are willing.Of course, it's not free. I have something to thank you for. So what do you say?",
+            "npc_voice": "old_man_response_002",
+            "id": "002",
+            "next_choices": [
+              {
+                "text": "I am listening (accept)",
+                "response": "Nearby in the forest there is a laboratory where I conducted alchemical experiments. With the invasion of hell beasts, I left it in a hurry. I forgot one important thing there. Could you bring it to me?",
+                "npc_voice": "old_man_response_012",
+                "id": "012",
+                "next_choices": [
+                  {
+                    "text": "Okay, what should I find?",
+                    "response": "Nothing special. Magic crystal. It looks like an ordinary glass ball. I'll be waiting for your return.",
+                    "npc_voice": "old_man_response_112",
+                    "id": "112",
+                    "action": "quest1"
+                  },
+                  {
+                    "text": "Not now, maybe later.",
+                    "response": "I see, come back when you're ready.",
+                    "npc_voice": "old_man_response_212",
+                    "action": "decline"
+                  },
+                  {
+                    "text": "(BACK)",
+                    "action": "decline"
+                  }
+                ]
+              },
+              {
+                "text": "Maybe later (decline)",
+                "response": "All right, come back when you're ready.",
+                "npc_voice": "old_man_response_022",
+                "action": "decline"
+              }
+            ]
+          },
+          {
+            "text": "What's the news?",
+            "response": "The opening of the ancient portals led to dire consequences. A huge number of dangerous creatures escaped from the afterlife and now our peaceful and carefree life has come to an end.",
+            "npc_voice": "old_man_response_003",
+            "id": "003"
+          },
+          {
+            "text": "(EXIT)",
+            "action": "exit"
+          }
+        ]
+      }
+    ],
+    "quests": {
+      "quest1": {
+        "name": "Find Lost Magic Crystal",
+        "description": "Find the Old Man's lost magic globe near his laboratory on the tree house in the dormant forest.",
+        "objectives": [
+          {
+            "name": "Find the Magic Crystal",
+            "description": "Locate the crystal in the Old Man's laboratory.",
+            "obj_type": "find",
+            "target": "magic_crystal",
+            "quantity": 1,
+            "completed": false
+          },
+          {
+            "name": "Deliver the Magic Crystal",
+            "description": "Return the Magic Crystal to the Old Man.",
+            "obj_type": "deliver",
+            "target": "Old Man",
+            "completed": false
+          }
+        ],
+        "rewards": {
+          "exp": 500,
+          "gold": 100,
+          "items": ["Paladin's Helmet"]
+        },
+        "dialogs": [
+          {
+            "text": "Regarding your task ...",
+            "response": "So, how is it going?",
+            "npc_voice": "old_man_response_004",
+            "next_choices": [
+              {
+                "text": "Where should I look for that crystal?",
+                "response": "Head west (right) until you come across giant trees blocking the sun. This is a dormant forest. The magic ball should be hidden somewhere near the tree house.",
+                "npc_voice": "old_man_response_014",
+                "id": "014",
+                "status": "dialogue_incomplete"
+              },
+              {
+                "text": "I have fulfilled your task (finish)",
+                "response": "Great, here's your reward!",
+                "status": "dialogue_completed"
+              },
+              {
+                "text": "So far, nothing",
+                "response": "Come back when everything's done ...",
+                "status": "dialogue_incomplete"
+              },
+              {
+                "text": "Never mind",
+                "action": "exit"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "Blacksmith": {
+    "name": "Blacksmith",
+    "size": [64, 64],
+    "animation": "blacksmith",
+    "dialogues": [
+      {
+        "npc_text": "Hello, young traveler!",
+        "player_choices": [
+          {
+            "text": "Who are you?",
+            "response": "I am just an old man with many stories to tell."
+          },
+          {
+            "text": "Any tasks for me?",
+            "response": "I have a quest for you, if you are willing."
+          }
+        ]
+      },
+      {
+        "npc_text": "I have a task for you. Will you accept it?",
+        "player_choices": [
+          {
+            "text": "Yes, what do I need to do?",
+            "response": "Go to the forest and retrieve the Magic Crystal."
+          },
+          {
+            "text": "No, I am not interested.",
+            "response": "Very well, maybe next time."
+          }
+        ]
+      }
+    ]
+  }
+}

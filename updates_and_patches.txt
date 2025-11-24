@@ -1,0 +1,84 @@
+Bugs
+1. Problem with collisions between shuriken and mobs when throwing to the right. +
+2. Sometimes the level reload is triggered during ongoing wall_sliding +
+
+
+
+Current (small) tasks
+Done or almost finished
+1. Add a new type of mob - zombies +
+2. Add collisions for shurikens +
+3. Add tiles with animation. + - (need to do something with the framerate)
+4. Add different sfx depending on the event. +
+7. Give the attribute of stamina +
+9. Add character death animation +
+17. Modify the UI of the stamina +
+18. Attack animation should only happen if stamina is released +
+19. Add elixirs of health, mana, stamina and strength +
+20. Add a status bar for buffs +
+21. Add spell casting +
+23. Add a spell slot +
+25. Add damage numbers effects +
+8. Add a mana bar +
+16. Add a health attribute for mobs +
+22. Main menu +
+26. Add Skills Tree +
+24. Add inventory (helmet, armor, sword) +
+25. Add characters menu +
+
+
+Not completed
+5. Add new mob classes with different mechanics.
+6. Add flickering and a certain time of inability to receive damage after receiving damage by the character.
+
+10. Add artefacts, elixirs +, and various loot
+11. Add credits
+12. Add orbs
+13. Add snow, night and lightning and other weather effects
+14. Add additional front screen
+15. Add falling animation + -
+
+27. Add trading menu and merchant.
+
+\\\ 19.08.2024 ///
+- eliminated code duplication in classes that inherit from AnimatedProjectile by moving the rect class method to the base class;
+- optimized creation of classes that inherit from the Shuriken class: instead of creating separate classes for each type of shuriken,
+a dictionary is now used to store the characteristics of different types of shuriken;
+- the behavior of mobs has been complicated: now they have become more “smart” and react to the appearance of a player
+in the field of view, chase him, attack more intensively when the player is close and can move between platforms.
+
+\\\ 21.08.2024 ///
+- added a new projectile for big_zombie - ToxicExplosion: when killing this type of mob, there is a chance that it will
+explode and if the player is in the area of the poisonous gas cloud, he will be damaged by poisoning;
+
+\\\ 23.08.2024 ///
+- add new type of big mobs - SupremeDaemon with his attack projectile DemonBreath(close fight attack1 and attack1);
+- add magic shield effect: magic shield animation when shield collide with enemy projectile;
+
+\\\ 25.08.2024 ///
+-added health bar for enemies and GroundFlame class;
+
+\\\ 10.09.2024 ///
+-added Portal class;
+
+\\\ 11.09.2024 ///
+-added Golem (new sub Enemy class);
+
+\\\ 13.09.2024 ///
+-added animation effects to super attack (dash);
+
+\\\ 19.09.2024 ///
+- fixed a problem with the resurrection of enemies that have a death animation after defeat;
+-added animation action state (hurt);
+
+\\\ 21.09.2024 ///
+-added freezing magic effect;
+
+\\\ 22.09.2024 ///
+- begin of developing quest system (npc, dialogs, dialog box, quests, journal);
+
+\\\ 23.09.2024 ///
+- add secondary golem attack - RockWave;
+
+\\\ 20.10.2024 ///
+- added voice acting (playback aloud) of dialogues with npc;

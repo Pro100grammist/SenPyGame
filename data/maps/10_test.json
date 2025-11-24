@@ -1,0 +1,406 @@
+{
+    "tilemap": {
+        "4;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                4,
+                8
+            ]
+        },
+        "5;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                5,
+                8
+            ]
+        },
+        "6;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                6,
+                8
+            ]
+        },
+        "7;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                7,
+                8
+            ]
+        },
+        "8;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                8,
+                8
+            ]
+        },
+        "9;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                9,
+                8
+            ]
+        },
+        "16;8": {
+            "type": "spawners",
+            "variant": 7,
+            "pos": [
+                16,
+                8
+            ]
+        },
+        "6;6": {
+            "type": "spawners",
+            "variant": 0,
+            "pos": [
+                6,
+                6
+            ]
+        },
+        "20;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                20,
+                8
+            ]
+        },
+        "21;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                21,
+                8
+            ]
+        },
+        "22;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                22,
+                8
+            ]
+        },
+        "23;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                23,
+                8
+            ]
+        },
+        "24;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                24,
+                8
+            ]
+        },
+        "25;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                25,
+                8
+            ]
+        },
+        "26;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                26,
+                8
+            ]
+        },
+        "27;8": {
+            "type": "grass",
+            "variant": 0,
+            "pos": [
+                27,
+                8
+            ]
+        },
+        "1;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                1,
+                12
+            ]
+        },
+        "2;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                2,
+                12
+            ]
+        },
+        "3;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                3,
+                12
+            ]
+        },
+        "4;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                4,
+                12
+            ]
+        },
+        "5;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                5,
+                12
+            ]
+        },
+        "6;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                6,
+                12
+            ]
+        },
+        "7;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                7,
+                12
+            ]
+        },
+        "8;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                8,
+                12
+            ]
+        },
+        "9;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                9,
+                12
+            ]
+        },
+        "10;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                10,
+                12
+            ]
+        },
+        "11;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                11,
+                12
+            ]
+        },
+        "12;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                12,
+                12
+            ]
+        },
+        "13;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                13,
+                12
+            ]
+        },
+        "14;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                14,
+                12
+            ]
+        },
+        "15;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                15,
+                12
+            ]
+        },
+        "16;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                16,
+                12
+            ]
+        },
+        "17;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                17,
+                12
+            ]
+        },
+        "18;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                18,
+                12
+            ]
+        },
+        "19;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                19,
+                12
+            ]
+        },
+        "20;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                20,
+                12
+            ]
+        },
+        "21;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                21,
+                12
+            ]
+        },
+        "22;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                22,
+                12
+            ]
+        },
+        "23;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                23,
+                12
+            ]
+        },
+        "24;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                24,
+                12
+            ]
+        },
+        "25;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                25,
+                12
+            ]
+        },
+        "26;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                26,
+                12
+            ]
+        },
+        "27;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                27,
+                12
+            ]
+        },
+        "28;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                28,
+                12
+            ]
+        },
+        "29;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                29,
+                12
+            ]
+        },
+        "30;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                30,
+                12
+            ]
+        },
+        "31;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                31,
+                12
+            ]
+        },
+        "32;12": {
+            "type": "grass",
+            "variant": 2,
+            "pos": [
+                32,
+                12
+            ]
+        },
+        "17;2": {
+            "type": "loot_spawn",
+            "variant": 0,
+            "pos": [
+                17,
+                2
+            ]
+        },
+        "22;-2": {
+            "type": "portal_spawn",
+            "variant": 0,
+            "pos": [
+                22,
+                -2
+            ]
+        }
+    },
+    "tile_size": 16,
+    "offgrid": []
+}

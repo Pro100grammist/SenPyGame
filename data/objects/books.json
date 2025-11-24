@@ -1,0 +1,65 @@
+{
+    "dungeon_shadows": {
+        "book_name": "Dungeon Shadows",
+        "branch": "Necromancy",
+        "image": "data/images/ui/books/dungeon_shadows.png",
+        "pic": "data/images/ui/books/books_icons/dungeon_shadows.png",
+        "level": 1,
+        "price": 40,
+        "prologue": "In a world where the line between life and death is thinner than a spider's web, there is a city hidden from the eyes of the living. Legends say that there, in the dark catacombs, you can find knowledge that will reveal the secrets of controlling the undead. This book tells the story of the journey of a brave magician who seeks answers in the realm of the dead.",
+        "features": "After reading this book, the hero gains the Necromancy skill, which allows him to read books and cast all spells of the school of necromancy."
+    },
+    "forgotten_souls": {
+        "book_name": "The House of Forgotten Souls",
+        "branch": "Necromancy",
+        "image": "data/images/ui/books/forgotten_souls.png",
+        "pic": "data/images/ui/books/books_icons/forgotten_souls.png",
+        "level": 2,
+        "price": 50,
+        "prologue": "The extinguished fire of life leaves behind a trail of shadows and whispers that can tell a lot. But not everyone has the courage to listen. This book reveals the secrets of those who dared to look into eternity and return with secrets that could change the very nature of existence.",
+        "features": "The book contains a complete collection of all the spells of the school of necromancy (adds one scroll of each spell)."
+    },
+    "bridge_to_eternity": {
+        "book_name": "Bridge to Eternity",
+        "branch": "Necromancy",
+        "image": "data/images/ui/books/bridge_to_eternity.png",
+        "pic": "data/images/ui/books/books_icons/bridge_to_eternity.png",
+        "level": 3,
+        "price": 60,
+        "prologue": ": Finding the path to eternity is a task that not every magician can accomplish. But this book reveals the secrets of necromancy, allowing you to open the doors between worlds and travel between the living and the dead, moving in space.",
+        "features": "After reading a secret spell from the book, the hero will be able to move in space a certain distance, which will be useful for passing through walls to some difficult to reach places. "
+    },
+    "whispers_of_afterlife": {
+        "book_name": "Whispers of the Afterlife",
+        "branch": "Necromancy",
+        "image": "data/images/ui/books/whispers_of_afterlife.png",
+        "pic": "data/images/ui/books/books_icons/whispers_of_afterlife.png",
+        "level": 4,
+        "price": 75,
+        "prologue": "On the edge between life and death, in a world ruled by shadows, there are those who have learned to listen to the whispers of the dead. This book is a guide for those who wish to make contact with the afterlife and gain knowledge that can change his life.",
+        "features": "After opening this book, the hero will receive, on a permanent basis, some random effect that can be useful and make him stronger or, on the contrary, can be of a weakening nature. Think carefully about whether to read this book."
+    },
+    "necronomicon": {
+        "book_name": "The Necronomicon of Arcata",
+        "branch": "Necromancy",
+        "image": "data/images/ui/books/necronomicon.png",
+        "pic": "data/images/ui/books/books_icons/necronomicon.png",
+        "level": 5,
+        "price": 100,
+        "prologue": "In an ancient tower, where centuries have silently watched the passage of time, a volume is kept with a cover made of human skin. Only the bravest will dare to open its pages to learn about spells that can bring the dead back to life.",
+        "features": "After reading this book, the hero will be revived 1 time in case of death. It should be used before a fight with a strong enemy."
+    },
+
+
+
+    "default_book": {
+        "book_name": "Default Book",
+        "branch": "",
+        "image": "data/images/ui/books/default_book.png",
+        "pic": "data/images/ui/books/books_icons/default_book.png",
+        "level": 0,
+        "price": 0,
+        "prologue": "When you open the book, you find that all the pages are blank.",
+        "features": ""
+    }
+}

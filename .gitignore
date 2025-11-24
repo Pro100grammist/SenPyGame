@@ -1,13 +1,17 @@
 .idea/
 __pycache__/
-data/
 backup/
 
 *.log
 *.pot
 *.pyc
 
+*.mp3
+*.wav
+*.png
+*.jpg
+*.jpeg
+*.svg
+
 testing.py
-map_editor.py
-edited_map.json
-updates_and_patches.txt
+
