@@ -138,12 +138,15 @@ class OldMan(NPC):
         avatar = UI_PATH.get('old_man')
         quests = {
             quest_id: Quest(
-                name=quest_data['name'],
-                description=quest_data['description'],
-                objectives=build_objectives(quest_data['objectives']),
-                rewards=build_reward(quest_data.get('rewards')),
-                dialogs=quest_data['dialogs']
-            ) for quest_id, quest_data in data.get('quests', {}).items()
+                name=quest_data["name"],
+                description=quest_data["description"],
+                objectives=build_objectives(quest_data["objectives"]),
+                rewards=build_reward(quest_data.get("rewards")),
+                dialogs=quest_data["dialogs"],
+                image=quest_data.get("image"),
+                dialog_log=quest_data.get("dialog_log"),
+            )
+            for quest_id, quest_data in data.get("quests", {}).items()
         }
 
         super().__init__(game, pos, data['size'], data['animation'], data['name'], data['dialogues'], quests, avatar)
@@ -155,19 +158,33 @@ class Blacksmith(NPC):
         avatar = UI_PATH.get('blacksmith')
         quests = {
             quest_id: Quest(
-                name=quest_data['name'],
-                description=quest_data['description'],
-                objectives=quest_data['objectives'],
-                rewards=quest_data['rewards'],
-                dialogs=quest_data['dialogs']
-            ) for quest_id, quest_data in data.get('quests', {}).items()
+                name=quest_data["name"],
+                description=quest_data["description"],
+                objectives=quest_data["objectives"],
+                rewards=quest_data["rewards"],
+                dialogs=quest_data["dialogs"],
+                image=quest_data.get("image"),
+                dialog_log=quest_data.get("dialog_log"),
+            )
+            for quest_id, quest_data in data.get("quests", {}).items()
         }
 
         super().__init__(game, pos, data['size'], data['animation'], data['name'], data['dialogues'], quests, avatar, flip=True)
 
 
 class Quest:
-    def __init__(self, name, description, objectives, rewards, dialogs, completed=False):
+
+    def __init__(
+        self,
+        name,
+        description,
+        objectives,
+        rewards,
+        dialogs,
+        completed=False,
+        image=None,
+        dialog_log=None,
+    ):
         self.name = name
         self.description = description
         self.objectives = objectives  # List of quest goals
@@ -175,6 +192,8 @@ class Quest:
         self.completed = completed
         self.dialogs = dialogs
         self.giver = None
+        self.image = image
+        self.dialog_log = dialog_log or []
 
     def is_completed(self):
         """Check if all quest goals have been completed."""
@@ -189,6 +208,31 @@ class Quest:
     def complete(self):
         """Mark quest as complete."""
         self.completed = True
+
+    def get_dialogue_log(self):
+        """Return a human-friendly dialogue log for journal display."""
+        if self.dialog_log:
+            return self.dialog_log
+
+        log_entries = []
+        for dialog in self.dialogs:
+            npc_text = dialog.get("text") or dialog.get("npc_text")
+            response = dialog.get("response")
+
+            if npc_text:
+                speaker = self.giver.name if self.giver else "NPC"
+                log_entries.append(f"{speaker}: {npc_text}")
+            if response:
+                log_entries.append(f"Player: {response}")
+
+            for choice in dialog.get("next_choices", []):
+                choice_text = choice.get("text")
+                if choice_text:
+                    log_entries.append(f"› {choice_text}")
+                if choice.get("response"):
+                    log_entries.append(choice["response"])
+
+        return log_entries
 
 
 class Objective:
@@ -507,6 +551,10 @@ class QuestJournal:
             if quest.name == name:
                 return
         return None
+
+    def get_entries(self):
+        """Returns active and completed quests for rendering purposes."""
+        return self.active_quests, self.completed_quests
 
     def display_journal(self):
         """Displays all active and completed quests."""

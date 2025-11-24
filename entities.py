@@ -667,6 +667,7 @@ class Player(PhysicsEntity):
         self.skills_menu_is_active = False
         self.character_menu_is_active = False
         self.inventory_menu_is_active = False
+        self.journal_is_active = False
         self.trading = False
         self.talks = False
 

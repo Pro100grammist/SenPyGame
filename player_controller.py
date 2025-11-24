@@ -6,7 +6,19 @@ from pygame.locals import K_g, K_o, K_d
 
 
 class PlayerController:
-    def __init__(self, player, sfx, movement, skills_tree, character_menu, inventory, merchant, journal):
+
+    def __init__(
+        self,
+        player,
+        sfx,
+        movement,
+        skills_tree,
+        character_menu,
+        inventory,
+        merchant,
+        journal,
+        journal_window,
+    ):
         self.player = player
         self.sfx = sfx
         self.movement = movement
@@ -15,6 +27,7 @@ class PlayerController:
         self.inventory = inventory
         self.merchant = merchant
         self.jornal = journal
+        self.journal_window = journal_window
 
     @property
     def dialog(self):
@@ -80,6 +93,24 @@ class PlayerController:
                     self.inventory.apply()
                 elif event.key == pygame.K_i or event.key == pygame.K_ESCAPE:
                     self.player.inventory_menu_is_active = False
+        # quest journal
+        elif self.player.journal_is_active:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    self.journal_window.move_selection(-1)
+                elif event.key == pygame.K_DOWN:
+                    self.journal_window.move_selection(1)
+                elif event.key == pygame.K_LEFT:
+                    self.journal_window.switch_focus("left")
+                elif event.key == pygame.K_RIGHT:
+                    self.journal_window.switch_focus("right")
+                elif event.key in (pygame.K_RETURN, pygame.K_SPACE):
+                    self.journal_window.open_selected_quest()
+                elif event.key == pygame.K_BACKSPACE:
+                    self.journal_window.close_details()
+                if event.key in (pygame.K_j, pygame.K_ESCAPE):
+                    self.player.journal_is_active = False
+                    self.journal_window.reset_view()
         # merchant window
         elif self.player.trading:
             if event.type == pygame.KEYDOWN:
@@ -174,6 +205,11 @@ class PlayerController:
                         self.player.inventory_menu_is_active = True
                     else:
                         self.player.inventory_menu_is_active = False
+                if event.key == pygame.K_j:
+                    if not self.player.journal_is_active:
+                        self.player.journal_is_active = True
+                    else:
+                        self.player.journal_is_active = False
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:

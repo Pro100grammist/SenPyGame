@@ -1079,3 +1079,371 @@ class MerchantWindow:
 
             cancel_text = self.font.render(f"NO/n", True, 'white')
             self.game.display.blit(cancel_text, (x + 360, y + 300))
+
+
+class QuestJournalWindow:
+    """
+    Renders the quest journal contents on screen.
+    """
+
+    def __init__(self, game):
+        self.game = game
+        self.title_font = pygame.font.Font("data/fonts/MainFont.ttf", 26)
+        self.section_font = pygame.font.Font("data/fonts/MainFont.ttf", 20)
+        self.text_font = pygame.font.Font("data/fonts/MainFont.ttf", 16)
+        self.small_font = pygame.font.Font("data/fonts/DungeonFont.ttf", 14)
+        self.background_color = (26, 20, 18, 220)
+        self.border_color = (200, 180, 140)
+        self.page_color = (48, 42, 38, 235)
+        self.page_inner_color = (68, 60, 52, 255)
+
+        self.tabs = [
+            {"id": "quests", "label": "Quests"},
+            {"id": "lore", "label": "Lore / Codex"},
+            {"id": "bestiary", "label": "Bestiary"},
+            {"id": "relations", "label": "Characters / Relations"},
+            {"id": "crafting", "label": "Crafting Recipes"},
+        ]
+        self.current_tab = 0
+        self.focus_column = "active"
+        self.selected_indices = {"active": 0, "completed": 0}
+        self.view_mode = "list"  # list or detail
+        self.image_cache = {}
+
+    @staticmethod
+    def wrap_text(text, font, max_width):
+        words = text.split(" ")
+        lines = []
+        current_line = ""
+
+        for word in words:
+            test_line = (current_line + " " + word).strip()
+            if font.size(test_line)[0] <= max_width:
+                current_line = test_line
+            else:
+                lines.append(current_line)
+                current_line = word
+
+        if current_line:
+            lines.append(current_line)
+
+        return lines
+
+    def reset_view(self):
+        self.focus_column = "active"
+        self.selected_indices = {"active": 0, "completed": 0}
+        self.view_mode = "list"
+
+    def move_selection(self, direction):
+        quests_map = self.get_quest_lists()
+        current_list = quests_map.get(self.focus_column, [])
+        if not current_list:
+            return
+
+        current_index = self.selected_indices.get(self.focus_column, 0)
+        current_index = max(0, min(current_index + direction, len(current_list) - 1))
+        self.selected_indices[self.focus_column] = current_index
+
+    def switch_focus(self, direction):
+        if direction == "left":
+            self.focus_column = "active"
+        elif direction == "right":
+            self.focus_column = "completed"
+
+    def get_selected_quest(self):
+        quests_map = self.get_quest_lists()
+        current_list = quests_map.get(self.focus_column, [])
+        if not current_list:
+            return None
+        index = self.selected_indices.get(self.focus_column, 0)
+        index = max(0, min(index, len(current_list) - 1))
+        return current_list[index]
+
+    def open_selected_quest(self):
+        if self.get_selected_quest():
+            self.view_mode = "detail"
+
+    def close_details(self):
+        self.view_mode = "list"
+
+    def get_quest_lists(self):
+        active_quests, completed_quests = self.game.quest_journal.get_entries()
+        return {
+            "active": active_quests,
+            "completed": completed_quests,
+        }
+
+    def render_tabs(self, surface, area_rect):
+        x = area_rect.x + 18
+        y = area_rect.y + 12
+
+        for index, tab in enumerate(self.tabs):
+            label = tab["label"]
+            is_active = index == self.current_tab
+            color = (255, 235, 205) if is_active else (160, 140, 120)
+            tab_render = self.section_font.render(label, True, color)
+            tab_rect = tab_render.get_rect(topleft=(x, y))
+
+            pygame.draw.rect(
+                surface, (80, 65, 52, 220), tab_rect.inflate(24, 12), border_radius=6
+            )
+            if is_active:
+                pygame.draw.rect(
+                    surface,
+                    self.border_color,
+                    tab_rect.inflate(24, 12),
+                    width=2,
+                    border_radius=6,
+                )
+            surface.blit(tab_render, (x + 12, y + 6))
+            x += tab_rect.width + 60
+
+    def render_page(self, surface, rect, title, quests, is_focused, selected_index):
+        page_surface = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
+        page_surface.fill(self.page_color)
+        pygame.draw.rect(
+            page_surface,
+            self.page_inner_color,
+            page_surface.get_rect().inflate(-12, -12),
+            border_radius=10,
+        )
+        pygame.draw.rect(
+            page_surface,
+            self.border_color,
+            page_surface.get_rect(),
+            width=2,
+            border_radius=12,
+        )
+
+        title_render = self.section_font.render(title, True, (255, 215, 155))
+        page_surface.blit(title_render, (18, 16))
+
+        if not quests:
+            empty_text = self.text_font.render("No entries", True, (180, 180, 180))
+            page_surface.blit(empty_text, (18, 48))
+        else:
+            y = 52
+            for idx, quest in enumerate(quests):
+                name_color = (255, 255, 255)
+                if is_focused and idx == selected_index:
+                    highlight_rect = pygame.Rect(12, y - 6, rect.width - 24, 28)
+                    pygame.draw.rect(
+                        page_surface, (94, 78, 64, 200), highlight_rect, border_radius=6
+                    )
+                    pygame.draw.rect(
+                        page_surface,
+                        self.border_color,
+                        highlight_rect,
+                        width=1,
+                        border_radius=6,
+                    )
+                    name_color = (255, 240, 200)
+                quest_name = self.text_font.render(quest.name, True, name_color)
+                page_surface.blit(quest_name, (22, y))
+                y += 26
+
+        surface.blit(page_surface, rect.topleft)
+
+    def render_detail_panel(self, surface, rect, quest):
+        detail_rect = pygame.Rect(
+            rect.x + 18, rect.y + 86, rect.width - 36, rect.height - 140
+        )
+        panel = pygame.Surface(detail_rect.size, pygame.SRCALPHA)
+        panel.fill((38, 32, 30, 235))
+        pygame.draw.rect(
+            panel, self.border_color, panel.get_rect(), 2, border_radius=10
+        )
+
+        title = self.title_font.render(quest.name, True, (255, 240, 210))
+        panel.blit(title, (14, 10))
+
+        column_left = 16
+        column_right = int(detail_rect.width * 0.55)
+
+        description_y = 50
+        for line in self.wrap_text(
+            quest.description, self.text_font, detail_rect.width - 32
+        ):
+            line_render = self.text_font.render(line, True, (220, 220, 220))
+            panel.blit(line_render, (column_left, description_y))
+            description_y += 20
+
+        objectives_y = description_y + 12
+        objectives_title = self.section_font.render("Objectives", True, (196, 226, 255))
+        panel.blit(objectives_title, (column_left, objectives_y))
+        objectives_y += 28
+        for obj in quest.objectives:
+            status = "✓" if obj.completed else "•"
+            progress = f" ({obj.progress}/{obj.quantity})" if obj.quantity > 1 else ""
+            obj_text = f"{status} {obj.name}{progress}"
+            for line in self.wrap_text(
+                obj_text, self.text_font, int(detail_rect.width * 0.5) - 32
+            ):
+                line_render = self.text_font.render(line, True, (210, 230, 255))
+                panel.blit(line_render, (column_left + 8, objectives_y))
+                objectives_y += 20
+            if obj.description:
+                for line in self.wrap_text(
+                    obj.description, self.small_font, int(detail_rect.width * 0.5) - 32
+                ):
+                    line_render = self.small_font.render(line, True, (190, 190, 190))
+                    panel.blit(line_render, (column_left + 20, objectives_y))
+                    objectives_y += 18
+            objectives_y += 6
+
+        log_y = 50
+        log_title = self.section_font.render("Dialogue Log", True, (255, 223, 186))
+        panel.blit(log_title, (column_right, log_y))
+        log_y += 28
+        log_lines = quest.get_dialogue_log()
+        if not log_lines:
+            empty_log = self.text_font.render(
+                "No dialogue recorded yet", True, (180, 180, 180)
+            )
+            panel.blit(empty_log, (column_right, log_y))
+            log_y += 20
+        else:
+            max_log_width = int(detail_rect.width * 0.4)
+            for line in log_lines:
+                for wrapped in self.wrap_text(line, self.small_font, max_log_width):
+                    log_render = self.small_font.render(wrapped, True, (220, 210, 190))
+                    panel.blit(log_render, (column_right, log_y))
+                    log_y += 18
+                log_y += 4
+
+        media_rect = pygame.Rect(
+            detail_rect.width - 200,
+            detail_rect.height - 180,
+            180,
+            150,
+        )
+        pygame.draw.rect(panel, (80, 70, 60, 255), media_rect, border_radius=8)
+        pygame.draw.rect(panel, self.border_color, media_rect, width=2, border_radius=8)
+        media_caption = self.small_font.render("Quest imagery", True, (240, 220, 200))
+        panel.blit(media_caption, (media_rect.x + 10, media_rect.y - 22))
+
+        quest_image = self._get_cached_image(quest)
+        if quest_image:
+            scaled = pygame.transform.smoothscale(
+                quest_image, (media_rect.width - 16, media_rect.height - 16)
+            )
+            panel.blit(scaled, (media_rect.x + 8, media_rect.y + 8))
+        else:
+            placeholder = self.small_font.render(
+                "No illustration", True, (200, 190, 180)
+            )
+            placeholder_rect = placeholder.get_rect(center=media_rect.center)
+            panel.blit(placeholder, placeholder_rect)
+
+        hint_text = self.small_font.render(
+            "Backspace: back to list", True, (180, 180, 180)
+        )
+        panel.blit(
+            hint_text,
+            (detail_rect.width - hint_text.get_width() - 12, detail_rect.height - 22),
+        )
+
+        surface.blit(panel, detail_rect.topleft)
+
+    def _get_cached_image(self, quest):
+        if not quest.image:
+            return None
+        if quest.image in self.image_cache:
+            return self.image_cache[quest.image]
+        try:
+            image = pygame.image.load(quest.image).convert_alpha()
+        except FileNotFoundError:
+            image = None
+        self.image_cache[quest.image] = image
+        return image
+
+    def render(self):
+        display_width = self.game.display.get_width()
+        display_height = self.game.display.get_height()
+
+        overlay = pygame.Surface((display_width, display_height), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 140))
+        self.game.display.blit(overlay, (0, 0))
+
+        panel_width, panel_height = display_width - 100, display_height - 80
+        panel_x, panel_y = 50, 40
+        panel_surface = pygame.Surface((panel_width, panel_height), pygame.SRCALPHA)
+        panel_surface.fill(self.background_color)
+        pygame.draw.rect(
+            panel_surface,
+            self.border_color,
+            panel_surface.get_rect(),
+            2,
+            border_radius=16,
+        )
+
+        title = self.title_font.render("Quest Journal", True, (255, 245, 230))
+        title_pos = ((panel_width - title.get_width()) // 2, 10)
+        panel_surface.blit(title, title_pos)
+
+        self.render_tabs(panel_surface, panel_surface.get_rect())
+
+        if self.tabs[self.current_tab]["id"] != "quests":
+            placeholder = self.text_font.render(
+                "Section under construction", True, (200, 200, 200)
+            )
+            hint = self.small_font.render(
+                "Unlocks later: lore, bestiary, relations, crafting",
+                True,
+                (170, 170, 170),
+            )
+            panel_surface.blit(
+                placeholder,
+                ((panel_width - placeholder.get_width()) // 2, panel_height // 2 - 20),
+            )
+            panel_surface.blit(
+                hint, ((panel_width - hint.get_width()) // 2, panel_height // 2 + 4)
+            )
+            self.game.display.blit(panel_surface, (panel_x, panel_y))
+            return
+
+        quests_map = self.get_quest_lists()
+        left_rect = pygame.Rect(26, 70, panel_width // 2 - 40, panel_height - 120)
+        right_rect = pygame.Rect(
+            panel_width // 2 + 14, 70, panel_width // 2 - 40, panel_height - 120
+        )
+
+        self.render_page(
+            panel_surface,
+            left_rect,
+            "Active Quests",
+            quests_map.get("active", []),
+            self.focus_column == "active",
+            self.selected_indices.get("active", 0),
+        )
+        self.render_page(
+            panel_surface,
+            right_rect,
+            "Completed Quests",
+            quests_map.get("completed", []),
+            self.focus_column == "completed",
+            self.selected_indices.get("completed", 0),
+        )
+
+        hints = [
+            "Up/Down: navigate quests",
+            "Left/Right: switch page",
+            "Enter/Space: open quest",
+            "Backspace: back to list",
+            "J or Esc: close journal",
+        ]
+        hint_text = "   •   ".join(hints)
+        hints_render = self.small_font.render(hint_text, True, (180, 180, 180))
+        panel_surface.blit(
+            hints_render,
+            ((panel_width - hints_render.get_width()) // 2, panel_height - 34),
+        )
+
+        if self.view_mode == "detail":
+            selected = self.get_selected_quest()
+            if selected:
+                self.render_detail_panel(
+                    panel_surface, panel_surface.get_rect(), selected
+                )
+
+        self.game.display.blit(panel_surface, (panel_x, panel_y))
