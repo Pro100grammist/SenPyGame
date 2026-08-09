@@ -1021,7 +1021,7 @@ class Player(PhysicsEntity):
 
     @staticmethod
     def wave_value():
-        value = sin(pygame.time.get_ticks())
+        value = math.sin(pygame.time.get_ticks())
         if value >= 0:
             return 255
         else:

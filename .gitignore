@@ -1,3 +1,6 @@
+.vscode/
+
+
 .idea/
 __pycache__/
 backup/
@@ -16,3 +19,4 @@ backup/
 testing.py
 
 venv/
+.venv/
