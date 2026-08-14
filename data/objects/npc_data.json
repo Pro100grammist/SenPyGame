@@ -90,7 +90,8 @@
         "rewards": {
           "exp": 500,
           "gold": 100,
-          "items": ["Paladin's Helmet"]
+          "items": ["Paladin's Helmet"],
+          "spells": ["water_geyser"]
         },
         "dialogs": [
           {

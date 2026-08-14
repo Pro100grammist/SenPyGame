@@ -106,6 +106,7 @@ class Game:
         self.transition = None
         self.death_timer = None
         self.artifacts_remaining = None
+        self.ambience_channel = None
 
         self.level = 0
         self.level_done = False
@@ -127,6 +128,42 @@ class Game:
             lst.clear()
 
         self.raindrops.empty()
+
+    @staticmethod
+    def max_level():
+        """
+        The highest level index that has a map on disk, counting only the contiguous
+        run 0.json, 1.json, 2.json ... Files like 10_test.json or 13.json are ignored,
+        so parking a spare map in data/maps/ no longer raises the level ceiling.
+        """
+        level = 0
+        while os.path.exists(f'data/maps/{level + 1}.json'):
+            level += 1
+        return level
+
+    def start_level_audio(self):
+        """
+        Start music and ambience for the current level.
+
+        Both are optional: data/music/ has level0..level4 and data/ambiance/ has 0 and 1,
+        so anything beyond that falls back instead of raising FileNotFoundError.
+        The previous ambience channel is stopped first - it loops forever, and without
+        this every level load and death-restart stacked another copy on top.
+        """
+        music_path = f'data/music/level{self.level}.wav'
+        if not os.path.exists(music_path):
+            music_path = 'data/music/level0.wav'
+        pygame.mixer.music.load(music_path)
+        pygame.mixer.music.set_volume(0.1)
+        pygame.mixer.music.play(-1)
+
+        if self.ambience_channel:
+            self.ambience_channel.stop()
+            self.ambience_channel = None
+
+        ambience_path = f'data/ambiance/{self.level}.wav'
+        if os.path.exists(ambience_path):
+            self.ambience_channel = pygame.mixer.Sound(ambience_path).play(-1)
 
     def should_spawn_quest_item(self, i_type):
         print(f"[Check] Spawning quest item {i_type}? Completed quests: {[q.name for q in self.quest_journal.completed_quests]}")
@@ -155,10 +192,7 @@ class Game:
         """
         self.clear_lists()
         self.map.load('data/maps/' + str(map_id) + '.json')
-        pygame.mixer.music.load(f'data/music/level{str(self.level)}.wav')
-        pygame.mixer.music.set_volume(0.1)
-        pygame.mixer.music.play(-1)
-        pygame.mixer.Sound(f'data/ambiance/{str(self.level)}.wav').play(-1)
+        self.start_level_audio()
 
         # calibrate the volume of sound effects
         volume_adjusting(self.sfx, self.volume_settings)
@@ -335,17 +369,13 @@ class Game:
         Start the main game cycle.
         """
 
-        # download music and background sound effects
-        pygame.mixer.music.load(f'data/music/level{str(self.level)}.wav')
-        pygame.mixer.music.set_volume(0.1)
-        pygame.mixer.music.play(-1)
-        pygame.mixer.Sound(f'data/ambiance/{str(self.level)}.wav').play(-1)
+        # music and ambience are already started by load_level() -> start_level_audio()
 
         def transition_to_next_level():
             """
             This function prepare all parameters before next level and call load_level method.
             """
-            self.level = min(self.level + 1, len(os.listdir('data/maps')) - 1)
+            self.level = min(self.level + 1, self.max_level())
             self.player.current_health = self.player.max_health
             self.player.stamina = self.player.max_stamina
             self.player.mana = self.player.max_mana
@@ -368,7 +398,8 @@ class Game:
         # It processes all events that occur at a level in the game.
         while not self.game_over:
             self.display.fill((0, 0, 0, 0))
-            self.display_2.blit(pygame.transform.scale(self.assets['background'][self.level],
+            # backgrounds 0..5 are level art; 6..8 are main_menu / overlay, so clamp
+            self.display_2.blit(pygame.transform.scale(self.assets['background'][min(self.level, 5)],
                                                        self.display_2.get_size()), (0, 0))
             self.shaking_screen_effect = max(0, self.shaking_screen_effect - 1)
 
